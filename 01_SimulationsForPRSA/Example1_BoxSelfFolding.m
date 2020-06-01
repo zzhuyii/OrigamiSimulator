@@ -99,7 +99,11 @@ TotalFoldingNum=max(FoldingSequence);
 ModelConstant{1}=3*10^(-3); % CreaseW: Width of compliant creases
 ModelConstant{2}=2*10^9; % PanelE: Young's modulus of panel
 ModelConstant{3}=2*10^9; % CreaseE: Young's modulus of creases
-ModelConstant{4}=500*10^(-6); % PanelThick: thickness of panel;
+
+ModelConstant{4}=[1;1;1;1;1]*500*10^(-6); % PanelThick: thickness of panel;
+% This is a vector storeing the thicknes of panels. We allow panels to have
+% different thicknesses
+
 ModelConstant{5}=90*10^(-6); % CreaseThick: thickness of creases;
 ModelConstant{6}=0.3; % PanelPoisson: Poisson ratio of panel
 ModelConstant{7}=0.3; % CreasePoisson: Poisson ratio of crease
@@ -179,8 +183,6 @@ plotImprovedMeshing(ViewControl,newNode,newPanel,BarArea,BarConnect);
 % Generate newNumbering and inverseNumbering code for sparse matrix
 [CreaseRef]= NumberingForCreaseLocking(oldCrease,CreaseNum,BarType);
 
-Mass=MassAssemble(newPanel,newNode,inverseNumbering);
-
 ModelConstant{14}=TotalFoldingNum; % TotalFoldingNum
 ModelConstant{15}=PanelInerBarStart; % TotalFoldingNum
 ModelConstant{16}=CenterNodeStart; % TotalFoldingNum
@@ -192,7 +194,9 @@ Supp=[1,1,1,1;
       4,1,1,1;
       5,1,1,1;
       6,1,1,1;];
-  
+
+Load=[1,0,0,0];
+
 ModelConstant{18}=0; % NonRigidSupport
 % 0 means the non rigid support is not activated.
 % 1 means the non rigid support is activated.
@@ -209,10 +213,10 @@ AssembleConstant(2)=10^-6; % Tor
 AssembleConstant(3)=50; % iterMax
 
 [U,UhisAssemble,StrainEnergyAssemble]=NonlinearSolverAssemble(...
-    Panel,newNode,BarArea,BarConnect,BarLength,BarType,SprIJKL,SprK,...
-    SprTargetZeroStrain,inverseNumbering,newNumbering, ...
+    Panel,newNode,BarArea,BarConnect,BarLength,...
+    BarType,SprIJKL,SprK,SprTargetZeroStrain,...
     Supp,CreaseRef,CreaseNum,NewFoldingSequence,OldNode,...
-    AssembleConstant,ModelConstant,SuppElastic);
+    AssembleConstant,ModelConstant,SuppElastic,Load);
 
 AssembleNode=U+newNode;
 plotDeformedShapeOnly(ViewControl,newNode,AssembleNode,newPanel,PanelNum)
@@ -242,9 +246,9 @@ LoadConstant(4)=0.01; % LambdaBar
 
 [U,UhisLoading,Loadhis,StrainEnergyLoading,NodeForce,LoadForce,lockForce]...
     =NonlinearSolverLoadingNR(Panel,newNode,BarArea,BarConnect,BarLength, ...
-    BarType,SprIJKL,SprK,SprTargetZeroStrain,inverseNumbering,newNumbering, ...
-    Supp,Load,U,CreaseRef,CreaseNum,OldNode,LoadConstant,...
-    ModelConstant,SuppElastic);
+    BarType,SprIJKL,SprK,SprTargetZeroStrain, ...
+    Supp,Load,U,CreaseRef,CreaseNum,OldNode,...
+    LoadConstant,ModelConstant,SuppElastic);
 
 %% Plotting the results
 deformNode=U+newNode;
