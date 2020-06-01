@@ -77,7 +77,9 @@ TotalFoldingNum=max(FoldingSequence);
 ModelConstant{1}=6*10^(-3); % CreaseW: Width of compliant creases
 ModelConstant{2}=1000*10^6; % PanelE: Young's modulus of panel
 ModelConstant{3}=2000*10^6; % CreaseE: Young's modulus of creases
-ModelConstant{4}=1000*10^(-6); % PanelThick: thickness of panel;
+
+ModelConstant{4}=ones(6,1)*1000*10^(-6); % PanelThick: thickness of panel;
+
 ModelConstant{5}=100*10^(-6); % CreaseThick: thickness of creases;
 ModelConstant{6}=0.3; % PanelPoisson: Poisson ratio of panel
 ModelConstant{7}=0.3; % CreasePoisson: Poisson ratio of crease
@@ -104,9 +106,11 @@ ModelConstant{11}=0.002; % ke: used to scale the magnitude of potentil
 ModelConstant{12}=ModelConstant{1}; % d0edge: d0 for points at the edge
 ModelConstant{13}=ModelConstant{1}; % d0center: d0 for points at the center
 
-[newNode,newPanel,BarType,BarConnect,BarArea,BarLength,SprIJKL,SprTargetZeroStrain, ... 
-    SprK,Type1BarNum,oldCrease,PanelInerBarStart,CenterNodeStart,NewFoldingSequence,OldNode,PanelNum] ...
-    =ImprovedMeshingN5B8(Node,Panel,RotationZeroStrain,FoldingSequence,ModelConstant);
+[newNode,newPanel,BarType,BarConnect,BarArea,BarLength,SprIJKL,...
+    SprTargetZeroStrain,SprK,Type1BarNum,oldCrease,PanelInerBarStart,...
+    CenterNodeStart,NewFoldingSequence,OldNode,PanelNum] ...
+    =ImprovedMeshingN5B8(Node,Panel,RotationZeroStrain,...
+    FoldingSequence,ModelConstant);
 % Generate Improved meshing
 
 plotImprovedMeshing(ViewControl,newNode,newPanel,BarArea,BarConnect);
@@ -200,8 +204,9 @@ StrainEnergyAssemble=zeros(1,4);
 
 [U,UhisLoading,Loadhis,StrainEnergyLoading,NodeForce,LoadForce,lockForce]...
     =NonlinearSolverLoadingMGDCM(Panel,newNode,BarArea,BarConnect,...
-    BarLength,BarType,SprIJKL,SprK,SprTargetZeroStrain,inverseNumbering,newNumbering, ...
-    Supp,Load,U,CreaseRef,CreaseNum,OldNode,LoadConstant,ModelConstant,SuppElastic);
+    BarLength,BarType,SprIJKL,SprK,SprTargetZeroStrain,...
+    Supp,Load,U,CreaseRef,CreaseNum,OldNode,LoadConstant,...
+    ModelConstant,SuppElastic);
 
 
 %% Plotting the results

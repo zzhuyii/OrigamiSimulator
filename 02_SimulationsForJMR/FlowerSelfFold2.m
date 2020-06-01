@@ -184,7 +184,9 @@ TotalFoldingNum=max(FoldingSequence);
 ModelConstant{1}=1.5*10^(-3); % CreaseW: Width of compliant creases
 ModelConstant{2}=2000*10^6; % PanelE: Young's modulus of panel
 ModelConstant{3}=20*10^6; % CreaseE: Young's modulus of creases
-ModelConstant{4}=1000*10^(-6); % PanelThick: thickness of panel;
+
+ModelConstant{4}=ones(40,1)*1000*10^(-6); % PanelThick: thickness of panel;
+
 ModelConstant{5}=300*10^(-6); % CreaseThick: thickness of creases;
 ModelConstant{6}=0.3; % PanelPoisson: Poisson ratio of panel
 ModelConstant{7}=0.3; % CreasePoisson: Poisson ratio of crease
@@ -211,9 +213,11 @@ ModelConstant{11}=0.002; % ke: used to scale the magnitude of potentil
 ModelConstant{12}=ModelConstant{1}; % d0edge: d0 for points at the edge
 ModelConstant{13}=0.7*ModelConstant{1}; % d0center: d0 for points at the center
 
-[newNode,newPanel,BarType,BarConnect,BarArea,BarLength,SprIJKL,SprTargetZeroStrain, ... 
-    SprK,Type1BarNum,oldCrease,PanelInerBarStart,CenterNodeStart,NewFoldingSequence,OldNode,PanelNum] ...
-    =ImprovedMeshingN5B8(Node,Panel,RotationZeroStrain,FoldingSequence,ModelConstant);
+[newNode,newPanel,BarType,BarConnect,BarArea,BarLength,SprIJKL,...
+    SprTargetZeroStrain,SprK,Type1BarNum,oldCrease,PanelInerBarStart,...
+    CenterNodeStart,NewFoldingSequence,OldNode,PanelNum] ...
+    =ImprovedMeshingN5B8(Node,Panel,RotationZeroStrain,...
+    FoldingSequence,ModelConstant);
 % Generate Improved meshing
 
 plotImprovedMeshing(ViewControl,newNode,newPanel,BarArea,BarConnect);
@@ -230,6 +234,7 @@ ModelConstant{16}=CenterNodeStart; % TotalFoldingNum
 Supp=[1,1,1,1;
       2,1,1,1;
       3,1,1,1;];
+Load=[1,0,0,0];
   
 ModelConstant{18}=0; % NonRigidSupport
 % 0 means the non rigid support is not activated.
@@ -247,10 +252,10 @@ AssembleConstant(2)=5*10^-5; % Tor
 AssembleConstant(3)=50; % iterMax
 
 [U,UhisAssemble,StrainEnergyAssemble]=NonlinearSolverAssemble(...
-    Panel,newNode,BarArea,BarConnect,BarLength,BarType,SprIJKL,SprK,...
-    SprTargetZeroStrain,inverseNumbering,newNumbering, ...
-    Supp,CreaseRef,CreaseNum,NewFoldingSequence,OldNode,...
-    AssembleConstant,ModelConstant,SuppElastic);
+    Panel,newNode,BarArea,BarConnect,BarLength,BarType,...
+    SprIJKL,SprK,SprTargetZeroStrain,Supp,CreaseRef,...
+    CreaseNum,NewFoldingSequence,OldNode,...
+    AssembleConstant,ModelConstant,SuppElastic,Load);
 
 AssembleNode=U+newNode;
 plotDeformedShapeOnly(ViewControl,newNode,AssembleNode,newPanel,PanelNum)
@@ -278,8 +283,8 @@ LoadConstant(4)=0.01; % LambdaBar
 % [Theta0]=CreaseTheta(U,CreaseIJKL,newNode);
 
 [U,UhisLoading,Loadhis,StrainEnergyLoading,NodeForce,LoadForce,lockForce]...
-    =NonlinearSolverLoadingNR(Panel,newNode,BarArea,BarConnect,BarLength, ...
-    BarType,SprIJKL,SprK,SprTargetZeroStrain,inverseNumbering,newNumbering, ...
+    =NonlinearSolverLoadingNR(Panel,newNode,BarArea,BarConnect,...
+    BarLength,BarType,SprIJKL,SprK,SprTargetZeroStrain, ...
     Supp,Load,U,CreaseRef,CreaseNum,OldNode,LoadConstant,...
     ModelConstant,SuppElastic);
 
@@ -300,7 +305,8 @@ AngleNum(2)=544;
 AngleNum(3)=60;
 AngleNum(4)=64;
 % Crease Num at the two panels
-[Theta]=plotDeformedHisAndCalcTheta(ViewControl,newNode,newPanel,UhisLoading,UhisAssemble,PanelNum,SprIJKL,AngleNum);
+[Theta]=plotDeformedHisAndCalcTheta(ViewControl,newNode,...
+    newPanel,UhisLoading,UhisAssemble,PanelNum,SprIJKL,AngleNum);
 
 
 %% Summary of ModelConstant
