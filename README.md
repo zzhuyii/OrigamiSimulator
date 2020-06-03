@@ -37,6 +37,7 @@ for non-rigid origami simulators.  Their works pave the ground for the developme
 
 
 Reference:
+
 [1] Y. Zhu, E. T. Filipov (2020). A Bar and Hinge Model for Simulating Bistability in Origami Structures With Compliant Creases,
     Journal of Mechanisms and Robotics, 12, 021110-1.
     
