@@ -37,7 +37,7 @@ clear;clc;close all;
 
 a=1*10^(-3);
 b=100*10^-6;
-Node=[0 0 0;
+node0=[0 0 0;
       a 0 0;
       2*a 0 0;
       0 a 0;
@@ -48,96 +48,172 @@ Node=[0 0 0;
       2.5*a,-0.6*a,-b;
       2.5*a,1.6*a,-b;];
   
-Panel{1}=[1 2 5 4];
-Panel{2}=[2 3 6 5];
-Panel{3}=[7 8 10 9];
+panel0{1}=[1 2 5 4];
+panel0{2}=[2 3 6 5];
+panel0{3}=[7 8 10 9];
 
 %% Setting up the plots for display
-ViewControl=zeros(10,1);
-ViewControl(1)=45; % View1: View angle 1
-ViewControl(2)=45; % View2: View angle 2
-ViewControl(3)=3*10^(-3); % Vsize: displayed axis range 
-ViewControl(4)=0.2; % Vratio: ratio of displayed negative axis range versus the positive axis range
 
-%% Assign Zero strain position for creases
-[CreaseNum,Crease,CreaseType]=IdentifyCrease(Node,Panel);
-% Here we identify the creases and show the drawing of the creases. With
-% this information, users can assign mountain and valley folds and their
-% zero strain position manually if needed.
-plotOriginalMeshing(Node,Panel,CreaseNum,Crease,ViewControl)
+viewControl=zeros(10,1);
 
-RotationZeroStrain=pi*ones(CreaseNum,1);
-% 0-2pi, This matrix can be used to manually set the target zero energy 
-% angle of the crease hinge
-FoldingSequence=ones(CreaseNum,1);
-% Folding Sequence indicate which crease will be folded first
-ratio=0;
-RotationZeroStrain(3)=pi+ratio*pi;
+% View1: View angle 1
+viewControl(1)=45; 
 
-TotalFoldingNum=max(FoldingSequence);
-% Maximum number of loop needed for sequantial folding
+% View2: View angle 2
+viewControl(2)=45; 
 
-%% Generate the Improved Meshing
-% input parameters for generating the improved meshing
-% Bar Areas, zero strain stretching will also be generated.
-% Crease zero strain rotational position will be calculated.
-% Crease rotational stiffness will be calculated (linear model used)
+% Vsize: displayed axis range 
+viewControl(3)=3*10^(-3); 
 
-ModelConstant{1}=300*10^(-6); % CreaseW: Width of compliant creases
-ModelConstant{2}=2*10^9; % PanelE: Young's modulus of panel
-ModelConstant{3}=2*10^9; % CreaseE: Young's modulus of creases
+% Vratio: ratio of displayed negative axis range versus the positive axis range
+viewControl(4)=0.2; 
 
-ModelConstant{4}=[500;20;500]*10^(-6); % PanelThick: thickness of panel;
-% This is a vector storeing the thicknes of panels. We allow panels to have
-% different thicknesses
 
-ModelConstant{5}=1*10^(-6); % CreaseThick: thickness of creases;
-ModelConstant{6}=0.3; % PanelPoisson: Poisson ratio of panel
-ModelConstant{7}=0.3; % CreasePoisson: Poisson ratio of crease
 
-ModelConstant{8}=3; % Flag2D3D: 
+%% Generate the geometry of compliant crease
+
+% Here we identify the creases based on the original input;
+[oldCreaseNum,oldCreaseConnect,oldCreaseType]=Mesh_IdentifyCrease(node0,panel0);
+
+% Plot the original meshing for inspection;
+Plot_OriginalMeshing(node0,panel0,oldCreaseNum,oldCreaseConnect,viewControl)
+
 % Flag2D3D is used to determine how the additional crease structuer is
 % generated,2D means center bars are genertaed through using an averaged 
 % vector, 3D means the center bars are located at the original positoin.
 % 3 3D, 2 2D
+modelGeometryConstant{1}=2; 
 
-ModelConstant{9}=4; % DiagonalRate:
-% Diagonal Rate is the factor that determine how much diagonal springs are
-% stiffer than horizontal ones.
-
-ModelConstant{17}=1; % CompliantCreaseOpen
 % 1 means include compliant crease model
 % 0 means using concentrated hinge model
+modelGeometryConstant{2}=1; 
 
-ModelConstant{10}=1; % LockingOpen:
-% 1: calculating the locking forces and formulate stiffness matrix
-% 0: Close the calculation for locking induced by having panel interaction
 
-ModelConstant{11}=0.00002; % ke: used to scale the magnitude of potentil
-ModelConstant{12}=10*(10^(-6)); % d0edge: d0 for points at the edge
-ModelConstant{13}=10*(10^(-6)); % d0center: d0 for points at the center
+% crease width to generate the topology of the compliant 
+% crease origami;
+creaseWidthMat=zeros(oldCreaseNum,1);
+creaseWidthMat(3)=400*10^(-6); 
+modelGeometryConstant{3}=creaseWidthMat; 
 
-[newNode,newPanel,BarType,BarConnect,BarArea,BarLength,...
-    SprIJKL,SprTargetZeroStrain,SprK,Type1BarNum,oldCrease,...
-    PanelInerBarStart,CenterNodeStart,NewFoldingSequence,...
-    OldNode,PanelNum,oldPanel] ...
-    =ImprovedMeshingN5B8(Node,Panel,RotationZeroStrain,...
-    FoldingSequence,ModelConstant);
-% Generate Improved meshing
+% generate the geometry of system
+[newNode,newPanel,barType,barConnect,...
+    sprIJKL,type1BarNum,panelInerBarStart,centerNodeStart,...
+    newNode2OldNode,newCrease2OldCrease,newPanel2OldPanel,panelNum] ...
+    =Mesh_CompliantCreaseGeometry(node0,panel0,...
+    oldCreaseNum,oldCreaseConnect,oldCreaseType,...
+    modelGeometryConstant);
 
-plotImprovedMeshing(ViewControl,newNode,newPanel,BarArea,BarConnect);
-% Plot improved meshing for inspection
-[newNumbering,inverseNumbering]=NewSequence(newNode);
-% Generate newNumbering and inverseNumbering code for sparse matrix
-[CreaseRef]= NumberingForCreaseLocking(oldCrease,CreaseNum,BarType);
+% Plot the pattern with updated geometry
+Plot_ImprovedMeshing(viewControl,newNode,newPanel,barConnect);
 
-ModelConstant{14}=TotalFoldingNum; % TotalFoldingNum
-ModelConstant{15}=PanelInerBarStart; % TotalFoldingNum
-ModelConstant{16}=CenterNodeStart; % TotalFoldingNum
+% generate creaseRef matrix used for calculating the contact
+[creaseRef]= Mesh_NumberingForContact(newCrease2OldCrease,oldCreaseNum);
+
+% calcualte the barLength 
+barLength=Mesh_BarLength(newNode,barConnect);
+
+% Update topology constant after generating the new topology
+modelGeometryConstant{4}=panelInerBarStart; 
+modelGeometryConstant{5}=centerNodeStart; 
+modelGeometryConstant{6}=type1BarNum;
+
+
+
+%% Assign Mechanical Properties
+
+% PanelE: Young's modulus of panel
+modelMechanicalConstant{1}=2*10^9; 
+
+% CreaseE: Young's modulus of creases
+modelMechanicalConstant{2}=2*10^9; 
+
+% PanelPoisson: Poisson ratio of panel
+modelMechanicalConstant{3}=0.3; 
+
+% CreasePoisson: Poisson ratio of crease
+modelMechanicalConstant{4}=0.3; 
+
+% PanelThick: thickness of panel;
+% This is a vector storeing the thicknes of panels. 
+modelMechanicalConstant{5}=[500;20;500]*10^(-6); 
+
+% thickness of creases;
+creaesThicknessMat=zeros(oldCreaseNum,1);
+creaesThicknessMat(3)=1*10^(-6);
+modelMechanicalConstant{6}=creaesThicknessMat;
+
+% diagonalRate:
+% DiagonalRate is the factor that determine how much diagonal springs are
+% stiffer than horizontal ones.
+modelMechanicalConstant{7}=50; 
+
+% panelW
+% this is an averaged creaseW. used to calculate panel bending stiffness
+panelW=creaseWidthMat(3);
+modelMechanicalConstant{8}=panelW;
+
+
+
+
+%% panel contact related input
+
+% contact open
+% 1: means consider panel contact;
+% 0: means ignore panel contact
+modelMechanicalConstant{9}=1;
+
+% ke: used to scale the magnitude of potentil
+modelMechanicalConstant{10}=0.0001; 
+
+ % d0edge: d0 for points at the edge
+modelMechanicalConstant{11}=20*(10^(-6));
+
+% d0center: d0 for points at the center
+modelMechanicalConstant{12}=20*(10^(-6));
+
+
+
+%% Assign zero strain position for creases during self-folding
+
+% 0-2pi, This matrix can be used to manually set the target zero energy 
+% angle of the crease hinge
+rotationZeroStrain=pi*ones(oldCreaseNum,1);
+
+% Folding Sequence indicate which crease will be folded first
+foldingSequence=ones(oldCreaseNum,1);
+
+% Target zero strain folding angle of creases;
+ratio=0;
+rotationZeroStrain(3)=pi+ratio*pi;
+
+% Maximum number of loop needed for sequantial folding
+totalFoldingNum=max(foldingSequence);
+
+% set the self-folding related proeprties
+modelMechanicalConstant{13}=rotationZeroStrain;
+modelMechanicalConstant{14}=totalFoldingNum; 
+modelMechanicalConstant{15}=foldingSequence;
+
+% distribution Factor of rotation zero strain
+modelMechanicalConstant{16}=0.5; 
+
+
+
+
+%% Generate mechanical properties of the origami
+[barArea,sprK,sprTargetZeroStrain,sprFoldingSequence]...
+    =Mesh_MechanicalProperty(modelMechanicalConstant,...
+    modelGeometryConstant,oldCreaseType,...
+    oldCreaseNum,creaseRef,barLength,panel0,...
+    barConnect,newNode);
+
+
 
 
 %% Input information of support for Assemble
-Supp=[1,0,0,1;
+
+% define support information
+supp=[1,0,0,1;
       2,0,0,1;
       3,0,1,1;
       4,1,1,1;
@@ -145,97 +221,142 @@ Supp=[1,0,0,1;
       10,1,1,1;
       11,1,1,1;
       12,1,1,1;];
+supportInfo{1}=supp; 
   
-ModelConstant{18}=0; % NonRigidSupport
+% NonRigidSupport
 % 0 means the non rigid support is not activated.
 % 1 means the non rigid support is activated.
-SuppElastic=[1,3,10000;
-             4,3,10000];
+supportInfo{2}=0; 
+
+
 % first column stores node number
 % second column stores direction
 % third column stores stiffness
+suppElastic=[1,3,10000;
+             4,3,10000];
+supportInfo{3}=suppElastic;
+
+
+         
 
 %% Support and loading information for loading process
 % This is used to include the effects of gravity
 
-LoadConstant=zeros(4,1);
-LoadConstant(1)=40; % IncreStep
-LoadConstant(2)=10^-6; % Tor
-LoadConstant(3)=50; % iterMax
-LoadConstant(4)=0.01; % LambdaBar
+loadConstant=zeros(4,1);
 
-LoadMag=(40*10^(-9))/LoadConstant(1);
+% increStep
+loadConstant(1)=80; 
+
+% tor
+loadConstant(2)=10^-6; 
+
+% iterMax
+loadConstant(3)=50; 
+
+% lambdaBar
+loadConstant(4)=0.01; 
+
+
+
 % Here we divide the magnitude by the step number so that after the newton
 % method we get the desired gravity we want.
-Load=[5,0,0,-LoadMag;
-      6,0,0,-LoadMag;
-      7,0,0,-LoadMag;
-      8,0,0,-LoadMag;
-      17,0,0,-2*LoadMag;];
+loadMag=(40*10^(-9))/loadConstant(1);
+load=[5,0,0,-loadMag;
+      6,0,0,-loadMag;
+      7,0,0,-loadMag;
+      8,0,0,-loadMag;
+      17,0,0,-2*loadMag;];
 
 U=zeros(size(newNode));
 
 % solve the geometry under gravity
-[U,UhisLoading,Loadhis,StrainEnergyLoading,NodeForce,LoadForce,lockForce]...
-    =NonlinearSolverLoadingNR(Panel,newNode,BarArea,BarConnect,BarLength, ...
-    BarType,SprIJKL,SprK,SprTargetZeroStrain,...
-    Supp,Load,U,CreaseRef,CreaseNum,OldNode,...
-    LoadConstant,ModelConstant,SuppElastic);
+[U,UhisLoading,loadHis,StrainEnergyLoading,NodeForce,LoadForce,lockForce]...
+    =Solver_LoadingNR(panel0,newNode2OldNode,oldCreaseNum,...
+    newNode,barConnect,barType,barArea,barLength, ...
+    sprIJKL,sprK,sprTargetZeroStrain,creaseRef,load,supportInfo,U,...
+    loadConstant,modelGeometryConstant,modelMechanicalConstant);
 
 gravityShape=newNode+U;
-plotDeformedShape(ViewControl,newNode,gravityShape,newPanel,PanelNum);
+Plot_DeformedShape(viewControl,newNode,gravityShape,newPanel);
 
 % Get the load vector with the original magnitude for latter use
-LoadMag=(40*10^(-9));
-Load=[5,0,0,-LoadMag;
-      6,0,0,-LoadMag;
-      7,0,0,-LoadMag;
-      8,0,0,-LoadMag;
-      17,0,0,-2*LoadMag;];
+loadMag=(40*10^(-9));
+load=[5,0,0,-loadMag;
+      6,0,0,-loadMag;
+      7,0,0,-loadMag;
+      8,0,0,-loadMag;
+      17,0,0,-2*loadMag;];
   
   
 %% Generate Thermal Conductivity Matrix and perform analysis
 
-ModelConstant{20} = [1.3;0.3;1.3]; % Thermal Conductivity of panel 
-% in this case panel 1 is Si, panel 2 is SU-8
-% This is a vector storing the thermal conductivity of panels. We allow 
-% different panels to have different materials. This helps to simulate the
-% boundary conditions better.
+% Thermal Conductivity of panel 
+modelThermalConstant{1} = [1.3;0.3;1.3]; 
 
-ModelConstant{29} = 0.3; %Thermal Conductivity of crease
-ModelConstant{21} = 0.026; % Thermal Conductivity of submerged environment
+% Thermal Conductivity of crease
+modelThermalConstant{2} = 0.3;
 
-ModelConstant{22} = [1;1;1]*1000*10^(-6); % Thickness of the 
-% submerged environment at RT for panels
+% Thermal Conductivity of submerged environment
+modelThermalConstant{3} = 0.026; 
+
+% Thickness of the submerged environment at RT for panels
 % This value is allowed to be different to consider the anchorage.
-ModelConstant{30} = 1000*10^(-6); % Thickness of the 
-% submerged environment at RT for panels
-ModelConstant{31} = 10; % Number of Air layers used
-ModelConstant{32} = 20/180*3.14; % Thermal dissipation angle
+modelThermalConstant{4} = [1;1;1]*1000*10^(-6); 
 
-ModelConstant{23} = 21; % Temperature of the submerged environment
-ModelConstant{24} = (52-14)*10^(-6); % differential thermal expansion coefficients
-ModelConstant{25} = 39.5*10^9; % Young's modulus of bimorph material 1
-ModelConstant{26} = 2*10^9; % Young's modulus of bimorph material 2
-ModelConstant{27} = 0.2*10^-6; % thickness of bimorph material 1
-ModelConstant{28} = 0.8*10^-6; % thickness of bimorph material 2
+% Thickness of the submerged environment at RT for creases
+modelThermalConstant{5} = 1000*10^(-6); 
 
-ThermalBCpanels=[3];
+% Number of Air layers used
+modelThermalConstant{6} = 10; 
+
+% Thermal dissipation angle
+modelThermalConstant{7} = 20/180*3.14; 
+
+% Temperature of the submerged environment
+modelThermalConstant{8} = 21; 
+
+
 % Define the BC for thermal conduction, to confine the maximum air
 % thickness. The vector stores the number of panels that serves as the BC
 % for heat transfer (ie. those that are Si wafers).
+thermalBoundaryPanels=[3];
+modelThermalConstant{9}=thermalBoundaryPanels;
 
-RTnode=[1;4];
 % This vector stores extra nodes that should be at RT to adjust the BC.
+roomTempNode=[1;4];
+modelThermalConstant{10}=roomTempNode;
+
+
+
+% differential thermal expansion coefficients
+modelTimoshenkoConstant{1} = (52-14)*10^(-6);  
+
+% Young's modulus of bimorph material 1
+modelTimoshenkoConstant{2}= 39.5*10^9; 
+
+% Young's modulus of bimorph material 2
+modelTimoshenkoConstant{3} = 2*10^9;
+
+% thickness of bimorph material 1
+modelTimoshenkoConstant{4}= 0.2*10^-6;
+
+% thickness of bimorph material 2
+modelTimoshenkoConstant{5}= 0.8*10^-6;
+
+
+
 
 % Assemble the thermal conductivity matrix
-[ThermalMat,ThermalNode]=ThermalConductAssembleMat...
-    (newNode,newPanel,BarConnect,BarLength,BarType,...
-    ModelConstant,oldPanel,U,ThermalBCpanels);
+[thermalMat,thermalNodeNum]=Thermal_AssembleConductMat...
+    (newNode,newPanel,barConnect,barLength,barType,...
+    U,modelThermalConstant,modelMechanicalConstant,...
+    newCrease2OldCrease,newPanel2OldPanel);
+
+
 
 % define input vector of energy
 qtotal=18/1000; % total input energy with unit W
-qin=zeros((ModelConstant{31}+1)*ThermalNode,1);
+qin=zeros((modelThermalConstant{6}+1)*thermalNodeNum,1);
 qin(2)=1/6*1/2*qtotal;
 qin(3)=1/6*1/2*qtotal;
 qin(5)=1/6*1/2*qtotal;
@@ -244,66 +365,83 @@ qin(13)=2/3*1/6*qtotal;
 qin(14)=2/3*1/6*qtotal;
 qin(15)=2/3*2/3*qtotal;
 
+
+
 % Define the analyses parameter for electro-thermal induced mehcnaical
 % behavior of the origami
-AssembleConstant=zeros(3,1);
-AssembleConstant(1)=1; % Mechanical IncreStep in thermal step
-AssembleConstant(2)=5*10^-7; % Tor
-AssembleConstant(3)=25; % iterMax
 
-ThermalStep=30; % number of steps for solving the thermal conductivity
+assembleConstant=zeros(3,1);
+
+% mechanical increStep in thermal step
+assembleConstant(1)=1; 
+
+% tor
+assembleConstant(2)=5*10^-7; 
+
+% iterMax
+assembleConstant(3)=25; 
+
+
+% number of steps for solving the thermal conductivity
+thermalStep=80; 
+
 % set up storage matrix
-TemperatureHistory=zeros(ThermalNode,ThermalStep);
-UhisThermal=zeros(ThermalStep,ThermalNode,3);
-EnergyHisThermal=zeros(ThermalStep,4);
+temperatureHistory=zeros(thermalNodeNum,thermalStep);
+UhisThermal=zeros(thermalStep,thermalNodeNum,3);
+energyHisThermal=zeros(thermalStep,4);
 
 tempNode=gravityShape;
-qhis=zeros(ThermalStep,1);
-foldHis=zeros(ThermalStep,1);
-tempHis=zeros(ThermalStep,1);
-for i=1:ThermalStep
+qhis=zeros(thermalStep,1);
+foldHis=zeros(thermalStep,1);
+tempHis=zeros(thermalStep,1);
+for i=1:thermalStep
     
     % linearly increment of input energy
-    qtemp=i/ThermalStep*qin;
-    qhis(i)=i/ThermalStep*qtotal;
-    A=size(RTnode);
+    qtemp=i/thermalStep*qin;
+    qhis(i)=i/thermalStep*qtotal;
+    A=size(roomTempNode);
     Nrt=A(1);
         
     % Solve for the temperature profile
-    [T,indexArray]=ThermalConductSolveT(qtemp,ThermalMat,ThermalNode,ModelConstant,RTnode);
-    TemperatureHistory(indexArray,i)=T(1:(ThermalNode-Nrt));
-    TemperatureHistory(RTnode,i)=ModelConstant{23}*ones(Nrt,1);
-    T=TemperatureHistory(:,i);
+    [T,indexArray]=Thermal_SolveTemperature(qtemp,thermalMat,thermalNodeNum,...
+        modelThermalConstant);
+    temperatureHistory(indexArray,i)=T(1:(thermalNodeNum-Nrt));
+    temperatureHistory(roomTempNode,i)=modelThermalConstant{8}*ones(Nrt,1);
+    T=temperatureHistory(:,i);
     
     % Update the "SprTargetZeroStrain" with Timoshenko Model
     Tave=2/3*1/3*(T(13)+T(14)+T(15))+...
         1/3*1/4*(T(2)+T(3)+T(5)+T(8));
-    rot=ThermalConductTimoshenko(Tave,ModelConstant);
+    rot=Thermal_Timoshenko(Tave,modelTimoshenkoConstant,...
+        modelThermalConstant,creaseWidthMat(3));
     tempHis(i)=Tave;
     
     % Initialize the vectors again
-    RotationZeroStrain=pi*ones(CreaseNum,1);
     % 0-2pi, This matrix can be used to manually set the target zero energy 
     % angle of the crease hinge
-    FoldingSequence=ones(CreaseNum,1);
-    % Folding Sequence indicate which crease will be folded first
-    TotalFoldingNum=max(FoldingSequence);
-    % Maximum number of loop needed for sequantial folding
-    
-    RotationZeroStrain(3)=pi+rot;
+    rotationZeroStrain=pi*ones(oldCreaseNum,1);
 
-    [newNode,newPanel,BarType,BarConnect,BarArea,BarLength,...
-        SprIJKL,SprTargetZeroStrain,SprK,Type1BarNum,oldCrease,...
-        PanelInerBarStart,CenterNodeStart,NewFoldingSequence,...
-        OldNode,PanelNum,oldPanel] ...
-        =ImprovedMeshingN5B8(Node,Panel,RotationZeroStrain,...
-        FoldingSequence,ModelConstant);
+    % Folding Sequence indicate which crease will be folded first
+    foldingSequence=ones(oldCreaseNum,1);
     
-    [U,UhisAssemble,StrainEnergyAssemble]=NonlinearSolverAssemble(...
-        Panel,tempNode,BarArea,BarConnect,BarLength,...
-        BarType,SprIJKL,SprK,SprTargetZeroStrain, ...
-        Supp,CreaseRef,CreaseNum,NewFoldingSequence,OldNode,...
-        AssembleConstant,ModelConstant,SuppElastic,Load);
+    % Maximum number of loop needed for sequantial folding
+    totalFoldingNum=max(foldingSequence);
+        
+    rotationZeroStrain(3)=pi+rot;
+    modelMechanicalConstant{13}=rotationZeroStrain;
+
+    [barArea,sprK,sprTargetZeroStrain,sprFoldingSequence]...
+        =Mesh_MechanicalProperty(modelMechanicalConstant,...
+        modelGeometryConstant,oldCreaseType,...
+        oldCreaseNum,creaseRef,barLength,panel0,...
+        barConnect,newNode);
+   
+    [U,Uhis,strainEnergyAssemble]=Solver_Assemble(panel0,newNode2OldNode,...
+        tempNode,barConnect,barType,barLength,barArea,...
+        sprIJKL,sprK,sprTargetZeroStrain,sprFoldingSequence, ...
+        creaseRef,oldCreaseNum,assembleConstant,...
+        modelGeometryConstant,modelMechanicalConstant,...
+        supportInfo,load);
     
     % Record the diformation field
     if i==1
@@ -311,8 +449,8 @@ for i=1:ThermalStep
     else
         UhisThermal(i,:,:)=U+squeeze(UhisThermal(i-1,:,:));
     end
-    EnergyHisThermal(i,:)=squeeze(...
-        StrainEnergyAssemble(AssembleConstant(1),:));    
+    energyHisThermal(i,:)=squeeze(...
+        strainEnergyAssemble(assembleConstant(1),:));    
     tempNode=tempNode+U; 
 
     % Solve the fold angle for plotting
@@ -327,35 +465,18 @@ for i=1:ThermalStep
     foldHis(i)=rotation;
     
     % update the thermal matrix for next step
-    [ThermalMat,ThermalNode]=ThermalConductAssembleMat...
-        (gravityShape,newPanel,BarConnect,BarLength,BarType,...
-        ModelConstant,oldPanel,...
-        squeeze(UhisThermal(i,:,:)),ThermalBCpanels);
+    [thermalMat,thermalNodeNum]=Thermal_AssembleConductMat...
+        (gravityShape,newPanel,barConnect,barLength,barType,...
+        squeeze(UhisThermal(i,:,:)),modelThermalConstant,...
+        modelMechanicalConstant,newCrease2OldCrease,newPanel2OldPanel);
 end
 
-AssembleNode=tempNode;
-plotDeformedShapeTemp(ViewControl,newNode,AssembleNode,newPanel...
-    ,PanelNum,squeeze(TemperatureHistory(:,ThermalStep)));
-% plotDeformedHisTemp(ViewControl,gravityShape,...
-%     UhisThermal,newPanel,PanelNum,TemperatureHistory);
+assembleNode=tempNode;
+Plot_DeformedShapeTemp(viewControl,newNode,assembleNode,newPanel...
+    ,squeeze(temperatureHistory(:,thermalStep)),...
+    thermalBoundaryPanels,newPanel2OldPanel);
+Plot_DeformedHisTemp(viewControl,gravityShape,...
+    UhisThermal,newPanel,temperatureHistory);
 figure; plot(qhis,foldHis);
 figure; plot(foldHis,tempHis);
 
-%% Summary of ModelConstant
-% CreaseW=ModelConstant{1};
-% PanelE=ModelConstant{2};
-% CreaseE=ModelConstant{3};
-% PanelThick=ModelConstant{4};
-% CreaseThick=ModelConstant{5};
-% PanelPoisson=ModelConstant{6};
-% CreasePoisson=ModelConstant{7};
-% Flag2D3D=ModelConstant{8};
-% DiagonalRate=ModelConstant{9};
-% LockingOpen=ModelConstant{10};
-% ke=ModelConstant{11};
-% d0edge=ModelConstant{12};
-% d0center=ModelConstant{13};
-% TotalFoldingNum=ModelConstant{14};
-% PanelInerBarStart=ModelConstant{15};
-% CenterNodeStart=ModelConstant{16};
-% CompliantCreaseOpen=ModelConstant{17};

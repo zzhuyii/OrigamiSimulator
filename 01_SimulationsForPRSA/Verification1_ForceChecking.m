@@ -73,12 +73,12 @@ for i=1:N
     localF2=zeros(9,1);
     localK2=zeros(9,9);
 
-    [D,zone,N1,N2]=P2TDistance(Point,pt1,pt2,pt3);    
+    [D,zone,N1,N2]=Contact_P2TDistance(Point,pt1,pt2,pt3);    
     d(i)=D;
     
     if zone==0
         0
-        [Dd2x2,Ddx]=DerivativeZone0(Point,pt1,pt2,pt3);
+        [Dd2x2,Ddx]=Contact_DerivativeZone0(Point,pt1,pt2,pt3);
         if D<limit
             phi=pi/2*(1-D/limit);
             phi0=-pi/2/limit;
@@ -100,7 +100,7 @@ for i=1:N
         else
             pt=pt3;
         end
-        [Dd2x2,Ddx]=DerivativeZone1(Point,pt,D);
+        [Dd2x2,Ddx]=Contact_DerivativeZone1(Point,pt,D);
         if D<limit
             phi=pi/2*(1-D/limit);
             phi0=-pi/2/limit;
@@ -149,7 +149,7 @@ for i=1:N
         else
             temppt2=pt3;
         end
-        [Dd2x2,Ddx]=DerivativeZone2(Point,temppt1,temppt2);
+        [Dd2x2,Ddx]=Contact_DerivativeZone2(Point,temppt1,temppt2);
         if D<limit
             phi=pi/2*(1-D/limit);
             phi0=-pi/2/limit;

@@ -39,7 +39,7 @@ a=20*10^(-3);
 b=4*10^(-3);
 c=10*10^(-3);
 z=3*10^(-3);
-Node=[b 0 0;
+node0=[b 0 0;
       a+b 0 0;
       2*a+b 0 0;
       3*a+b 0 0;
@@ -81,142 +81,276 @@ Node=[b 0 0;
       z+4*a+b 2*c z;
       z+5*a+b 2*c z;];
   
-Panel{1}=[1 2 8 7];
-Panel{2}=[2 3 9 8];
-Panel{3}=[3 4 10 9];
-Panel{4}=[4 5 11 10];
-Panel{5}=[5 6 12 11];
-Panel{6}=[7 8 14 13];
-Panel{7}=[8 9 15 14];
-Panel{8}=[9 10 16 15];
-Panel{9}=[10 11 17 16];
-Panel{10}=[11 12 18 17];
+panel0{1}=[1 2 8 7];
+panel0{2}=[2 3 9 8];
+panel0{3}=[3 4 10 9];
+panel0{4}=[4 5 11 10];
+panel0{5}=[5 6 12 11];
+panel0{6}=[7 8 14 13];
+panel0{7}=[8 9 15 14];
+panel0{8}=[9 10 16 15];
+panel0{9}=[10 11 17 16];
+panel0{10}=[11 12 18 17];
 
-Panel{11}=[1 2 8 7]+[18 18 18 18];
-Panel{12}=[2 3 9 8]+[18 18 18 18];
-Panel{13}=[3 4 10 9]+[18 18 18 18];
-Panel{14}=[4 5 11 10]+[18 18 18 18];
-Panel{15}=[5 6 12 11]+[18 18 18 18];
-Panel{16}=[7 8 14 13]+[18 18 18 18];
-Panel{17}=[8 9 15 14]+[18 18 18 18];
-Panel{18}=[9 10 16 15]+[18 18 18 18];
-Panel{19}=[10 11 17 16]+[18 18 18 18];
-Panel{20}=[11 12 18 17]+[18 18 18 18];
+panel0{11}=[1 2 8 7]+[18 18 18 18];
+panel0{12}=[2 3 9 8]+[18 18 18 18];
+panel0{13}=[3 4 10 9]+[18 18 18 18];
+panel0{14}=[4 5 11 10]+[18 18 18 18];
+panel0{15}=[5 6 12 11]+[18 18 18 18];
+panel0{16}=[7 8 14 13]+[18 18 18 18];
+panel0{17}=[8 9 15 14]+[18 18 18 18];
+panel0{18}=[9 10 16 15]+[18 18 18 18];
+panel0{19}=[10 11 17 16]+[18 18 18 18];
+panel0{20}=[11 12 18 17]+[18 18 18 18];
 
 
 %% Setting up the plots for display
-ViewControl=zeros(10,1);
-ViewControl(1)=15; % View1: View angle 1
-ViewControl(2)=15; % View2: View angle 2
-ViewControl(3)=70*10^(-3); % Vsize: displayed axis range 
-ViewControl(4)=0.1; % Vratio: ratio of displayed negative axis range versus the positive axis range
 
-%% Assign Zero strain position for creases
-[CreaseNum,Crease,CreaseType]=IdentifyCrease(Node,Panel);
-% Here we identify the creases and show the drawing of the creases. With
-% this information, users can assign mountain and valley folds and their
-% zero strain position manually if needed.
-plotOriginalMeshing(Node,Panel,CreaseNum,Crease,ViewControl)
+viewControl=zeros(10,1);
 
-RotationZeroStrain=pi*ones(CreaseNum,1);
-% 0-2pi, This matrix can be used to manually set the zero energy rotation
-% angle of the crease hinge
-FoldingSequence=ones(CreaseNum,1);
-% Folding Sequence indicate which crease will be folded first
+% View1: View angle 1
+viewControl(1)=15;
 
-ratio=0.5;
-RotationZeroStrain(4)=pi+ratio*pi;
-RotationZeroStrain(7)=pi-ratio*pi;
-RotationZeroStrain(10)=pi+ratio*pi;
-RotationZeroStrain(13)=pi-ratio*pi;
-RotationZeroStrain(16)=pi+ratio*pi;
+% View2: View angle 2
+viewControl(2)=15; 
 
-RotationZeroStrain(3)=pi-ratio*pi;
-RotationZeroStrain(18)=pi-ratio*pi;
-RotationZeroStrain(6)=pi+ratio*pi;
-RotationZeroStrain(20)=pi+ratio*pi;
-RotationZeroStrain(9)=pi+ratio*pi;
-RotationZeroStrain(22)=pi+ratio*pi;
-RotationZeroStrain(12)=pi-ratio*pi;
-RotationZeroStrain(24)=pi-ratio*pi;
+% Vsize: displayed axis range 
+viewControl(3)=70*10^(-3);
 
-RotationZeroStrain(4+27)=pi+ratio*pi;
-RotationZeroStrain(7+27)=pi-ratio*pi;
-RotationZeroStrain(10+27)=pi+ratio*pi;
-RotationZeroStrain(13+27)=pi-ratio*pi;
-RotationZeroStrain(16+27)=pi+ratio*pi;
+% Vratio: ratio of displayed negative axis range versus the positive axis range
+viewControl(4)=0.1; 
 
-RotationZeroStrain(3+27)=pi-ratio*pi;
-RotationZeroStrain(18+27)=pi-ratio*pi;
-RotationZeroStrain(6+27)=pi+ratio*pi;
-RotationZeroStrain(20+27)=pi+ratio*pi;
-RotationZeroStrain(9+27)=pi+ratio*pi;
-RotationZeroStrain(22+27)=pi+ratio*pi;
-RotationZeroStrain(12+27)=pi-ratio*pi;
-RotationZeroStrain(24+27)=pi-ratio*pi;
 
-TotalFoldingNum=max(FoldingSequence);
-% Maximum number of loop needed for sequantial folding
+%% Generate the geometry of compliant crease
 
-%% Generate the Improved Meshing
-% input parameters for generating the improved meshing
-% Bar Areas, zero strain stretching will also be generated.
-% Crease zero strain rotational position will be calculated.
-% Crease rotational stiffness will be calculated (linear model used)
+% Here we identify the creases based on the original input;
+[oldCreaseNum,oldCreaseConnect,oldCreaseType]=Mesh_IdentifyCrease(node0,panel0);
 
-ModelConstant{1}=2*10^(-3); % CreaseW: Width of compliant creases
-ModelConstant{2}=2*10^9; % PanelE: Young's modulus of panel
-ModelConstant{3}=2*10^9; % CreaseE: Young's modulus of creases
+% Plot the original meshing for inspection;
+Plot_OriginalMeshing(node0,panel0,oldCreaseNum,oldCreaseConnect,viewControl)
 
-ModelConstant{4}=ones(20,1)*500*10^(-6); % PanelThick: thickness of panel;
-% This is a vector storeing the thicknes of panels. We allow panels to have
-% different thicknesses
-
-ModelConstant{5}=100*10^(-6); % CreaseThick: thickness of creases;
-ModelConstant{6}=0.3; % PanelPoisson: Poisson ratio of panel
-ModelConstant{7}=0.3; % CreasePoisson: Poisson ratio of crease
-
-ModelConstant{8}=3; % Flag2D3D: 
-% Flag2D3D is used to determine how the additional crease structuer is
+% flag2D3D is used to determine how the additional crease structuer is
 % generated,2D means center bars are genertaed through using an averaged 
 % vector, 3D means the center bars are located at the original positoin.
 % 3 3D, 2 2D
+modelGeometryConstant{1}=3; 
 
-ModelConstant{9}=4; % DiagonalRate:
-% Diagonal Rate is the factor that determine how much diagonal springs are
-% stiffer than horizontal ones.
-
-ModelConstant{17}=0; % CompliantCreaseOpen
 % 1 means include compliant crease model
 % 0 means using concentrated hinge model
+modelGeometryConstant{2}=0; 
 
-ModelConstant{10}=0; % LockingOpen:
-% 1: calculating the locking forces and formulate stiffness matrix
-% 0: Close the calculation for locking induced by having panel interaction
+% crease width to generate the topology of the compliant 
+% crease origami;
+creaseWidthMat=zeros(oldCreaseNum,1);
 
-ModelConstant{11}=0.02; % ke: used to scale the magnitude of potentil
-ModelConstant{12}=1*(10^(-3)); % d0edge: d0 for points at the edge
-ModelConstant{13}=1*(10^(-3)); % d0center: d0 for points at the center
+creaseWidthMat(4)=3*10^(-3);
+creaseWidthMat(7)=3*10^(-3);
+creaseWidthMat(10)=3*10^(-3);
+creaseWidthMat(13)=3*10^(-3);
+creaseWidthMat(16)=3*10^(-3);
 
-[newNode,newPanel,BarType,BarConnect,BarArea,BarLength,SprIJKL,...
-    SprTargetZeroStrain,SprK,Type1BarNum,oldCrease,PanelInerBarStart,...
-    CenterNodeStart,NewFoldingSequence,OldNode,PanelNum] ...
-    =ImprovedMeshingN5B8(Node,Panel,RotationZeroStrain,...
-    FoldingSequence,ModelConstant);
-% Generate Improved meshing
+creaseWidthMat(3)=3*10^(-3);
+creaseWidthMat(18)=3*10^(-3);
+creaseWidthMat(6)=3*10^(-3);
+creaseWidthMat(20)=3*10^(-3);
+creaseWidthMat(9)=3*10^(-3);
+creaseWidthMat(22)=3*10^(-3);
+creaseWidthMat(12)=3*10^(-3);
+creaseWidthMat(24)=3*10^(-3);
 
-plotImprovedMeshing(ViewControl,newNode,newPanel,BarArea,BarConnect);
-% Plot improved meshing for inspection
-[newNumbering,inverseNumbering]=NewSequence(newNode);
-% Generate newNumbering and inverseNumbering code for sparse matrix
-[CreaseRef]= NumberingForCreaseLocking(oldCrease,CreaseNum,BarType);
+creaseWidthMat(4+27)=3*10^(-3);
+creaseWidthMat(7+27)=3*10^(-3);
+creaseWidthMat(10+27)=3*10^(-3);
+creaseWidthMat(13+27)=3*10^(-3);
+creaseWidthMat(16+27)=3*10^(-3);
 
-ModelConstant{14}=TotalFoldingNum; % TotalFoldingNum
-ModelConstant{15}=PanelInerBarStart; % TotalFoldingNum
-ModelConstant{16}=CenterNodeStart; % TotalFoldingNum
+creaseWidthMat(3+27)=3*10^(-3);
+creaseWidthMat(18+27)=3*10^(-3);
+creaseWidthMat(6+27)=3*10^(-3);
+creaseWidthMat(20+27)=3*10^(-3);
+creaseWidthMat(9+27)=3*10^(-3);
+creaseWidthMat(22+27)=3*10^(-3);
+creaseWidthMat(12+27)=3*10^(-3);
+creaseWidthMat(24+27)=3*10^(-3);
+
+modelGeometryConstant{3}=creaseWidthMat; 
+
+% generate the geometry of system
+[newNode,newPanel,barType,barConnect,...
+    sprIJKL,type1BarNum,panelInnerBarStart,centerNodeStart,...
+    newNode2OldNode,newCrease2OldCrease,newPanel2OldPanel,newPanelNum] ...
+    =Mesh_CompliantCreaseGeometry(node0,panel0,...
+    oldCreaseNum,oldCreaseConnect,oldCreaseType,...
+    modelGeometryConstant);
+
+% Plot the pattern with updated geometry
+Plot_ImprovedMeshing(viewControl,newNode,newPanel,barConnect);
+
+% generate creaseRef matrix used for calculating the contact
+[creaseRef]= Mesh_NumberingForContact(newCrease2OldCrease,oldCreaseNum);
+
+% calcualte the barLength 
+barLength=Mesh_BarLength(newNode,barConnect);
+
+% Update topology constant after generating the new topology
+modelGeometryConstant{4}=panelInnerBarStart; 
+modelGeometryConstant{5}=centerNodeStart; 
+modelGeometryConstant{6}=type1BarNum;
+
+
+
+
+
+%% Assign Mechanical Properties
+
+% PanelE: Young's modulus of panel
+modelMechanicalConstant{1}=2*10^9; 
+
+% CreaseE: Young's modulus of creases
+modelMechanicalConstant{2}=2*10^9; 
+
+% PanelPoisson: Poisson ratio of panel
+modelMechanicalConstant{3}=0.3; 
+
+% CreasePoisson: Poisson ratio of crease
+modelMechanicalConstant{4}=0.3; 
+
+% PanelThick: thickness of panel;
+% This is a vector storeing the thicknes of panels. 
+modelMechanicalConstant{5}=ones(20,1)*500*10^(-6);
+
+% thickness of creases;
+creaesThicknessMat=zeros(oldCreaseNum,1);
+
+creaesThicknessMat(4)=100*10^(-6);
+creaesThicknessMat(7)=100*10^(-6);
+creaesThicknessMat(10)=100*10^(-6);
+creaesThicknessMat(13)=100*10^(-6);
+creaesThicknessMat(16)=100*10^(-6);
+
+creaesThicknessMat(3)=100*10^(-6);
+creaesThicknessMat(18)=100*10^(-6);
+creaesThicknessMat(6)=100*10^(-6);
+creaesThicknessMat(20)=100*10^(-6);
+creaesThicknessMat(9)=100*10^(-6);
+creaesThicknessMat(22)=100*10^(-6);
+creaesThicknessMat(12)=100*10^(-6);
+creaesThicknessMat(24)=100*10^(-6);
+
+creaesThicknessMat(4+27)=100*10^(-6);
+creaesThicknessMat(7+27)=100*10^(-6);
+creaesThicknessMat(10+27)=100*10^(-6);
+creaesThicknessMat(13+27)=100*10^(-6);
+creaesThicknessMat(16+27)=100*10^(-6);
+
+creaesThicknessMat(3+27)=100*10^(-6);
+creaesThicknessMat(18+27)=100*10^(-6);
+creaesThicknessMat(6+27)=100*10^(-6);
+creaesThicknessMat(20+27)=100*10^(-6);
+creaesThicknessMat(9+27)=100*10^(-6);
+creaesThicknessMat(22+27)=100*10^(-6);
+creaesThicknessMat(12+27)=100*10^(-6);
+creaesThicknessMat(24+27)=100*10^(-6);
+
+modelMechanicalConstant{6}=creaesThicknessMat; 
+
+
+% DiagonalRate:
+% Diagonal Rate is the factor that determine how much diagonal springs are
+% stiffer than horizontal ones.
+modelMechanicalConstant{7}=4; 
+
+% panelW
+% this is an averaged creaseW. used to calculate panel bending stiffness
+panelW=3*10^-3;
+modelMechanicalConstant{8}=panelW;
+
+
+
+%% panel contact related input
+
+% contact open
+% 1: means consider panel contact;
+% 0: means ignore panel contact
+modelMechanicalConstant{9}= 0; 
+
+% ke: used to scale the magnitude of potentil
+modelMechanicalConstant{10}=0.002; 
+
+% d0edge: d0 for points at the edge
+modelMechanicalConstant{11}=1*10^-3; 
+
+% d0center: d0 for points at the center
+modelMechanicalConstant{12}=1*10^-3;  
+
+
+
+%% Assign zero strain position for creases during self-folding
+
+% 0-2pi, This matrix can be used to manually set the zero energy rotation
+% angle of the crease hinge
+rotationZeroStrain=pi*ones(oldCreaseNum,1);
+
+foldingSequence=ones(oldCreaseNum,1);
+% Folding Sequence indicate which crease will be folded first
+
+ratio=0.5;
+rotationZeroStrain(4)=pi+ratio*pi;
+rotationZeroStrain(7)=pi-ratio*pi;
+rotationZeroStrain(10)=pi+ratio*pi;
+rotationZeroStrain(13)=pi-ratio*pi;
+rotationZeroStrain(16)=pi+ratio*pi;
+
+rotationZeroStrain(3)=pi-ratio*pi;
+rotationZeroStrain(18)=pi-ratio*pi;
+rotationZeroStrain(6)=pi+ratio*pi;
+rotationZeroStrain(20)=pi+ratio*pi;
+rotationZeroStrain(9)=pi+ratio*pi;
+rotationZeroStrain(22)=pi+ratio*pi;
+rotationZeroStrain(12)=pi-ratio*pi;
+rotationZeroStrain(24)=pi-ratio*pi;
+
+rotationZeroStrain(4+27)=pi+ratio*pi;
+rotationZeroStrain(7+27)=pi-ratio*pi;
+rotationZeroStrain(10+27)=pi+ratio*pi;
+rotationZeroStrain(13+27)=pi-ratio*pi;
+rotationZeroStrain(16+27)=pi+ratio*pi;
+
+rotationZeroStrain(3+27)=pi-ratio*pi;
+rotationZeroStrain(18+27)=pi-ratio*pi;
+rotationZeroStrain(6+27)=pi+ratio*pi;
+rotationZeroStrain(20+27)=pi+ratio*pi;
+rotationZeroStrain(9+27)=pi+ratio*pi;
+rotationZeroStrain(22+27)=pi+ratio*pi;
+rotationZeroStrain(12+27)=pi-ratio*pi;
+rotationZeroStrain(24+27)=pi-ratio*pi;
+
+% Maximum number of loop needed for sequantial folding
+totalFoldingNum=max(foldingSequence);
+
+% set the self-folding related proeprties
+modelMechanicalConstant{13}=rotationZeroStrain;
+modelMechanicalConstant{14}=totalFoldingNum; 
+modelMechanicalConstant{15}=foldingSequence;
+
+% distribution Factor of rotation zero strain
+modelMechanicalConstant{16}=0.5; 
+
+
+
+%% Generate mechanical properties of the origami
+[barArea,sprK,sprTargetZeroStrain,sprFoldingSequence]...
+    =Mesh_MechanicalProperty(modelMechanicalConstant,...
+    modelGeometryConstant,oldCreaseType,...
+    oldCreaseNum,creaseRef,barLength,panel0,...
+    barConnect,newNode);
+
+
 
 %% Input information of support for Assemble
-Supp=[1,1,1,1;
+
+% define support information
+supp=[1,1,1,1;
       2,1,1,1;
       13,0,0,1;
       14,0,0,1;
@@ -224,12 +358,20 @@ Supp=[1,1,1,1;
       20,1,1,1;
       31,0,0,1;
       32,0,0,1;];
+supportInfo{1}=supp;    
+
   
-Load=[1,0,0,0];
-  
-ModelConstant{18}=0; % NonRigidSupport
+% NonRigidSupport
+% 0 means the non rigid support is not activated.
+% 1 means the non rigid support is activated.
+supportInfo{2}=0; 
+
+
+% first column stores node number
+% second column stores direction
+% third column stores stiffness
 ksup=500;
-SuppElastic=[19,3,ksup;
+suppElastic=[19,3,ksup;
              20,3,ksup;
              31,3,ksup;
              32,3,ksup;
@@ -237,28 +379,40 @@ SuppElastic=[19,3,ksup;
              24,3,ksup;
              35,3,ksup;
              36,3,ksup;];
-% first column stores node number
-% second column stores direction
-% third column stores stiffness
+supportInfo{3}=suppElastic;
 
+
+
+%% information for Self folding process
+loadForce=0;
+load=[10,0,0,-loadForce;];
+  
 %% Nonlinear Solver for Assemble
-AssembleConstant=zeros(3,1);
-AssembleConstant(1)=30; % IncreStep
-AssembleConstant(2)=10^-6; % Tor
-AssembleConstant(3)=50; % iterMax
 
-[U,UhisAssemble,StrainEnergyAssemble]=NonlinearSolverAssemble(...
-    Panel,newNode,BarArea,BarConnect,BarLength,BarType,SprIJKL,...
-    SprK,SprTargetZeroStrain,Supp,CreaseRef,CreaseNum,...
-    NewFoldingSequence,OldNode,AssembleConstant,...
-    ModelConstant,SuppElastic,Load);
+assembleConstant=zeros(3,1);
 
-AssembleNode=U+newNode;
-plotDeformedShapeOnly(ViewControl,newNode,AssembleNode,newPanel,PanelNum)
+% increStep
+assembleConstant(1)=30;
+
+% tor
+assembleConstant(2)=10^-6; 
+
+% iterMax
+assembleConstant(3)=50; 
+
+[U,UhisAssemble,strainEnergyAssemble]=Solver_Assemble(...
+    panel0,newNode2OldNode,newNode,barConnect,barType,barLength,...
+    barArea,sprIJKL,sprK,sprTargetZeroStrain,sprFoldingSequence,...
+    creaseRef,oldCreaseNum,assembleConstant,...
+    modelGeometryConstant,modelMechanicalConstant,...
+    supportInfo,load);
+
+assembleNode=U+newNode;
+Plot_DeformedShapeOnly(viewControl,assembleNode,newPanel)
 
 %% Support and loading information for loading process
 
-Supp=[2,1,1,1;
+supp=[2,1,1,1;
       14,1,1,1;
       5,1,1,1;
       17,1,1,1;
@@ -266,10 +420,19 @@ Supp=[2,1,1,1;
       20,1,1,0;
       23,1,1,0;
       35,1,1,0;];
-  
-ModelConstant{18}=1; % NonRigidSupport
+supportInfo{1}=supp;   
+
+% NonRigidSupport
+% 0 means the non rigid support is not activated.
+% 1 means the non rigid support is activated.
+supportInfo{2}=1; 
+
+
+% first column stores node number
+% second column stores direction
+% third column stores stiffness
 ksup=5;
-SuppElastic=[19,3,ksup;
+suppElastic=[19,3,ksup;
              20,3,ksup;
              31,3,ksup;
              32,3,ksup;
@@ -277,69 +440,45 @@ SuppElastic=[19,3,ksup;
              24,3,ksup;
              35,3,ksup;
              36,3,ksup;];
-% first column stores node number
-% second column stores direction
-% third column stores stiffness
+supportInfo{3}=suppElastic;
 
-LoadForce=5*10^(-3);
-Load=[21,0,0,LoadForce;
-      22,0,0,LoadForce;
-      33,0,0,LoadForce;
-      34,0,0,LoadForce;]; 
+%% loading information
+
+loadForce=5*10^(-3);
+load=[21,0,0,loadForce;
+      22,0,0,loadForce;
+      33,0,0,loadForce;
+      34,0,0,loadForce;]; 
   
-ModelConstant{10}=1; % LockingOpen
+% contact open
+% 1: means consider panel contact;
+% 0: means ignore panel contact
+modelMechanicalConstant{9}= 1; 
 
 %% Nonlinear Solver for loading
-LoadConstant=zeros(4,1);
-LoadConstant(1)=30; % IncreStep
-LoadConstant(2)=10^-6; % Tor
-LoadConstant(3)=50; % iterMax
-LoadConstant(4)=1; % LambdaBar
 
-% Use Theta0 to set the zero strain position of crease so that creases are
-% at zero strain state at the start of loading. Activate the following code
-% if no self assemble process is used.
+loadConstant=zeros(4,1);
 
-% AssembleNode=newNode;
-% A=size(newNode);
-% UhisAssemble=zeros(1,A(1),A(2));
-% U=zeros(size(newNode));
-% StrainEnergyAssemble=zeros(1,4);
-% [Theta0]=CreaseTheta(U,CreaseIJKL,newNode);
+% increStep
+loadConstant(1)=30; 
 
-[U,UhisLoading,Loadhis,StrainEnergyLoading,NodeForce,LoadForce,lockForce]...
-    =NonlinearSolverLoadingNR(Panel,newNode,BarArea,BarConnect,BarLength, ...
-    BarType,SprIJKL,SprK,SprTargetZeroStrain,...
-    Supp,Load,U,CreaseRef,CreaseNum,OldNode,LoadConstant,...
-    ModelConstant,SuppElastic);
+% tor
+loadConstant(2)=10^-6; 
+
+% iterMax
+loadConstant(3)=50; 
+
+% lambdaBar
+loadConstant(4)=1; 
+
+
+[U,UhisLoading,loadHis,strainEnergyLoading,nodeForce,loadForce,lockForce]...
+    =Solver_LoadingNR(panel0,newNode2OldNode,oldCreaseNum,...
+    newNode,barConnect,barType,barArea,barLength, ...
+    sprIJKL,sprK,sprTargetZeroStrain,creaseRef,load,supportInfo, ...
+    U,loadConstant,modelGeometryConstant,modelMechanicalConstant);
 
 
 %% Plotting the results
 deformNode=U+newNode;
-%plotDeformedShapeOnly(ViewControl,deformNode,deformNode,newPanel,PanelNum);
-%plotLoadAndReaction(ViewControl,newNode,deformNode,newPanel,Load,Supp,NodeForce,LoadForce,PanelNum);
-% plotLockForce(ViewControl,newNode,deformNode,newPanel,lockForce,PanelNum);
-% plotEnergy(UhisLoading,StrainEnergyLoading,UhisAssemble,StrainEnergyAssemble);
-plotDeformedHis(ViewControl,newNode,newPanel,UhisLoading,UhisAssemble,PanelNum);
-plotLoadHis(Loadhis,UhisLoading);
-
-
-%% Summary of ModelConstant
-% CreaseW=ModelConstant{1};
-% PanelE=ModelConstant{2};
-% CreaseE=ModelConstant{3};
-% PanelThick=ModelConstant{4};
-% CreaseThick=ModelConstant{5};
-% PanelPoisson=ModelConstant{6};
-% CreasePoisson=ModelConstant{7};
-% Flag2D3D=ModelConstant{8};
-% DiagonalRate=ModelConstant{9};
-% LockingOpen=ModelConstant{10};
-% ke=ModelConstant{11};
-% d0edge=ModelConstant{12};
-% d0center=ModelConstant{13};
-% TotalFoldingNum=ModelConstant{14};
-% PanelInerBarStart=ModelConstant{15};
-% CenterNodeStart=ModelConstant{16};
-% CompliantCreaseOpen=ModelConstant{17};
-% ElasticSupportOpen=ModelConstant{18};
+Plot_DeformedHis(viewControl,newNode,newPanel,UhisLoading,UhisAssemble);
