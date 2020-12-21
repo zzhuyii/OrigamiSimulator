@@ -6,7 +6,7 @@ h=b*sin(gama)*Ext;
 theta=asin(Ext*sin(gama));
 l=sqrt((a+b*cos(gama))^2+(b*sin(gama))^2);
 temp=(l^2-h^2-a^2-(b*cos(theta))^2)/(2*a*b*cos(theta));
-beta=acos(temp);
+beta=norm(acos(temp));
 Beta=beta*180/3.14
 
 deltaZ=a*sin(beta);
