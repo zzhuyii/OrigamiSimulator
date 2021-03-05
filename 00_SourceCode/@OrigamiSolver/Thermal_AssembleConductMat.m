@@ -200,14 +200,14 @@ function [thermalMat]=Thermal_AssembleConductMat(obj,thermal,U)
        for q=1:obj.envLayer
            airThick=0;
            if obj.newPanel2OldPanel(i)==0
-               if obj.t2RTcrease<maxEnvThickness(i)
-                   airThick=obj.t2RTcrease;
+               if obj.t2RT<maxEnvThickness(i)
+                   airThick=obj.t2RT;
                else
                    airThick=maxEnvThickness(i);
                end
            else
-               if obj.t2RTpanelMat(obj.newPanel2OldPanel(i))<maxEnvThickness(i)
-                   airThick=obj.t2RTpanelMat(obj.newPanel2OldPanel(i));
+               if obj.t2RT<maxEnvThickness(i)
+                   airThick=obj.t2RT;
                else
                    airThick=maxEnvThickness(i);
                end

@@ -20,7 +20,7 @@ classdef ControllerThermalLoading < handle
         % suppElastic=[1,3,10000;4,3,10000];        
         
         % thermal loading step
-        thermalStep
+        thermalStep=200
         
         % matrix to store the target heating. This is the incremental term 
         % of this step. First index stores the crease number the second
@@ -28,7 +28,7 @@ classdef ControllerThermalLoading < handle
         targetCreaseHeating      
         
         % the tolerance for each iteration
-        tol
+        tol=1*10^-5
         
         % the maximum allowed iteration number
         iterMax=30
@@ -52,10 +52,10 @@ classdef ControllerThermalLoading < handle
         % Define the BC for thermal conduction, to confine the maximum air
         % thickness. The vector stores the number of panels that serves as the BC
         % for heat transfer (ie. those that are Si wafers).
-        thermalBoundaryPanelMat
+        thermalBoundaryPanelMat=[]
 
         % This vector stores extra nodes that should be at RT to adjust the BC.
-        roomTempNode
+        roomTempNode=[]
         
         
         %% Timoshenko bimoph model constants

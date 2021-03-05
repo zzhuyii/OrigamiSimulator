@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%  Active Origami Simulator  %%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Authors: Yi Zhu, and Evegueni T. Filipov
+% Authors: Yi Zhu, and Evgueni T. Filipov
 %
 % Discription: This code package implement a bar and hinge model based 
 % simulator for active origami structures. The code package can capture 
@@ -53,11 +53,6 @@ classdef OrigamiSolver < handle
 
 %%
 %%%%%%%%%%%%%%%%%%%%%%%  User Defined Variables  %%%%%%%%%%%%%%%%%%%%%%%%
-        
-        %% Solver Sequence Control
-        % This controls if the solver will continue the solving to the
-        % next sequence without initialization
-        continuingLoading=0;
 
         %% Origami Geometrical Properties        
         % nodal coordinates of the original origami
@@ -131,11 +126,8 @@ classdef OrigamiSolver < handle
         % Thermal conductivity ofsubmerged environment
         envThermalConduct
         
-        % thickness of the submerged environment at RT for panels
-        t2RTpanelMat
-        
-        % thickness of the submerged environment at RT for crease
-        t2RTcrease
+        % thickness of the submerged environment at RT
+        t2RT
         
         % number of evironment layer
         envLayer=10;
@@ -163,6 +155,14 @@ classdef OrigamiSolver < handle
         d0center
         
         
+        %% Dynamic Properties
+        % density of crease
+        densityCrease
+        
+        % density of panel
+        densityPanel               
+        
+        
         %% Ploting properties        
         % the viewing angle for plotting
         viewAngle1=15;
@@ -176,6 +176,10 @@ classdef OrigamiSolver < handle
         
         %% Origami Loading Controller
         loadingController={}
+        
+        % This controls if the solver will continue the solving to the
+        % next sequence without initialization
+        continuingLoading=0;
         
 %%
 %%%%%%%%%%%%%%%%%%%%%%%% Internal Varialbles %%%%%%%%%%%%%%%%%%%%%%%%%%%        
@@ -278,7 +282,7 @@ classdef OrigamiSolver < handle
         Mesh_AnalyzeOriginalPattern(obj)    
         
         % Generate the meshed geometry of the system
-        Mesh_CompliantCreaseGeometry(obj)
+        Mesh_Mesh(obj)
         
         
         %% Ploting related methods

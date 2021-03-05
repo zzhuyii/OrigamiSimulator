@@ -20,10 +20,10 @@ classdef ControllerSelfFolding  < handle
         % suppElastic=[1,3,10000;4,3,10000];
         
         % the total number of incremental steps
-        increStep
+        increStep=50
         
         % the tolerance for each iteration
-        tol
+        tol=1*10^-5
         
         % the maximum allowed iteration number
         iterMax=30
