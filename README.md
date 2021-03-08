@@ -1,7 +1,8 @@
 # OrigamiSimulator
 Simulating active origami structures with multi-pyhsics behaviors including 
 compliant creases, inter-panel contact, and electro-thermally actuated creases. 
-
+Please check our group website for futher introduction at:
+https://drsl.engin.umich.edu/software/swomps-package/
 
 Main Features of the package:
 
