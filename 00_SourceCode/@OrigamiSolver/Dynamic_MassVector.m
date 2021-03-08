@@ -51,7 +51,7 @@ function NodalMass=Dynamic_MassVector(obj)
        
        % Distribute the mass 
        if barType1==5 || barType2==5 || barType3==5 % panel triangle
-           PanelThick=obj.panelThickMat(obj.newPanel2OldPanel(i));
+           PanelThick=obj.panelThickVec(obj.newPanel2OldPanel(i));
            triangleMass=area*gammaPanel*PanelThick;
            if barType1==5 && barType2==5
                NodalMass(nodeVec(2))=...
@@ -79,7 +79,7 @@ function NodalMass=Dynamic_MassVector(obj)
                obj.newCrease2OldCrease(NumBar2),...
                obj.newCrease2OldCrease(NumBar3)]);
            
-           CreaseThick=obj.creaseThickMat(oldCreaseNum);
+           CreaseThick=obj.creaseThickVec(oldCreaseNum);
            triangleMass=area*gammaCrease*CreaseThick;
            
            NodalMass(nodeVec(1))=...

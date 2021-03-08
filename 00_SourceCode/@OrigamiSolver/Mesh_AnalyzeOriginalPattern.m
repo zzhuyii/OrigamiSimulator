@@ -78,8 +78,8 @@ function Mesh_AnalyzeOriginalPattern(obj)
         end
     end
     
-    obj.creaseWidthMat=zeros(obj.oldCreaseNum,1);
-    obj.creaseThickMat=zeros(obj.oldCreaseNum,1);
+    obj.creaseWidthVec=zeros(obj.oldCreaseNum,1);
+    obj.creaseThickVec=zeros(obj.oldCreaseNum,1);
 end
 
 

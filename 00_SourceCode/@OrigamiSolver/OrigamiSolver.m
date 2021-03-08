@@ -76,7 +76,7 @@ classdef OrigamiSolver < handle
         
         % crease width to generate the geometry of the compliant 
         % crease origami;
-        creaseWidthMat;
+        creaseWidthVec;
         
         % nodal coordinates of the meshed origami
         % sometime user is expected to directly edit it to correct the
@@ -98,10 +98,10 @@ classdef OrigamiSolver < handle
         creasePoisson
         
         % stores the thickness of panel
-        panelThickMat
+        panelThickVec
         
         % stroes the thickness of creases
-        creaseThickMat
+        creaseThickVec
         
         % Diagonal Rate is the factor that determine how much diagonal 
         % springs are stiffer than horizontal ones.
@@ -117,8 +117,8 @@ classdef OrigamiSolver < handle
         
         
         %% Origami Thermal Properties       
-        % Thermal conductivity matrix for panel
-        panelThermalConductMat
+        % Thermal conductivity vector for panel
+        panelThermalConductVec
         
         % Thermal conductivity of crease
         creaseThermalConduct

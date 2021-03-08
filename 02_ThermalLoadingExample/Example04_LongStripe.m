@@ -115,16 +115,16 @@ ori.Mesh_AnalyzeOriginalPattern();
 %% Meshing of the origami model
 
 % Define the crease width 
-ori.creaseWidthMat=zeros(ori.oldCreaseNum,1);
-ori.creaseWidthMat(3)=W;
-ori.creaseWidthMat(6)=W;
-ori.creaseWidthMat(9)=W;
-ori.creaseWidthMat(12)=W;
-ori.creaseWidthMat(15)=W;
+ori.creaseWidthVec=zeros(ori.oldCreaseNum,1);
+ori.creaseWidthVec(3)=W;
+ori.creaseWidthVec(6)=W;
+ori.creaseWidthVec(9)=W;
+ori.creaseWidthVec(12)=W;
+ori.creaseWidthVec(15)=W;
 
 
 % Compute the meshed geometry
-ori.Mesh_CompliantCreaseGeometry()
+ori.Mesh_Mesh()
 
 % Plot the results for inspection
 ori.viewAngle1=45;
@@ -143,24 +143,24 @@ ori.panelE=2*10^9;
 ori.creaseE=2*10^9; 
 ori.panelPoisson=0.3;
 ori.creasePoisson=0.3; 
-ori.panelThickMat=[tpanel;tpanel;
+ori.panelThickVec=[tpanel;tpanel;
                    tpanel;tpanel;
                    tpanel;tpanel;
                    tpanel;]; 
 ori.panelW=W;
 
 
-ori.creaseThickMat=zeros(ori.oldCreaseNum,1);
-ori.creaseThickMat(3)=(tg+ts);
-ori.creaseThickMat(6)=(tg+ts);
-ori.creaseThickMat(9)=(tg+ts);
-ori.creaseThickMat(12)=(tg+ts);
-ori.creaseThickMat(15)=(tg+ts);
+ori.creaseThickVec=zeros(ori.oldCreaseNum,1);
+ori.creaseThickVec(3)=(tg+ts);
+ori.creaseThickVec(6)=(tg+ts);
+ori.creaseThickVec(9)=(tg+ts);
+ori.creaseThickVec(12)=(tg+ts);
+ori.creaseThickVec(15)=(tg+ts);
 
 
 %% Assign Thermal Properties
 
-ori.panelThermalConductMat = [0.3;0.3;
+ori.panelThermalConductVec = [0.3;0.3;
                               0.3;0.3;
                               0.3;0.3;
                               0.3;]; 
@@ -190,7 +190,7 @@ thermal.supp=[1,1,1,1;
       27,1,1,1;
       28,1,1,1;];
 
-thermal.thermalBoundaryPanelMat=[7];
+thermal.thermalBoundaryPanelVec=[7];
 
 thermal.deltaAlpha=zeros(ori.oldCreaseNum,1);
 thermal.deltaAlpha(3)=50*10^(-6); 
@@ -204,7 +204,7 @@ thermal.Emat1=50*10^9;
 thermal.Emat2=2*10^9;
 thermal.tmat1=tg;
 thermal.tmat2=ts;
-thermal.videoOpen=1; % close the animation
+thermal.videoOpen=0; % close the animation
 
 % the target loading of crease heating
 thermal.targetCreaseHeating=[3,qload/1000;

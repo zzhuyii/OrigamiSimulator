@@ -84,6 +84,8 @@ Lpanel=1*10^(-3);
 
 % power input (mW)
 qload=10;
+qload = 20;
+% to fully close the single crease, we can input 20mW power
 
 % create an instance of the solver class
 ori=OrigamiSolver;
@@ -113,11 +115,11 @@ ori.Plot_UnmeshedOrigami(); % Plot the unmeshed origami for inspection;
 %% Meshing of the origami model
 
 % Define the crease width 
-ori.creaseWidthMat=zeros(ori.oldCreaseNum,1);
-ori.creaseWidthMat(3)=W;
+ori.creaseWidthVec=zeros(ori.oldCreaseNum,1);
+ori.creaseWidthVec(3)=W;
 
 % Compute the meshed geometry
-ori.Mesh_CompliantCreaseGeometry()
+ori.Mesh_Mesh()
 
 % Plot the meshed origami for inspection;
 ori.Plot_MeshedOrigami(); 
@@ -132,9 +134,9 @@ ori.creasePoisson=0.3;
 ori.panelW=W;
 ori.diagonalRate=1000; % crease torsion stiffness/ bending stiffness
 
-ori.panelThickMat=[tpanel;tpanel]; 
-ori.creaseThickMat=zeros(ori.oldCreaseNum,1);
-ori.creaseThickMat(3)=(t1+t2);
+ori.panelThickVec=[tpanel;tpanel]; 
+ori.creaseThickVec=zeros(ori.oldCreaseNum,1);
+ori.creaseThickVec(3)=(t1+t2);
 
 
 %% setup panel contact information
@@ -147,7 +149,7 @@ ori.d0center=40*(10^(-6));
 
 %% Assign Thermal Properties
 
-ori.panelThermalConductMat = [1.3;1.3]; 
+ori.panelThermalConductVec = [1.3;1.3]; 
 ori.creaseThermalConduct=0.3;
 ori.envThermalConduct=0.026;
 
@@ -212,7 +214,7 @@ thermal.supp=[1,1,1,1;
       3,1,1,1;
       4,1,1,1;];
 
-thermal.thermalBoundaryPanelMat=[];
+thermal.thermalBoundaryPanelVec=[];
 thermal.roomTempNode=[];
 
 thermal.deltaAlpha=zeros(ori.oldCreaseNum,1);

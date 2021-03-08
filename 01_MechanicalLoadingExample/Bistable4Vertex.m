@@ -86,11 +86,11 @@ ori.Mesh_AnalyzeOriginalPattern();
 
 %% Meshing of the origami model
 % Define the crease width 
-ori.creaseWidthMat=zeros(ori.oldCreaseNum,1);
-ori.creaseWidthMat(2)=6*10^(-3);
-ori.creaseWidthMat(3)=6*10^(-3);
-ori.creaseWidthMat(5)=6*10^(-3);
-ori.creaseWidthMat(10)=6*10^(-3);
+ori.creaseWidthVec=zeros(ori.oldCreaseNum,1);
+ori.creaseWidthVec(2)=6*10^(-3);
+ori.creaseWidthVec(3)=6*10^(-3);
+ori.creaseWidthVec(5)=6*10^(-3);
+ori.creaseWidthVec(10)=6*10^(-3);
 
 % Compute the meshed geometry
 ori.Mesh_Mesh()
@@ -109,14 +109,14 @@ ori.panelE=2852*10^6;
 ori.creaseE=25*10^6;
 ori.panelPoisson=0.4;
 ori.creasePoisson=0.4; 
-ori.panelThickMat=[1;1;1;1]*2.2*10^(-3);
+ori.panelThickVec=[1;1;1;1]*2.2*10^(-3);
 ori.panelW=6*10^-3;
 
-ori.creaseThickMat=zeros(ori.oldCreaseNum,1);
-ori.creaseThickMat(2)=1*10^(-3);
-ori.creaseThickMat(3)=1*10^(-3);
-ori.creaseThickMat(5)=1*10^(-3);
-ori.creaseThickMat(10)=1*10^(-3);
+ori.creaseThickVec=zeros(ori.oldCreaseNum,1);
+ori.creaseThickVec(2)=1*10^(-3);
+ori.creaseThickVec(3)=1*10^(-3);
+ori.creaseThickVec(5)=1*10^(-3);
+ori.creaseThickVec(10)=1*10^(-3);
 
 
 %% Setup the loading controller

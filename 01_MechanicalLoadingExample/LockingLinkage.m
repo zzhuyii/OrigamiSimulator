@@ -136,37 +136,37 @@ ori.Mesh_AnalyzeOriginalPattern();
 %% Meshing of the origami model
 
 % Define the crease width 
-ori.creaseWidthMat=zeros(ori.oldCreaseNum,1);
+ori.creaseWidthVec=zeros(ori.oldCreaseNum,1);
 
-ori.creaseWidthMat(4)=3*10^(-3);
-ori.creaseWidthMat(7)=3*10^(-3);
-ori.creaseWidthMat(10)=3*10^(-3);
-ori.creaseWidthMat(13)=3*10^(-3);
-ori.creaseWidthMat(16)=3*10^(-3);
+ori.creaseWidthVec(4)=3*10^(-3);
+ori.creaseWidthVec(7)=3*10^(-3);
+ori.creaseWidthVec(10)=3*10^(-3);
+ori.creaseWidthVec(13)=3*10^(-3);
+ori.creaseWidthVec(16)=3*10^(-3);
 
-ori.creaseWidthMat(3)=3*10^(-3);
-ori.creaseWidthMat(18)=3*10^(-3);
-ori.creaseWidthMat(6)=3*10^(-3);
-ori.creaseWidthMat(20)=3*10^(-3);
-ori.creaseWidthMat(9)=3*10^(-3);
-ori.creaseWidthMat(22)=3*10^(-3);
-ori.creaseWidthMat(12)=3*10^(-3);
-ori.creaseWidthMat(24)=3*10^(-3);
+ori.creaseWidthVec(3)=3*10^(-3);
+ori.creaseWidthVec(18)=3*10^(-3);
+ori.creaseWidthVec(6)=3*10^(-3);
+ori.creaseWidthVec(20)=3*10^(-3);
+ori.creaseWidthVec(9)=3*10^(-3);
+ori.creaseWidthVec(22)=3*10^(-3);
+ori.creaseWidthVec(12)=3*10^(-3);
+ori.creaseWidthVec(24)=3*10^(-3);
 
-ori.creaseWidthMat(4+27)=3*10^(-3);
-ori.creaseWidthMat(7+27)=3*10^(-3);
-ori.creaseWidthMat(10+27)=3*10^(-3);
-ori.creaseWidthMat(13+27)=3*10^(-3);
-ori.creaseWidthMat(16+27)=3*10^(-3);
+ori.creaseWidthVec(4+27)=3*10^(-3);
+ori.creaseWidthVec(7+27)=3*10^(-3);
+ori.creaseWidthVec(10+27)=3*10^(-3);
+ori.creaseWidthVec(13+27)=3*10^(-3);
+ori.creaseWidthVec(16+27)=3*10^(-3);
 
-ori.creaseWidthMat(3+27)=3*10^(-3);
-ori.creaseWidthMat(18+27)=3*10^(-3);
-ori.creaseWidthMat(6+27)=3*10^(-3);
-ori.creaseWidthMat(20+27)=3*10^(-3);
-ori.creaseWidthMat(9+27)=3*10^(-3);
-ori.creaseWidthMat(22+27)=3*10^(-3);
-ori.creaseWidthMat(12+27)=3*10^(-3);
-ori.creaseWidthMat(24+27)=3*10^(-3);
+ori.creaseWidthVec(3+27)=3*10^(-3);
+ori.creaseWidthVec(18+27)=3*10^(-3);
+ori.creaseWidthVec(6+27)=3*10^(-3);
+ori.creaseWidthVec(20+27)=3*10^(-3);
+ori.creaseWidthVec(9+27)=3*10^(-3);
+ori.creaseWidthVec(22+27)=3*10^(-3);
+ori.creaseWidthVec(12+27)=3*10^(-3);
+ori.creaseWidthVec(24+27)=3*10^(-3);
 
 % close the compliant crease
 ori.compliantCreaseOpen=0;
@@ -190,40 +190,40 @@ ori.panelE=2*10^9;
 ori.creaseE=2*10^9; 
 ori.panelPoisson=0.3;
 ori.creasePoisson=0.3; 
-ori.panelThickMat=ones(20,1)*500*10^(-6);
+ori.panelThickVec=ones(20,1)*500*10^(-6);
 ori.panelW=3*10^-3;
 
-ori.creaseThickMat=zeros(ori.oldCreaseNum,1);
+ori.creaseThickVec=zeros(ori.oldCreaseNum,1);
 
-ori.creaseThickMat(4)=100*10^(-6);
-ori.creaseThickMat(7)=100*10^(-6);
-ori.creaseThickMat(10)=100*10^(-6);
-ori.creaseThickMat(13)=100*10^(-6);
-ori.creaseThickMat(16)=100*10^(-6);
+ori.creaseThickVec(4)=100*10^(-6);
+ori.creaseThickVec(7)=100*10^(-6);
+ori.creaseThickVec(10)=100*10^(-6);
+ori.creaseThickVec(13)=100*10^(-6);
+ori.creaseThickVec(16)=100*10^(-6);
 
-ori.creaseThickMat(3)=100*10^(-6);
-ori.creaseThickMat(18)=100*10^(-6);
-ori.creaseThickMat(6)=100*10^(-6);
-ori.creaseThickMat(20)=100*10^(-6);
-ori.creaseThickMat(9)=100*10^(-6);
-ori.creaseThickMat(22)=100*10^(-6);
-ori.creaseThickMat(12)=100*10^(-6);
-ori.creaseThickMat(24)=100*10^(-6);
+ori.creaseThickVec(3)=100*10^(-6);
+ori.creaseThickVec(18)=100*10^(-6);
+ori.creaseThickVec(6)=100*10^(-6);
+ori.creaseThickVec(20)=100*10^(-6);
+ori.creaseThickVec(9)=100*10^(-6);
+ori.creaseThickVec(22)=100*10^(-6);
+ori.creaseThickVec(12)=100*10^(-6);
+ori.creaseThickVec(24)=100*10^(-6);
 
-ori.creaseThickMat(4+27)=100*10^(-6);
-ori.creaseThickMat(7+27)=100*10^(-6);
-ori.creaseThickMat(10+27)=100*10^(-6);
-ori.creaseThickMat(13+27)=100*10^(-6);
-ori.creaseThickMat(16+27)=100*10^(-6);
+ori.creaseThickVec(4+27)=100*10^(-6);
+ori.creaseThickVec(7+27)=100*10^(-6);
+ori.creaseThickVec(10+27)=100*10^(-6);
+ori.creaseThickVec(13+27)=100*10^(-6);
+ori.creaseThickVec(16+27)=100*10^(-6);
 
-ori.creaseThickMat(3+27)=100*10^(-6);
-ori.creaseThickMat(18+27)=100*10^(-6);
-ori.creaseThickMat(6+27)=100*10^(-6);
-ori.creaseThickMat(20+27)=100*10^(-6);
-ori.creaseThickMat(9+27)=100*10^(-6);
-ori.creaseThickMat(22+27)=100*10^(-6);
-ori.creaseThickMat(12+27)=100*10^(-6);
-ori.creaseThickMat(24+27)=100*10^(-6);
+ori.creaseThickVec(3+27)=100*10^(-6);
+ori.creaseThickVec(18+27)=100*10^(-6);
+ori.creaseThickVec(6+27)=100*10^(-6);
+ori.creaseThickVec(20+27)=100*10^(-6);
+ori.creaseThickVec(9+27)=100*10^(-6);
+ori.creaseThickVec(22+27)=100*10^(-6);
+ori.creaseThickVec(12+27)=100*10^(-6);
+ori.creaseThickVec(24+27)=100*10^(-6);
 
 
 %% setup panel contact information

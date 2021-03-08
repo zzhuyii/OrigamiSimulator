@@ -37,11 +37,11 @@ function [thermalMat]=Thermal_AssembleConductMat(obj,thermal,U)
     BCindex=[];
     count=1;
     for i=1:newPanelNum
-        A=size(thermal.thermalBoundaryPanelMat);
+        A=size(thermal.thermalBoundaryPanelVec);
         BCnum=A(1);
         check=0;
         for j=1:BCnum
-            if obj.newPanel2OldPanel(i)==thermal.thermalBoundaryPanelMat(j)
+            if obj.newPanel2OldPanel(i)==thermal.thermalBoundaryPanelVec(j)
                 check=1;
             end
         end
@@ -161,9 +161,9 @@ function [thermalMat]=Thermal_AssembleConductMat(obj,thermal,U)
        Lsum=obj.barLength(bar1)+obj.barLength(bar2)+obj.barLength(bar3);
        thick=0;
        if obj.barType(bar1)==5 || obj.barType(bar2)==5 || obj.barType(bar3)==5
-           thick=obj.panelThickMat(obj.newPanel2OldPanel(i));
+           thick=obj.panelThickVec(obj.newPanel2OldPanel(i));
        else
-           thick = obj.creaseThickMat(max(max(obj.newCrease2OldCrease(bar1),...
+           thick = obj.creaseThickVec(max(max(obj.newCrease2OldCrease(bar1),...
                obj.newCrease2OldCrease(bar2)),obj.newCrease2OldCrease(bar3)));
        end
        
@@ -187,7 +187,7 @@ function [thermalMat]=Thermal_AssembleConductMat(obj,thermal,U)
        
        kmat=obj.creaseThermalConduct;
        if obj.newPanel2OldPanel(i)~=0
-           kmat=obj.panelThermalConductMat(obj.newPanel2OldPanel(i));
+           kmat=obj.panelThermalConductVec(obj.newPanel2OldPanel(i));
        end
        tempK=kmat*thick/4/(At)*[b1^2+c1^2  b1*b2+c1*c2  b1*b3+c1*c3;
                           b1*b2+c1*c2   b2^2+c2^2    b2*b3+c2*c3;

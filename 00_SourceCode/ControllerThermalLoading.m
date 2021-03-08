@@ -52,7 +52,7 @@ classdef ControllerThermalLoading < handle
         % Define the BC for thermal conduction, to confine the maximum air
         % thickness. The vector stores the number of panels that serves as the BC
         % for heat transfer (ie. those that are Si wafers).
-        thermalBoundaryPanelMat=[]
+        thermalBoundaryPanelVec=[]
 
         % This vector stores extra nodes that should be at RT to adjust the BC.
         roomTempNode=[]

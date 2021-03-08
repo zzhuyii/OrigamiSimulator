@@ -20,7 +20,7 @@ function Plot_DeformedShapeTemp(obj,thermal,newNode,deformNode,T)
     Vsize=obj.displayRange;
     Vratio=obj.displayRangeRatio;
     
-    A=size(thermal.thermalBoundaryPanelMat);
+    A=size(thermal.thermalBoundaryPanelVec);
     BCnum=A(1);
         
     % Plot Dots
@@ -40,7 +40,7 @@ function Plot_DeformedShapeTemp(obj,thermal,newNode,deformNode,T)
         check=0;
         for j=1:BCnum
             if obj.newPanel2OldPanel(i)==...
-                    thermal.thermalBoundaryPanelMat(j) && ...
+                    thermal.thermalBoundaryPanelVec(j) && ...
                     obj.newPanel2OldPanel(i)~=0
                 check=1;
             end

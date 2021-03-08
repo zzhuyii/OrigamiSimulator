@@ -158,63 +158,63 @@ ori.Mesh_AnalyzeOriginalPattern();
 
 %% Meshing of the origami model
 % Define the crease width
-ori.creaseWidthMat=zeros(ori.oldCreaseNum,1);
+ori.creaseWidthVec=zeros(ori.oldCreaseNum,1);
 
-ori.creaseWidthMat(1)=1.5*10^(-3);
-ori.creaseWidthMat(2)=1.5*10^(-3);
-ori.creaseWidthMat(14)=1.5*10^(-3);
-ori.creaseWidthMat(12)=1.5*10^(-3);
-ori.creaseWidthMat(10)=1.5*10^(-3);
-ori.creaseWidthMat(8)=1.5*10^(-3);
-ori.creaseWidthMat(6)=1.5*10^(-3);
-ori.creaseWidthMat(4)=1.5*10^(-3);
+ori.creaseWidthVec(1)=1.5*10^(-3);
+ori.creaseWidthVec(2)=1.5*10^(-3);
+ori.creaseWidthVec(14)=1.5*10^(-3);
+ori.creaseWidthVec(12)=1.5*10^(-3);
+ori.creaseWidthVec(10)=1.5*10^(-3);
+ori.creaseWidthVec(8)=1.5*10^(-3);
+ori.creaseWidthVec(6)=1.5*10^(-3);
+ori.creaseWidthVec(4)=1.5*10^(-3);
 
-ori.creaseWidthMat(3)=1.5*10^(-3);
-ori.creaseWidthMat(5)=1.5*10^(-3);
-ori.creaseWidthMat(7)=1.5*10^(-3);
-ori.creaseWidthMat(9)=1.5*10^(-3);
-ori.creaseWidthMat(11)=1.5*10^(-3);
-ori.creaseWidthMat(13)=1.5*10^(-3);
-ori.creaseWidthMat(15)=1.5*10^(-3);
-ori.creaseWidthMat(16)=1.5*10^(-3);
+ori.creaseWidthVec(3)=1.5*10^(-3);
+ori.creaseWidthVec(5)=1.5*10^(-3);
+ori.creaseWidthVec(7)=1.5*10^(-3);
+ori.creaseWidthVec(9)=1.5*10^(-3);
+ori.creaseWidthVec(11)=1.5*10^(-3);
+ori.creaseWidthVec(13)=1.5*10^(-3);
+ori.creaseWidthVec(15)=1.5*10^(-3);
+ori.creaseWidthVec(16)=1.5*10^(-3);
 
-ori.creaseWidthMat(41)=1.5*10^(-3);
-ori.creaseWidthMat(43)=1.5*10^(-3);
-ori.creaseWidthMat(46)=1.5*10^(-3);
-ori.creaseWidthMat(49)=1.5*10^(-3);
-ori.creaseWidthMat(52)=1.5*10^(-3);
-ori.creaseWidthMat(55)=1.5*10^(-3);
-ori.creaseWidthMat(58)=1.5*10^(-3);
-ori.creaseWidthMat(61)=1.5*10^(-3);
+ori.creaseWidthVec(41)=1.5*10^(-3);
+ori.creaseWidthVec(43)=1.5*10^(-3);
+ori.creaseWidthVec(46)=1.5*10^(-3);
+ori.creaseWidthVec(49)=1.5*10^(-3);
+ori.creaseWidthVec(52)=1.5*10^(-3);
+ori.creaseWidthVec(55)=1.5*10^(-3);
+ori.creaseWidthVec(58)=1.5*10^(-3);
+ori.creaseWidthVec(61)=1.5*10^(-3);
 
-ori.creaseWidthMat(40)=1.5*10^(-3);
-ori.creaseWidthMat(17)=1.5*10^(-3);
-ori.creaseWidthMat(19)=1.5*10^(-3);
-ori.creaseWidthMat(20)=1.5*10^(-3);
-ori.creaseWidthMat(22)=1.5*10^(-3);
-ori.creaseWidthMat(23)=1.5*10^(-3);
-ori.creaseWidthMat(25)=1.5*10^(-3);
-ori.creaseWidthMat(26)=1.5*10^(-3);
-ori.creaseWidthMat(28)=1.5*10^(-3);
-ori.creaseWidthMat(29)=1.5*10^(-3);
-ori.creaseWidthMat(31)=1.5*10^(-3);
-ori.creaseWidthMat(32)=1.5*10^(-3);
-ori.creaseWidthMat(34)=1.5*10^(-3);
-ori.creaseWidthMat(35)=1.5*10^(-3);
-ori.creaseWidthMat(37)=1.5*10^(-3);
-ori.creaseWidthMat(38)=1.5*10^(-3);
+ori.creaseWidthVec(40)=1.5*10^(-3);
+ori.creaseWidthVec(17)=1.5*10^(-3);
+ori.creaseWidthVec(19)=1.5*10^(-3);
+ori.creaseWidthVec(20)=1.5*10^(-3);
+ori.creaseWidthVec(22)=1.5*10^(-3);
+ori.creaseWidthVec(23)=1.5*10^(-3);
+ori.creaseWidthVec(25)=1.5*10^(-3);
+ori.creaseWidthVec(26)=1.5*10^(-3);
+ori.creaseWidthVec(28)=1.5*10^(-3);
+ori.creaseWidthVec(29)=1.5*10^(-3);
+ori.creaseWidthVec(31)=1.5*10^(-3);
+ori.creaseWidthVec(32)=1.5*10^(-3);
+ori.creaseWidthVec(34)=1.5*10^(-3);
+ori.creaseWidthVec(35)=1.5*10^(-3);
+ori.creaseWidthVec(37)=1.5*10^(-3);
+ori.creaseWidthVec(38)=1.5*10^(-3);
 
-ori.creaseWidthMat(18)=1.5*10^(-3);
-ori.creaseWidthMat(21)=1.5*10^(-3);
-ori.creaseWidthMat(24)=1.5*10^(-3);
-ori.creaseWidthMat(27)=1.5*10^(-3);
-ori.creaseWidthMat(30)=1.5*10^(-3);
-ori.creaseWidthMat(33)=1.5*10^(-3);
-ori.creaseWidthMat(36)=1.5*10^(-3);
-ori.creaseWidthMat(39)=1.5*10^(-3);
+ori.creaseWidthVec(18)=1.5*10^(-3);
+ori.creaseWidthVec(21)=1.5*10^(-3);
+ori.creaseWidthVec(24)=1.5*10^(-3);
+ori.creaseWidthVec(27)=1.5*10^(-3);
+ori.creaseWidthVec(30)=1.5*10^(-3);
+ori.creaseWidthVec(33)=1.5*10^(-3);
+ori.creaseWidthVec(36)=1.5*10^(-3);
+ori.creaseWidthVec(39)=1.5*10^(-3);
 
 % Compute the meshed geometry
-ori.Mesh_CompliantCreaseGeometry()
+ori.Mesh_Mesh()
 
 % Plot the results for inspection
 ori.viewAngle1=300;
@@ -232,67 +232,67 @@ ori.panelE=2000*10^6;
 ori.creaseE=20*10^6; 
 ori.panelPoisson=0.3; 
 ori.creasePoisson=0.3; 
-ori.panelThickMat=ones(40,1)*3*10^(-3);
+ori.panelThickVec=ones(40,1)*3*10^(-3);
 ori.panelW=1.5*10^-3;
 
-ori.creaseThickMat=zeros(ori.oldCreaseNum,1);
-ori.creaseThickMat(1)=0.5*10^(-3);
-ori.creaseThickMat(2)=0.5*10^(-3);
-ori.creaseThickMat(14)=0.5*10^(-3);
-ori.creaseThickMat(12)=0.5*10^(-3);
-ori.creaseThickMat(10)=0.5*10^(-3);
-ori.creaseThickMat(8)=0.5*10^(-3);
-ori.creaseThickMat(6)=0.5*10^(-3);
-ori.creaseThickMat(4)=0.5*10^(-3);
+ori.creaseThickVec=zeros(ori.oldCreaseNum,1);
+ori.creaseThickVec(1)=0.5*10^(-3);
+ori.creaseThickVec(2)=0.5*10^(-3);
+ori.creaseThickVec(14)=0.5*10^(-3);
+ori.creaseThickVec(12)=0.5*10^(-3);
+ori.creaseThickVec(10)=0.5*10^(-3);
+ori.creaseThickVec(8)=0.5*10^(-3);
+ori.creaseThickVec(6)=0.5*10^(-3);
+ori.creaseThickVec(4)=0.5*10^(-3);
 
-ori.creaseThickMat(3)=0.5*10^(-3);
-ori.creaseThickMat(5)=0.5*10^(-3);
-ori.creaseThickMat(7)=0.5*10^(-3);
-ori.creaseThickMat(9)=0.5*10^(-3);
-ori.creaseThickMat(11)=0.5*10^(-3);
-ori.creaseThickMat(13)=0.5*10^(-3);
-ori.creaseThickMat(15)=0.5*10^(-3);
-ori.creaseThickMat(16)=0.5*10^(-3);
+ori.creaseThickVec(3)=0.5*10^(-3);
+ori.creaseThickVec(5)=0.5*10^(-3);
+ori.creaseThickVec(7)=0.5*10^(-3);
+ori.creaseThickVec(9)=0.5*10^(-3);
+ori.creaseThickVec(11)=0.5*10^(-3);
+ori.creaseThickVec(13)=0.5*10^(-3);
+ori.creaseThickVec(15)=0.5*10^(-3);
+ori.creaseThickVec(16)=0.5*10^(-3);
 
-ori.creaseThickMat(41)=0.5*10^(-3);
-ori.creaseThickMat(43)=0.5*10^(-3);
-ori.creaseThickMat(46)=0.5*10^(-3);
-ori.creaseThickMat(49)=0.5*10^(-3);
-ori.creaseThickMat(52)=0.5*10^(-3);
-ori.creaseThickMat(55)=0.5*10^(-3);
-ori.creaseThickMat(58)=0.5*10^(-3);
-ori.creaseThickMat(61)=0.5*10^(-3);
+ori.creaseThickVec(41)=0.5*10^(-3);
+ori.creaseThickVec(43)=0.5*10^(-3);
+ori.creaseThickVec(46)=0.5*10^(-3);
+ori.creaseThickVec(49)=0.5*10^(-3);
+ori.creaseThickVec(52)=0.5*10^(-3);
+ori.creaseThickVec(55)=0.5*10^(-3);
+ori.creaseThickVec(58)=0.5*10^(-3);
+ori.creaseThickVec(61)=0.5*10^(-3);
 
-ori.creaseThickMat(40)=0.5*10^(-3);
-ori.creaseThickMat(17)=0.5*10^(-3);
-ori.creaseThickMat(19)=0.5*10^(-3);
-ori.creaseThickMat(20)=0.5*10^(-3);
-ori.creaseThickMat(22)=0.5*10^(-3);
-ori.creaseThickMat(23)=0.5*10^(-3);
-ori.creaseThickMat(25)=0.5*10^(-3);
-ori.creaseThickMat(26)=0.5*10^(-3);
-ori.creaseThickMat(28)=0.5*10^(-3);
-ori.creaseThickMat(29)=0.5*10^(-3);
-ori.creaseThickMat(31)=0.5*10^(-3);
-ori.creaseThickMat(32)=0.5*10^(-3);
-ori.creaseThickMat(34)=0.5*10^(-3);
-ori.creaseThickMat(35)=0.5*10^(-3);
-ori.creaseThickMat(37)=0.5*10^(-3);
-ori.creaseThickMat(38)=0.5*10^(-3);
+ori.creaseThickVec(40)=0.5*10^(-3);
+ori.creaseThickVec(17)=0.5*10^(-3);
+ori.creaseThickVec(19)=0.5*10^(-3);
+ori.creaseThickVec(20)=0.5*10^(-3);
+ori.creaseThickVec(22)=0.5*10^(-3);
+ori.creaseThickVec(23)=0.5*10^(-3);
+ori.creaseThickVec(25)=0.5*10^(-3);
+ori.creaseThickVec(26)=0.5*10^(-3);
+ori.creaseThickVec(28)=0.5*10^(-3);
+ori.creaseThickVec(29)=0.5*10^(-3);
+ori.creaseThickVec(31)=0.5*10^(-3);
+ori.creaseThickVec(32)=0.5*10^(-3);
+ori.creaseThickVec(34)=0.5*10^(-3);
+ori.creaseThickVec(35)=0.5*10^(-3);
+ori.creaseThickVec(37)=0.5*10^(-3);
+ori.creaseThickVec(38)=0.5*10^(-3);
 
-ori.creaseThickMat(18)=0.5*10^(-3);
-ori.creaseThickMat(21)=0.5*10^(-3);
-ori.creaseThickMat(24)=0.5*10^(-3);
-ori.creaseThickMat(27)=0.5*10^(-3);
-ori.creaseThickMat(30)=0.5*10^(-3);
-ori.creaseThickMat(33)=0.5*10^(-3);
-ori.creaseThickMat(36)=0.5*10^(-3);
-ori.creaseThickMat(39)=0.5*10^(-3);
+ori.creaseThickVec(18)=0.5*10^(-3);
+ori.creaseThickVec(21)=0.5*10^(-3);
+ori.creaseThickVec(24)=0.5*10^(-3);
+ori.creaseThickVec(27)=0.5*10^(-3);
+ori.creaseThickVec(30)=0.5*10^(-3);
+ori.creaseThickVec(33)=0.5*10^(-3);
+ori.creaseThickVec(36)=0.5*10^(-3);
+ori.creaseThickVec(39)=0.5*10^(-3);
 
 
 %% Assign Thermal Properties
 
-ori.panelThermalConductMat = ones(40,1)*1.3; 
+ori.panelThermalConductVec = ones(40,1)*1.3; 
 ori.creaseThermalConduct=1.3;
 ori.envThermalConduct=0.026;
 
@@ -312,7 +312,7 @@ thermal.supp=[1,1,1,1;
                2,1,1,1;
                3,1,1,1;];
 
-thermal.thermalBoundaryPanelMat=[];
+thermal.thermalBoundaryPanelVec=[];
 thermal.roomTempNode=[];
 
 thermal.deltaAlpha=zeros(ori.oldCreaseNum,1);
@@ -368,7 +368,7 @@ thermal.Emat1=2*10^9;
 thermal.Emat2=2*10^9;
 thermal.tmat1=0.25*10^-3;
 thermal.tmat2=0.25*10^-3;
-thermal.videoOpen=1;
+thermal.videoOpen=0;
 
 % the target loading of crease heating
 qload=0.4;

@@ -62,7 +62,7 @@ function targetRot=Thermal_UpdateRotZeroStrain(obj,T,thermal)
             dTave = 1/2*1/3*(T5+T6+T7) + 1/2*1/4*(T1+T2+T3+T4);
             deltaAlpha=thermal.deltaAlpha(i);
             rot = obj.Thermal_Timoshenko(dTave, deltaAlpha, thermal,...
-                                         obj.creaseWidthMat(i));
+                                         obj.creaseWidthVec(i));
             
             targetRot(i)=rot;
         end

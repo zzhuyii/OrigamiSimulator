@@ -167,10 +167,10 @@ function Mesh_CompliantCreaseGeometry(obj)
                         v2=v2/norm(v2);
                         if tempCreaseType(1)>1
                             vector=v2;
-                            creaseW=obj.creaseWidthMat(crease1Num);
+                            creaseW=obj.creaseWidthVec(crease1Num);
                         elseif tempCreaseType(2)>1
                             vector=v1;
-                            creaseW=obj.creaseWidthMat(crease2Num);
+                            creaseW=obj.creaseWidthVec(crease2Num);
                         end
                     elseif j==N
                         v1=obj.node0(C(1),:)-obj.node0(C(N),:);
@@ -183,10 +183,10 @@ function Mesh_CompliantCreaseGeometry(obj)
                         v2=v2/norm(v2);    
                         if tempCreaseType(1)>1
                             vector=v2;
-                            creaseW=obj.creaseWidthMat(crease1Num);
+                            creaseW=obj.creaseWidthVec(crease1Num);
                         elseif tempCreaseType(N)>1
                             vector=v1;
-                            creaseW=obj.creaseWidthMat(crease2Num);
+                            creaseW=obj.creaseWidthVec(crease2Num);
                         end
                     else
                         v1=obj.node0(C(j+1),:)-obj.node0(C(j),:);
@@ -199,10 +199,10 @@ function Mesh_CompliantCreaseGeometry(obj)
                         v2=v2/norm(v2);
                         if tempCreaseType(j)>1
                             vector=v1;
-                            creaseW=obj.creaseWidthMat(crease2Num);
+                            creaseW=obj.creaseWidthVec(crease2Num);
                         elseif tempCreaseType(j+1)>1
                             vector=v2;
-                            creaseW=obj.creaseWidthMat(crease1Num);
+                            creaseW=obj.creaseWidthVec(crease1Num);
                         end
                     end
                     if norm(cross(v1,v2))~=0
@@ -244,8 +244,8 @@ function Mesh_CompliantCreaseGeometry(obj)
                         crease2Num=SearchCreaseNum(obj.oldCreaseConnect,C(j-1),C(j));
                     end
                     if norm(cross(v1,v2))~=0
-                        crease1W=obj.creaseWidthMat(crease1Num);
-                        crease2W=obj.creaseWidthMat(crease2Num);
+                        crease1W=obj.creaseWidthVec(crease1Num);
+                        crease2W=obj.creaseWidthVec(crease2Num);
                         
                         v1=v1/norm(v1);
                         v2=v2/norm(v2);

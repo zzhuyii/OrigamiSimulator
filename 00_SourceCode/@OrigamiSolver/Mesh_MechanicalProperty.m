@@ -53,8 +53,8 @@ function Mesh_MechanicalProperty(obj)
         % calculate the properties for bar/spr in the crease region
         for i=1:obj.oldCreaseNum
            if obj.oldCreaseType(i)>1
-               creaseW=obj.creaseWidthMat(i);
-               creaseThick=obj.creaseThickMat(i);
+               creaseW=obj.creaseWidthVec(i);
+               creaseThick=obj.creaseThickVec(i);
                l=obj.barLength(obj.creaseRef(i,1));
                theta0=obj.currentRotZeroStrain(i);               
 
@@ -109,7 +109,7 @@ function Mesh_MechanicalProperty(obj)
         for i=1:oldPanelNum
             A=size(obj.panel0{i});
             panelNodeNum=A(2);
-            panelThick=obj.panelThickMat(i);
+            panelThick=obj.panelThickVec(i);
 
             lsum=0;
             area=0;
@@ -152,8 +152,8 @@ function Mesh_MechanicalProperty(obj)
         % Assemble the stiffness properties for creases
         for i=1:obj.oldCreaseNum
             if obj.oldCreaseType(i)>1
-                creaseW=obj.creaseWidthMat(i);
-                creaseThick=obj.creaseThickMat(i);
+                creaseW=obj.creaseWidthVec(i);
+                creaseThick=obj.creaseThickVec(i);
                 l=obj.barLength(i);
                 theta0=obj.currentRotZeroStrain(i);               
                 kHinge=CalculateKhinge(creaseW,creaseThick,obj.creaseE);
@@ -166,7 +166,7 @@ function Mesh_MechanicalProperty(obj)
         for i=1:oldPanelNum
             A=size(obj.panel0{i});
             panelNodeNum=A(2);
-            panelThick=obj.panelThickMat(i);
+            panelThick=obj.panelThickVec(i);
             A=obj.panel0{i};
 
             lsum=0;

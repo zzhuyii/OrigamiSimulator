@@ -135,30 +135,30 @@ ori.Mesh_AnalyzeOriginalPattern();
 %% Meshing of the origami model
 
 % Define the crease width 
-ori.creaseWidthMat=zeros(ori.oldCreaseNum,1);
-ori.creaseWidthMat(1)=W;
-ori.creaseWidthMat(2)=W;
-ori.creaseWidthMat(3)=W;
-ori.creaseWidthMat(4)=W;
-ori.creaseWidthMat(6)=W;
-ori.creaseWidthMat(7)=W;
-ori.creaseWidthMat(8)=W;
-ori.creaseWidthMat(10)=W;
-ori.creaseWidthMat(11)=W;
-ori.creaseWidthMat(14)=W;
-ori.creaseWidthMat(13)=W;
-ori.creaseWidthMat(15)=W;
-ori.creaseWidthMat(17)=W;
-ori.creaseWidthMat(19)=W;
-ori.creaseWidthMat(21)=W;
+ori.creaseWidthVec=zeros(ori.oldCreaseNum,1);
+ori.creaseWidthVec(1)=W;
+ori.creaseWidthVec(2)=W;
+ori.creaseWidthVec(3)=W;
+ori.creaseWidthVec(4)=W;
+ori.creaseWidthVec(6)=W;
+ori.creaseWidthVec(7)=W;
+ori.creaseWidthVec(8)=W;
+ori.creaseWidthVec(10)=W;
+ori.creaseWidthVec(11)=W;
+ori.creaseWidthVec(14)=W;
+ori.creaseWidthVec(13)=W;
+ori.creaseWidthVec(15)=W;
+ori.creaseWidthVec(17)=W;
+ori.creaseWidthVec(19)=W;
+ori.creaseWidthVec(21)=W;
 
-ori.creaseWidthMat(27)=W;
-ori.creaseWidthMat(29)=W;
-ori.creaseWidthMat(26)=W;
-ori.creaseWidthMat(28)=W;
-ori.creaseWidthMat(30)=W;
-ori.creaseWidthMat(34)=W;
-ori.creaseWidthMat(36)=W;
+ori.creaseWidthVec(27)=W;
+ori.creaseWidthVec(29)=W;
+ori.creaseWidthVec(26)=W;
+ori.creaseWidthVec(28)=W;
+ori.creaseWidthVec(30)=W;
+ori.creaseWidthVec(34)=W;
+ori.creaseWidthVec(36)=W;
 
 % Compute the meshed geometry
 ori.Mesh_Mesh()
@@ -180,42 +180,42 @@ ori.creaseE=2*10^9;
 ori.panelPoisson=0.3;
 ori.creasePoisson=0.3; 
 
-ori.panelThickMat=tpanel*ones(16,1); 
+ori.panelThickVec=tpanel*ones(16,1); 
 ori.panelW=W;
 
 % set up the diagonal rate to be large to suppress crease torsion
 ori.diagonalRate=1000;
 
-ori.creaseThickMat=zeros(ori.oldCreaseNum,1);
+ori.creaseThickVec=zeros(ori.oldCreaseNum,1);
 
-ori.creaseThickMat(1)=t1+t2;
-ori.creaseThickMat(2)=t1+t2;
-ori.creaseThickMat(3)=t1+t2;
-ori.creaseThickMat(4)=t1+t2;
-ori.creaseThickMat(6)=t1+t2;
-ori.creaseThickMat(7)=t1+t2;
-ori.creaseThickMat(8)=t1+t2;
-ori.creaseThickMat(10)=t1+t2;
-ori.creaseThickMat(11)=t1+t2;
-ori.creaseThickMat(14)=t1+t2;
-ori.creaseThickMat(13)=t1+t2;
-ori.creaseThickMat(15)=t1+t2;
-ori.creaseThickMat(17)=t1+t2;
-ori.creaseThickMat(19)=t1+t2;
-ori.creaseThickMat(21)=t1+t2;
+ori.creaseThickVec(1)=t1+t2;
+ori.creaseThickVec(2)=t1+t2;
+ori.creaseThickVec(3)=t1+t2;
+ori.creaseThickVec(4)=t1+t2;
+ori.creaseThickVec(6)=t1+t2;
+ori.creaseThickVec(7)=t1+t2;
+ori.creaseThickVec(8)=t1+t2;
+ori.creaseThickVec(10)=t1+t2;
+ori.creaseThickVec(11)=t1+t2;
+ori.creaseThickVec(14)=t1+t2;
+ori.creaseThickVec(13)=t1+t2;
+ori.creaseThickVec(15)=t1+t2;
+ori.creaseThickVec(17)=t1+t2;
+ori.creaseThickVec(19)=t1+t2;
+ori.creaseThickVec(21)=t1+t2;
 
-ori.creaseThickMat(27)=t1+t2;
-ori.creaseThickMat(29)=t1+t2;
-ori.creaseThickMat(26)=t1+t2;
-ori.creaseThickMat(28)=t1+t2;
-ori.creaseThickMat(30)=t1+t2;
-ori.creaseThickMat(34)=t1+t2;
-ori.creaseThickMat(36)=t1+t2;
+ori.creaseThickVec(27)=t1+t2;
+ori.creaseThickVec(29)=t1+t2;
+ori.creaseThickVec(26)=t1+t2;
+ori.creaseThickVec(28)=t1+t2;
+ori.creaseThickVec(30)=t1+t2;
+ori.creaseThickVec(34)=t1+t2;
+ori.creaseThickVec(36)=t1+t2;
 
 
 %% Assign Thermal Properties
 
-ori.panelThermalConductMat = 0.3*ones(16,1); 
+ori.panelThermalConductVec = 0.3*ones(16,1); 
 
 ori.creaseThermalConduct=0.3;
 ori.envThermalConduct=0.026;
@@ -242,7 +242,7 @@ thermal.supp=[1,1,1,1;
       63,1,1,1;
       64,1,1,1;];
 
-thermal.thermalBoundaryPanelMat=[16];
+thermal.thermalBoundaryPanelVec=[16];
 thermal.roomTempNode=[];
 
 thermal.deltaAlpha=zeros(ori.oldCreaseNum,1);

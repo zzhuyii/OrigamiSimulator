@@ -105,12 +105,12 @@ ori.Mesh_AnalyzeOriginalPattern();
 %% Meshing of the origami model
 
 % Define the crease width 
-ori.creaseWidthMat=zeros(ori.oldCreaseNum,1);
-ori.creaseWidthMat(3)=W;
-ori.creaseWidthMat(6)=W;
+ori.creaseWidthVec=zeros(ori.oldCreaseNum,1);
+ori.creaseWidthVec(3)=W;
+ori.creaseWidthVec(6)=W;
 
 % Compute the meshed geometry
-ori.Mesh_CompliantCreaseGeometry()
+ori.Mesh_Mesh()
 
 % Plot the results for inspection
 ori.viewAngle1=45;
@@ -129,15 +129,15 @@ ori.panelE=2*10^9;
 ori.creaseE=2*10^9; 
 ori.panelPoisson=0.3;
 ori.creasePoisson=0.3; 
-ori.panelThickMat=[500*10^(-6);tpanel;tpanel;500*10^(-6)]; 
+ori.panelThickVec=[500*10^(-6);tpanel;tpanel;500*10^(-6)]; 
 ori.panelW=W;
 
 % set up the diagonal rate to be large to suppress crease torsion
 ori.diagonalRate=1000;
 
-ori.creaseThickMat=zeros(ori.oldCreaseNum,1);
-ori.creaseThickMat(3)=(tg+ts);
-ori.creaseThickMat(6)=(tg+ts);
+ori.creaseThickVec=zeros(ori.oldCreaseNum,1);
+ori.creaseThickVec(3)=(tg+ts);
+ori.creaseThickVec(6)=(tg+ts);
 
 
 %% setup panel contact information
@@ -150,7 +150,7 @@ ori.d0center=40*(10^(-6));
 
 %% Assign Thermal Properties
 
-ori.panelThermalConductMat = [1.3;0.3;0.3;1.3]; 
+ori.panelThermalConductVec = [1.3;0.3;0.3;1.3]; 
 ori.creaseThermalConduct=0.3;
 ori.envThermalConduct=0.026;
 
@@ -233,7 +233,7 @@ thermal.supp=[1,0,0,1;
       15,1,1,1;
       16,1,1,1;];
 
-thermal.thermalBoundaryPanelMat=[4];
+thermal.thermalBoundaryPanelVec=[4];
 thermal.roomTempNode=[1;4];
 
 thermal.deltaAlpha=zeros(ori.oldCreaseNum,1);
