@@ -39,6 +39,7 @@ of this package.
 
 
 Reference:
+
 [1] Y. Zhu, E. T. Filipov (2021) SEQUENTIALLY WORKING ORIGAMI MULTI-PHYSICS SIMULATOR 
     (SWOMPS): AVERSATILE IMPLEMENTATION (submitted)
 
