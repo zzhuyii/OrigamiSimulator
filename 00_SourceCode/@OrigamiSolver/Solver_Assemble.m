@@ -50,6 +50,16 @@ function [U,UhisAssemble,strainEnergyAssemble,...
     Num2=A(2);
     UhisAssemble=zeros(selfFold.increStep,Num,Num2);
 
+    % Set up storage matrix for stress, strain, nodal force
+    A=size(obj.sprK);
+    barNum=A(1);
+    selfFold.FnodalHis=zeros(selfFold.increStep,Num,Num2);
+    selfFold.barSxHis=zeros(selfFold.increStep,barNum);
+    selfFold.barExHis=zeros(selfFold.increStep,barNum);
+    selfFold.sprMHis=zeros(selfFold.increStep,barNum);
+    selfFold.sprRotHis=zeros(selfFold.increStep,barNum);
+
+    
     % Assemble the load vector
     A=size(obj.currentAppliedForce);
     LoadSize=A(1);
@@ -79,6 +89,14 @@ function [U,UhisAssemble,strainEnergyAssemble,...
         fprintf('Icrement = %d\n',count);
         step=1;
         R=1;
+        
+        % for the storage of input
+        Tload=zeros(Num,Num2);
+        Sx=zeros(barNum,1);
+        Ex=zeros(barNum,1);
+        M=zeros(barNum,1);
+        theta=zeros(barNum,1); 
+        
         while and(step<selfFold.iterMax,R>selfFold.tol)
             [Ex]=obj.Bar_Strain(U,obj.newNode,obj.barArea,...
                 obj.barConnect,obj.barLength);
@@ -126,6 +144,15 @@ function [U,UhisAssemble,strainEnergyAssemble,...
             end
             step=step+1; 
         end
+        
+        % Store the loading history
+        Tload=reshape(Tload,Num,Num2);
+        selfFold.FnodalHis(i,:,:)=Tload;
+        selfFold.barSxHis(i,:)=Sx;
+        selfFold.barExHis(i,:)=Ex;
+        selfFold.sprMHis(i,:)=M;
+        selfFold.sprRotHis(i,:)=theta;
+        
         A=size(theta);
         N=A(1);
         for j=1:N

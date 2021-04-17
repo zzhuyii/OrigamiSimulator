@@ -63,4 +63,5 @@ function [frequencySquared,Umode]=Dynamic_FrequencyAnalysis(...
     end
     M=obj.Dynamic_ModMforSupp(M,Supp);
     [Umode,frequencySquared]=eig(K,M);  
+
 end

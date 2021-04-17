@@ -84,6 +84,21 @@ classdef ControllerThermalLoading < handle
        
         % the history of temperature
         temperatureHis
+        
+                % The history of nodal forces
+        FnodalHis
+        
+        % The history of bar strain
+        barExHis
+        
+        % The history of bar stress
+        barSxHis
+        
+        % The history of the rotational spring moment
+        sprMHis
+        
+        % The history of the rotational spring rotation
+        sprRotHis
     
     end    
 end

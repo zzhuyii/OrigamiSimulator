@@ -230,7 +230,7 @@ ori.t2RT=0.02;
 % applying the thermal loading
 thermal=ControllerThermalLoading;
 
-thermal.thermalStep=150;
+thermal.thermalStep=250;
 thermal.tol=5*10^-5; 
 
 thermal.supp=[1,1,1,1;
@@ -353,9 +353,9 @@ distance_NR=(x1-x2).^2;
 
 %% The second thermal loading step
 ori.continuingLoading=1;
-thermal.thermalStep=120;
+thermal.thermalStep=250;
 
-qload=qload;
+qload=qload*0.8;
 thermal.targetCreaseHeating=[
     1,qload;
     2,qload;

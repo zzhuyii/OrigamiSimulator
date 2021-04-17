@@ -76,7 +76,7 @@ Lpanel=1*10^(-3);
 % undercut of XeF2 etching
 underCut=100*10^-6;
 % power input (mW)
-qload=20;
+qload=25;
 
 ori.node0=[0 0 0;
       Lpanel+W/2 0 0;
@@ -207,7 +207,7 @@ nr.videoOpen=0;
 % applying the thermal loading
 thermal=ControllerThermalLoading;
 
-thermal.thermalStep=250;
+thermal.thermalStep=500;
 thermal.tol=5*10^-7; 
 
 thermal.supp=[1,0,0,1;
@@ -242,4 +242,15 @@ ori.loadingController{3}={"ThermalLoading",thermal};
 
 %% Solving the model
 ori.Solver_Solve();
+
+
+x1=ori.newNode(5,:)+ori.currentU(5,:);
+x2=ori.newNode(6,:)+ori.currentU(6,:);
+x3=ori.newNode(2,:)+ori.currentU(2,:);
+x4=ori.newNode(1,:)+ori.currentU(1,:);
+
+vec1=x4-x3;
+vec2=x2-x1;
+
+theta=acos(dot(vec1,vec2)/norm(vec1)/norm(vec2))
 

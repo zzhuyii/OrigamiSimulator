@@ -73,7 +73,7 @@ tpanel=10*10^-6;
 W=100*10^(-6);
 
 % power input (mW)
-qload=6;
+qload=4;
 
 % generate crane pattern
 a=1*10^(-3);
@@ -142,8 +142,8 @@ ori.creaseWidthVec(21)=W;
 ori.Mesh_Mesh()
 
 % Plot the results for inspection
-ori.viewAngle1=15;
-ori.viewAngle2=15;
+ori.viewAngle1=10;
+ori.viewAngle2=30;
 ori.displayRange=4*10^(-3); % plotting range
 ori.displayRangeRatio=1; % plotting range in the negative axis
 
@@ -211,7 +211,7 @@ ori.t2RT=a;
 % applying the thermal loading
 thermal=ControllerThermalLoading;
 
-thermal.thermalStep=250;
+thermal.thermalStep=500;
 thermal.tol=5*10^-7; 
 
 thermal.supp=[13,1,1,1;
@@ -253,21 +253,55 @@ thermal.tmat2=ts;
 thermal.videoOpen=0; % close the animation
 
 % the target loading of crease heating
-thermal.targetCreaseHeating=[1,qload/1000;
+% thermal.targetCreaseHeating=[
+%                              6,qload/1000;
+%                              13,qload/1000;
+%                              
+%                              1,4*qload/1000;
+%                              18,4*qload/1000;
+%                              
+%                              3,qload/1000*1.5;
+%                              5,qload/1000*1.5;
+%                              14,qload/1000*1.5;
+%                              15,qload/1000*1.5;
+%                              
+%                              7,qload/1000*2;
+%                              8,qload/1000*2;
+%                              10,qload/1000*2;
+%                              12,qload/1000*2;
+%                                                           
+%                              17,qload/1000/2;
+%                              19,qload/1000/2;
+%                              
+%                              21,qload/1000;
+%                              
+%                              9,qload/1000;
+%                              11,qload/1000;];
+                         
+
+% When deactivate certain creses
+thermal.targetCreaseHeating=[
+                             6,qload/1000;
+                             13,qload/1000;
+                             
+                             1,4*qload/1000;
+                             18,4*qload/1000;
+                             
                              3,qload/1000*1.5;
                              5,qload/1000*1.5;
-                             6,qload/1000;
-                             7,qload/1000;
-                             8,qload/1000;
-                             10,qload/1000;
-                             12,qload/1000;
-                             13,qload/1000;
-                             14,qload/1000;
-                             15,qload/1000;
-                             18,qload/1000;
-                             17,qload/1000;
-                             19,qload/1000;
+                             14,qload/1000*1.5;
+                             15,qload/1000*1.5;
+                             
+                             7,qload/1000*2;
+                             %8,qload/1000*2;
+                             10,qload/1000*2;
+                             12,qload/1000*2;
+                                                          
+                             %17,qload/1000/2;
+                             19,qload/1000/2;
+                             
                              21,qload/1000;
+                             
                              9,qload/1000/2;
                              11,qload/1000/2;];
 

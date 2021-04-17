@@ -68,7 +68,15 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
     UhisLoading=zeros(mgdcm.increStep,Num,Num2);
     strainEnergyLoading=zeros(mgdcm.increStep,4);
     
-
+    % Set up storage matrix for stress, strain, nodal force
+    A=size(obj.sprK);
+    barNum=A(1);
+    mgdcm.FnodalHis=zeros(mgdcm.increStep,Num,Num2);
+    mgdcm.barSxHis=zeros(mgdcm.increStep,barNum);
+    mgdcm.barExHis=zeros(mgdcm.increStep,barNum);
+    mgdcm.sprMHis=zeros(mgdcm.increStep,barNum);
+    mgdcm.sprRotHis=zeros(mgdcm.increStep,barNum);
+    
     % Assemble the load vector
     A=size(load);
     loadSize=A(1);
@@ -91,6 +99,13 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
         elseif lastStep >=15
             lambdaBar=0.5*lambdaBar;
         end
+        
+        % for the storage of input
+        Tload=zeros(Num,Num2);
+        Sx=zeros(barNum,1);
+        Ex=zeros(barNum,1);
+        M=zeros(barNum,1);
+        theta=zeros(barNum,1); 
         
         step=1;     
         fprintf('Icrement = %d\n',i);
@@ -139,7 +154,8 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
             fprintf('    Iteration = %d, R = %e, Tcontact = %e\n',step,R,norm(Tcontact));
         else
             fprintf('    Iteration = %d, R = %e\n',step,R);
-        end
+        end        
+        
         step=step+1;       
         lastStep=step;
 
@@ -202,11 +218,22 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
             else
                 fprintf('    Iteration = %d, R = %e\n',step,R);
             end
+            
             step=step+1;  
             lastStep=step;
         end 
         % The following part is used to calculate output information
         UhisLoading(i,:,:)=U;
+        
+        % Store the loading history
+        Tload=reshape(Tload,Num,Num2);
+        mgdcm.FnodalHis(i,:,:)=Tload;
+        mgdcm.barSxHis(i,:)=Sx;
+        mgdcm.barExHis(i,:)=Ex;
+        mgdcm.sprMHis(i,:)=M;
+        mgdcm.sprRotHis(i,:)=theta;
+        
+        
         loadHis(i)=lambda;    
         A=size(theta);
         N=A(1);

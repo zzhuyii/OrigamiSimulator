@@ -25,6 +25,8 @@ function [U,UhisThermal,energyHisThermal,temperatureHistory,...
     UhisThermal=zeros(thermal.thermalStep,nodeNum,3);
     energyHisThermal=zeros(thermal.thermalStep,4);
 
+    % set up storage matrix for stress/nodal force/strain
+    thermal.FnodalHis=zeros(thermal.thermalStep,3);
     
     for i=1:thermal.thermalStep
             

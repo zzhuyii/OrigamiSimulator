@@ -54,6 +54,15 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
     UhisLoading=zeros(increStep,Num,Num2);
     strainEnergyLoading=zeros(increStep,4);
     fprintf('Loading Analysis Start');
+    
+    % Set up storage matrix for stress, strain, nodal force
+    A=size(obj.sprK);
+    barNum=A(1);
+    nr.FnodalHis=zeros(nr.increStep,Num,Num2);
+    nr.barSxHis=zeros(nr.increStep,barNum);
+    nr.barExHis=zeros(nr.increStep,barNum);
+    nr.sprMHis=zeros(nr.increStep,barNum);
+    nr.sprRotHis=zeros(nr.increStep,barNum);
 
     newNodeNum = size(obj.newNode);
     newNodeNum = newNodeNum(1);
@@ -81,6 +90,15 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
         R=1;
         lambda=i;
         fprintf('Icrement = %d\n',i);
+        
+        % for the storage of input
+        Tload=zeros(Num,Num2);
+        Sx=zeros(barNum,1);
+        Ex=zeros(barNum,1);
+        M=zeros(barNum,1);
+        theta=zeros(barNum,1);        
+        
+        
         while and(step<iterMax,R>tol)
             [Ex]=obj.Bar_Strain(U,obj.newNode,obj.barArea,...
                 obj.barConnect,obj.barLength);
@@ -127,7 +145,16 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
                 fprintf('    Iteration = %d, R = %e\n',step,R);
             end
             step=step+1;        
-        end 
+        end
+        
+        % Store the loading history
+        Tload=reshape(Tload,Num,Num2);
+        nr.FnodalHis(i,:,:)=Tload;
+        nr.barSxHis(i,:)=Sx;
+        nr.barExHis(i,:)=Ex;
+        nr.sprMHis(i,:)=M;
+        nr.sprRotHis(i,:)=theta;
+        
         % The following part is used to calculate output information
         UhisLoading(i,:,:)=U;
         loadHis(i)=lambda*norm(LoadVec); 

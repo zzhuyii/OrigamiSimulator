@@ -152,7 +152,7 @@ nr.load=[10,0,0,-loadForce;
 nr.increStep=50;
 nr.tol=10^-6;
 nr.iterMax=50;
-
+nr.detailFigOpen=1;
 
 ori.loadingController{1}={"SelfFold",selfFold};
 ori.loadingController{2}={"NR",nr};

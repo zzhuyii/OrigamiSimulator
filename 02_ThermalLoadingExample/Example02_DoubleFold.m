@@ -63,7 +63,7 @@ ori=OrigamiSolver;
 
 % thickness of gold and su-8
 tg=0.2*10^-6;
-ts=0.80*10^-6;
+ts=0.9*10^-6;
 % density of SU-8
 rhoSU8=1200;
 % thickness of panel
@@ -73,11 +73,11 @@ panelL=450*10^(-6);
 % width of creases
 W=200*10^(-6);
 % undercut of XeF2 etch
-undercut=80*10^-6;
+undercut=60*10^-6;
 % residual fold during fabrication
-residualFold=-10;
+residualFold=-15;
 % power input (mW)
-qload=9;
+qload=10;
 
 
 ori.node0=[0 0 0;
@@ -144,8 +144,8 @@ ori.creaseThickVec(6)=(tg+ts);
 
 ori.contactOpen=1;
 ori.ke=0.0001;
-ori.d0edge=40*(10^(-6));
-ori.d0center=40*(10^(-6));
+ori.d0edge=20*(10^(-6));
+ori.d0center=20*(10^(-6));
 
 
 %% Assign Thermal Properties
@@ -216,13 +216,18 @@ nr.load=[5,0,0,-loadMag;
       25,0,0,-2*loadMag;];
 nr.videoOpen=0;
 
+ori.loadingController{1}={"SelfFold",selfFold};
+ori.loadingController{2}={"NR",nr};
+ori.Solver_Solve();
 
+ori.continuingLoading=1;
+gravityShape=ori.newNode+ori.currentU;
 
 % applying the thermal loading
 thermal=ControllerThermalLoading;
 
 thermal.thermalStep=250;
-thermal.tol=5*10^-7; 
+thermal.tol=1*10^-6; 
 
 thermal.supp=[1,0,0,1;
       2,0,0,1;
@@ -249,10 +254,46 @@ thermal.videoOpen=0; % close the animation
 % the target loading of crease heating
 thermal.targetCreaseHeating=[3,qload/1000;6,qload/1000];
 
-ori.loadingController{1}={"SelfFold",selfFold};
-ori.loadingController{2}={"NR",nr};
-ori.loadingController{3}={"ThermalLoading",thermal};
+ori.loadingController={};
+ori.loadingController{1}={"ThermalLoading",thermal};
 
-
-%% Solving the model
 ori.Solver_Solve();
+
+
+%% Solving the folding
+
+fold1His=zeros(thermal.thermalStep,1);
+fold2His=zeros(thermal.thermalStep,1);
+
+for i=1:thermal.thermalStep
+    
+    node1=squeeze(gravityShape(1,:))'+squeeze(thermal.Uhis(i,1,:));
+    node2=squeeze(gravityShape(2,:))'+squeeze(thermal.Uhis(i,2,:));
+    node3=squeeze(gravityShape(5,:))'+squeeze(thermal.Uhis(i,5,:));
+    node4=squeeze(gravityShape(6,:))'+squeeze(thermal.Uhis(i,6,:));
+    vec1=node2-node1;
+    vec2=node4-node3;
+    rotation=dot(vec1,vec2)/norm(vec1)/norm(vec2);
+    rotation=sign(node4(3)-node1(3))*acos(rotation);
+    fold1His(i)=rotation;
+    
+    node1=squeeze(gravityShape(5,:))'+squeeze(thermal.Uhis(i,5,:));
+    node2=squeeze(gravityShape(6,:))'+squeeze(thermal.Uhis(i,6,:));
+    node3=squeeze(gravityShape(9,:))'+squeeze(thermal.Uhis(i,9,:));
+    node4=squeeze(gravityShape(10,:))'+squeeze(thermal.Uhis(i,10,:));
+    vec1=node2-node1;
+    vec2=node4-node3;
+    rotation=dot(vec1,vec2)/norm(vec1)/norm(vec2);
+    fold2His(i)=sign(node4(3)-(node2(3)-(node1(3)-node2(3))))*acos(rotation);    
+    
+end
+
+
+for i=2:thermal.thermalStep
+
+    fold1His(i)=fold1His(i)-fold1His(1);
+    fold2His(i)=fold2His(i)-fold2His(1);
+    
+end
+fold1His(1)=0;
+fold2His(1)=0;

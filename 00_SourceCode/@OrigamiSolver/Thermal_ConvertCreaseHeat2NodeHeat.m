@@ -21,10 +21,10 @@ function Qload=Thermal_ConvertCreaseHeat2NodeHeat(obj,creaseHeating)
         node3=obj.barConnect(bar2,1);
         node4=obj.barConnect(bar2,2);
                 
-        Qload(node1)=1/4*1/2*creaseHeating(i,2);
-        Qload(node2)=1/4*1/2*creaseHeating(i,2);
-        Qload(node3)=1/4*1/2*creaseHeating(i,2);
-        Qload(node4)=1/4*1/2*creaseHeating(i,2);        
+        Qload(node1)=Qload(node1)+1/4*1/2*creaseHeating(i,2);
+        Qload(node2)=Qload(node2)+1/4*1/2*creaseHeating(i,2);
+        Qload(node3)=Qload(node3)+1/4*1/2*creaseHeating(i,2);
+        Qload(node4)=Qload(node4)+1/4*1/2*creaseHeating(i,2);        
         
         % heating applied on the center spring line
         node5=obj.barConnect(bar5,1);

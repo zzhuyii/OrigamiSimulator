@@ -64,6 +64,15 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
     U=obj.currentU;
     strainEnergyLoading=zeros(increStep,4);
     
+    % Set up storage matrix for stress, strain, nodal force
+    A=size(obj.sprK);
+    barNum=A(1);
+    dc.FnodalHis=zeros(dc.increStep,Num,Num2);
+    dc.barSxHis=zeros(dc.increStep,barNum);
+    dc.barExHis=zeros(dc.increStep,barNum);
+    dc.sprMHis=zeros(dc.increStep,barNum);
+    dc.sprRotHis=zeros(dc.increStep,barNum);
+    
     
     fprintf('Loading Analysis Start');
     % Assemble the load vector
@@ -91,6 +100,13 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
         elseif lastStep >=15
             lambdaBar=1*lambdaBar;
         end
+        
+        % for the storage of input
+        Tload=zeros(Num,Num2);
+        Sx=zeros(barNum,1);
+        Ex=zeros(barNum,1);
+        M=zeros(barNum,1);
+        theta=zeros(barNum,1); 
         
         step=1;     
         fprintf('Icrement = %d\n',i);
@@ -146,6 +162,7 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
         else
             fprintf('    Iteration = %d, R = %e\n',step,R);
         end
+        
         step=step+1;       
         lastStep=step;
 
@@ -208,11 +225,20 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
             else
                 fprintf('    Iteration = %d, R = %e\n',step,R);
             end
+         
             step=step+1;  
             lastStep=step;
         end 
         % The following part is used to calculate output information
         UhisLoading(i,:,:)=U;
+        
+        % Store the loading history
+        Tload=reshape(Tload,Num,Num2);
+        dc.FnodalHis(i,:,:)=Tload;
+        dc.barSxHis(i,:)=Sx;
+        dc.barExHis(i,:)=Ex;
+        dc.sprMHis(i,:)=M;
+        dc.sprRotHis(i,:)=theta;
         
         loadHis(i)=norm(pload);         
         loadHis(i)=lambda;    
