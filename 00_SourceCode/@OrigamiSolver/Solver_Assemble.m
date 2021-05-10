@@ -146,7 +146,7 @@ function [U,UhisAssemble,strainEnergyAssemble,...
         end
         
         % Store the loading history
-        Tload=reshape(Tload,Num,Num2);
+        Tload=reshape(Tload,Num2,Num)';
         selfFold.FnodalHis(i,:,:)=Tload;
         selfFold.barSxHis(i,:)=Sx;
         selfFold.barExHis(i,:)=Ex;

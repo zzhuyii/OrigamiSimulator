@@ -38,7 +38,11 @@
 function [U,UhisLoading,loadHis,strainEnergyLoading,...
     nodeForce,loadForce,contactForce]=Solver_LoadingDC(obj,dc)
 
-    
+    Tcontact=0;
+    Tbar=0;
+    Tspr=0;  
+
+
     increStep=dc.increStep;
     tol=dc.tol;
     iterMax=dc.iterMax;
@@ -233,7 +237,7 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
         UhisLoading(i,:,:)=U;
         
         % Store the loading history
-        Tload=reshape(Tload,Num,Num2);
+        Tload=reshape(Tload,Num2,Num)';
         dc.FnodalHis(i,:,:)=Tload;
         dc.barSxHis(i,:)=Sx;
         dc.barExHis(i,:)=Ex;

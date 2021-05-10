@@ -226,7 +226,7 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
         UhisLoading(i,:,:)=U;
         
         % Store the loading history
-        Tload=reshape(Tload,Num,Num2);
+        Tload=reshape(Tload,Num2,Num)';;
         mgdcm.FnodalHis(i,:,:)=Tload;
         mgdcm.barSxHis(i,:)=Sx;
         mgdcm.barExHis(i,:)=Ex;

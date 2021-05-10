@@ -148,7 +148,7 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
         end
         
         % Store the loading history
-        Tload=reshape(Tload,Num,Num2);
+        Tload=reshape(Tload,Num2,Num)';
         nr.FnodalHis(i,:,:)=Tload;
         nr.barSxHis(i,:)=Sx;
         nr.barExHis(i,:)=Ex;
