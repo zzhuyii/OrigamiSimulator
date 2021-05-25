@@ -7,26 +7,72 @@ function Solver_Solve(obj)
     % automatically initialize the status;
     if obj.continuingLoading==0
         % Initialze the origami structure first
-        % First calculate the origami mechanical proeprties
-        % We assume that the stress-free angle of the origami is at flat when
-        % using the code. This does not fit all situations and thus requires
-        % adjustment when necesary.
-        obj.currentRotZeroStrain=pi*ones(size(obj.oldCreaseType()));
-        obj.Mesh_MechanicalProperty()
-        obj.currentSprZeroStrain = obj.Mesh_CalculateZeroStrainFolding(...
-            obj.currentRotZeroStrain);    
-
+        
         % We assume that the initial deformation field is zero and that the
         % origami has no load applied.
         newNodeNum = size(obj.newNode);
         newNodeNum = newNodeNum(1);
         obj.currentU = zeros(newNodeNum,3);    
         obj.currentAppliedForce = zeros(newNodeNum,3);
+        
+        % Then calculate the origami mechanical proeprties
+        % We first calcualte the folding angle, assume that the current
+        % state is stress free. 
+        
+        if obj.flag2D3D==2
+            obj.currentRotZeroStrain=pi*ones(obj.oldCreaseNum,1);
+            obj.currentSprZeroStrain=obj.Spr_Theta(...
+                obj.currentU,obj.sprIJKL,obj.newNode);
+        else  
+            if obj.compliantCreaseOpen==1
+
+                obj.compliantCreaseOpen=0;
+                obj.Mesh_Mesh();
+
+                obj.currentRotZeroStrain=pi*ones(obj.oldCreaseNum,1);
+                obj.currentSprZeroStrain=obj.Spr_Theta(...
+                    obj.currentU,obj.sprIJKL,obj.newNode);
+
+                for i = 1:obj.oldCreaseNum
+                    if obj.currentSprZeroStrain(i,1) ~=0
+                        obj.currentRotZeroStrain(i)=pi-(obj.currentSprZeroStrain(i,1)-pi);
+                    end
+                end
+            % Here we mesh the system with no compliant crease, calculate the
+            % rotaiton angle for spring elements and then record the numbers as
+            % the rotation angle for Rot.
+                obj.compliantCreaseOpen=1;
+                obj.Mesh_Mesh();    
+
+            else
+                obj.currentRotZeroStrain=pi*ones(obj.oldCreaseNum,1);
+                obj.currentSprZeroStrain=obj.Spr_Theta(...
+                    obj.currentU,obj.sprIJKL,obj.newNode);
+
+                for i = 1:obj.oldCreaseNum
+                    if obj.currentSprZeroStrain(i,1) ~=0
+                        obj.currentRotZeroStrain(i)=(obj.currentSprZeroStrain(i,1));
+                    end
+                end
+            end
+        
+        end
+        
+        obj.Mesh_MechanicalProperty()
+        obj.currentSprZeroStrain=obj.Spr_Theta(...
+                obj.currentU,obj.sprIJKL,obj.newNode);
 
         % We assume that there is no heating applied on to the structure so the
         % system has zero heating input and every node at RT
         obj.currentT=obj.RT*ones(newNodeNum,1);
         obj.currentQ=zeros(obj.envLayer*newNodeNum,1);
+        
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % Just a note here. The current initialization code is not so
+    % perfect. The RotVector and the SprVector sometime is not
+    % correctly assocated with each other in some situations. 
+    % This needs to be fixed in the future.         
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
     
     % We sequentially reads the items in the loading controller and

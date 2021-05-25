@@ -84,6 +84,8 @@ function Mesh_CompliantCreaseGeometry(obj)
         obj.type1BarNum=0;
         % number of type 1 bars
         
+%         obj.currentRotZeroStrain=pi*ones(obj,oldCreaseNum,1);
+        
 
         %% shrink the panel size based on the prescribed creaseW
         for i=1:obj.newPanelNum
@@ -307,6 +309,7 @@ function Mesh_CompliantCreaseGeometry(obj)
         BarNum=count;
 
         for i=1:obj.oldCreaseNum
+            creaseW = obj.creaseWidthVec(i);
             if obj.oldCreaseType(i)==1
             else
                 countTemp=0;
@@ -362,16 +365,26 @@ function Mesh_CompliantCreaseGeometry(obj)
                     NodeIndex22=NodeIndex21;
                     NodeIndex21=tempIndex;
                 end
+                
+                % calculate the current RotZero
+%                 paenlVec11 = obj.newNode(barInfo(edge1,3),:)-obj.newNode(barInfo(edge1,1),:);
+%                 paenlVec12 = obj.newNode(barInfo(edge1,2),:)-obj.newNode(barInfo(edge1,1),:);                
+%                 paenlVec21 = obj.newNode(barInfo(edge2,3),:)-obj.newNode(barInfo(edge2,1),:);
+%                 paenlVec22 = obj.newNode(barInfo(edge2,2),:)-obj.newNode(barInfo(edge2,1),:);                
+%                 normalVec1=cross(paenlVec11/norm(paenlVec11),paenlVec12/norm(paenlVec12));
+%                 normalVec2=cross(paenlVec21/norm(paenlVec21),paenlVec22/norm(paenlVec22));
+%                 obj.currentRotZeroStrain(i)=
 
                 % Generate Three new node and their location for the analysis
                 if obj.flag2D3D==3
-                    obj.newNode(count,:)=Node11-RefVector1;
+                    obj.newNode(count,:)=(Node11-RefVector1)/2+((Node11+Node21)/2)/2;
                     obj.newNode2OldNode(count)=0;
                     count=count+1;
-                    obj.newNode(count,:)=Node12-RefVector2;
+                    obj.newNode(count,:)=(Node12-RefVector2)/2+((Node12+Node22)/2)/2;
                     obj.newNode2OldNode(count)=0;
                     count=count+1;
-                    obj.newNode(count,:)=0.5*(Node11+Node12)-0.5*(RefVector1+RefVector2);
+                    obj.newNode(count,:)=((Node11-RefVector1)/2+((Node11+Node21)/2)/2)/2 ...
+                     +((Node12-RefVector2)/2+((Node12+Node22)/2)/2)/2;
                     obj.newNode2OldNode(count)=0;
                     count=count+1;
                 elseif obj.flag2D3D==2
