@@ -55,7 +55,9 @@ for i=1:Incre
     deformNode=undeformedNode+tempU;
     for j=1:FaceNum
         tempPanel=cell2mat(obj.newPanel(j));
-        patch('Vertices',deformNode,'Faces',tempPanel,'FaceColor','yellow');     
+        patch('Vertices',deformNode,'Faces',tempPanel,...
+            'FaceColor',obj.faceColorAnimation, ...
+            'FaceAlpha', obj.faceAlphaAnimation);     
     end
     pause(pauseTime);  
     

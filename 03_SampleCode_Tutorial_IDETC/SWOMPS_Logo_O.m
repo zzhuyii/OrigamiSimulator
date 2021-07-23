@@ -228,7 +228,7 @@ thermal.Emat1=2*10^9;
 thermal.Emat2=2*10^9;
 thermal.tmat1=t1;
 thermal.tmat2=t2;
-thermal.videoOpen=0;
+thermal.videoOpen=1;
 
 % the target loading of crease heating
 thermal.targetCreaseHeating=[

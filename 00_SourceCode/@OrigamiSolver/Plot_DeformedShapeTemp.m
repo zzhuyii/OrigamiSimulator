@@ -48,7 +48,9 @@ function Plot_DeformedShapeTemp(obj,thermal,newNode,deformNode,T)
         if check==1
             patch('Vertices',deformNode,'Faces',tempPanel,'FaceColor',[0.5 0.7 0.7]);
         else
-            patch('Vertices',deformNode,'Faces',tempPanel,'FaceColor','yellow');
+            patch('Vertices',deformNode,'Faces',tempPanel,...
+                'FaceColor',obj.faceColorAnimation,...
+                'FaceAlpha', obj.faceAlphaAnimation);
         end
     end
 

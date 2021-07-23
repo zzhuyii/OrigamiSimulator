@@ -46,7 +46,9 @@ function Plot_DeformedHisTemp(obj,beforeLoadingNode,UhisThermal,temperatureHisto
         deformNode=beforeLoadingNode+squeeze(UhisThermal(step,:,:));
         for i=1:FaceNum
             tempPanel=cell2mat(obj.newPanel(i));
-            patch('Vertices',deformNode,'Faces',tempPanel,'FaceColor','yellow');
+            patch('Vertices',deformNode,'Faces',tempPanel, ...
+            'FaceColor',obj.faceColorAnimation, ...
+            'FaceAlpha', obj.faceAlphaAnimation);
         end
 
         for i=1:FaceNum

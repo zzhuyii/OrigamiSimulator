@@ -174,6 +174,23 @@ classdef OrigamiSolver < handle
         % the ratio of the displayed range in the negative region
         displayRangeRatio=0.5;
         
+        % whether to show the numbers
+        showNumber = 1;
+        
+        % the color of faces for showing the numbering
+        faceColorNumbering = [0.5,0.1,0.1];
+        
+        % the color of faces when ploting animation and deformed
+        % configuration
+        faceColorAnimation = 'yellow';
+        
+        % transparency of faces for showing the numbering
+        faceAlphaNumbering = 0;
+        
+        % transparency of faces when ploting animation and deformed
+        % configuration
+        faceAlphaAnimation = 1;
+        
         %% Origami Loading Controller
         loadingController={}
         

@@ -133,7 +133,7 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
             
             [K,unLoad]=obj.Solver_ModKforSupp(K,supp,unLoad,nonRigidSupport,suppElastic,U);
             K=sparse(K);
-
+            
             dUtemp=(K\unLoad);
             for j=1:Num
                 U((j),:)=U((j),:)+dUtemp(3*j-2:3*j)';

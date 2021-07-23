@@ -28,10 +28,13 @@ FaceNum=B(2);
 
 for i=1:FaceNum
     tempPanel=cell2mat(obj.newPanel(i));
-    patch('Vertices',deformNode,'Faces',tempPanel,'FaceColor','yellow');
+    patch('Vertices',deformNode,'Faces',tempPanel,...
+        'FaceColor',obj.faceColorAnimation, ...
+        'FaceAlpha',obj.faceAlphaAnimation);
 end
 
 for i=1:FaceNum
     tempPanel=cell2mat(obj.newPanel(i));
-    patch('Vertices',undeformedNode,'Faces',tempPanel,'EdgeColor',[0.5 0.5 0.5],'FaceAlpha',0);
+    patch('Vertices',undeformedNode,'Faces',tempPanel,...
+        'EdgeColor',[0.5 0.5 0.5],'FaceAlpha',0);
 end

@@ -28,15 +28,18 @@ function Plot_UnmeshedOrigami(obj)
     for i=1:N
         Sequence{i}=num2str(i);
     end
-    text(obj.node0(:,1)',obj.node0(:,2)',obj.node0(:,3)',Sequence);
-    for i=1:obj.oldCreaseNum
-        x=0.5*(obj.node0(obj.oldCreaseConnect(i,1),1)+...
-            obj.node0(obj.oldCreaseConnect(i,2),1));
-        y=0.5*(obj.node0(obj.oldCreaseConnect(i,1),2)+...
-            obj.node0(obj.oldCreaseConnect(i,2),2));
-        z=0.5*(obj.node0(obj.oldCreaseConnect(i,1),3)+...
-            obj.node0(obj.oldCreaseConnect(i,2),3));
-        text(x,y,z,num2str(i),'Color','blue');
+    
+    if obj.showNumber==1
+        text(obj.node0(:,1)',obj.node0(:,2)',obj.node0(:,3)',Sequence);
+        for i=1:obj.oldCreaseNum
+            x=0.5*(obj.node0(obj.oldCreaseConnect(i,1),1)+...
+                obj.node0(obj.oldCreaseConnect(i,2),1));
+            y=0.5*(obj.node0(obj.oldCreaseConnect(i,1),2)+...
+                obj.node0(obj.oldCreaseConnect(i,2),2));
+            z=0.5*(obj.node0(obj.oldCreaseConnect(i,1),3)+...
+                obj.node0(obj.oldCreaseConnect(i,2),3));
+            text(x,y,z,num2str(i),'Color','blue');
+        end
     end
     % Plot Panels
     B=size(obj.panel0);
@@ -44,6 +47,8 @@ function Plot_UnmeshedOrigami(obj)
     for i=1:FaceNum
         tempPanel=cell2mat(obj.panel0(i));
         patch('Vertices',obj.node0,'Faces',...
-            tempPanel,'EdgeColor',[0.5 0.5 0.5],'FaceAlpha',0);
+            tempPanel,'EdgeColor',[0.5 0.5 0.5],...
+            'FaceColor',obj.faceColorNumbering, ...
+            'FaceAlpha',obj.faceAlphaNumbering);
     end
 end
