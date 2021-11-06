@@ -9,7 +9,9 @@ different loading methods adn allows users to created customizable loading schem
 arbitrary number and sequence of the provided loading methods. 
 
 Please check the package on our group website or my personal website:
+
 https://drsl.engin.umich.edu/software/swomps-package/
+
 https://sites.google.com/view/yi-zhu/research/origami-simulator/
 
 ## Main Features of the package:
