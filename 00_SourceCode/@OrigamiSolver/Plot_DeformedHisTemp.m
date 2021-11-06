@@ -33,7 +33,7 @@ function Plot_DeformedHisTemp(obj,beforeLoadingNode,UhisThermal,temperatureHisto
     FaceNum=B(2);    
 
     set(gcf, 'color', 'white');
-    set(gcf,'Position',[0,-300,1000,1000])
+    set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
         
     for step=1:ThermalStep
         

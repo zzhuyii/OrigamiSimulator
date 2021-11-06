@@ -28,6 +28,8 @@ function Plot_DeformedShapeTemp(obj,thermal,newNode,deformNode,T)
     hold on
     view(View1,View2); 
     set(gca,'DataAspectRatio',[1 1 1])
+    set(gcf, 'color', 'white');
+    set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
     axis([-Vsize*Vratio Vsize -Vsize*Vratio Vsize -Vsize*Vratio Vsize])
 
     B=size(obj.newPanel);

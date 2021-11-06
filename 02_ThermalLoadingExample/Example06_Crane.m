@@ -222,28 +222,29 @@ thermal.supp=[13,1,1,1;
 thermal.thermalBoundaryPanelVec=[];
 thermal.roomTempNode=[];
 
+dAlpha=0*10^(-6);
 thermal.deltaAlpha=zeros(ori.oldCreaseNum,1);
-thermal.deltaAlpha(1)=250*10^(-6); 
-thermal.deltaAlpha(3)=250*10^(-6); 
-thermal.deltaAlpha(5)=250*10^(-6); 
-thermal.deltaAlpha(6)=250*10^(-6); 
+thermal.deltaAlpha(1)=dAlpha; 
+thermal.deltaAlpha(3)=dAlpha; 
+thermal.deltaAlpha(5)=dAlpha; 
+thermal.deltaAlpha(6)=dAlpha; 
 
-thermal.deltaAlpha(7)=-250*10^(-6);
-thermal.deltaAlpha(8)=-250*10^(-6);
-thermal.deltaAlpha(10)=-250*10^(-6);
-thermal.deltaAlpha(12)=-250*10^(-6);
+thermal.deltaAlpha(7)=-dAlpha;
+thermal.deltaAlpha(8)=-dAlpha;
+thermal.deltaAlpha(10)=-dAlpha;
+thermal.deltaAlpha(12)=-dAlpha;
 
-thermal.deltaAlpha(13)=250*10^(-6); 
-thermal.deltaAlpha(14)=250*10^(-6); 
-thermal.deltaAlpha(15)=250*10^(-6); 
-thermal.deltaAlpha(18)=-250*10^(-6); 
+thermal.deltaAlpha(13)=dAlpha; 
+thermal.deltaAlpha(14)=dAlpha; 
+thermal.deltaAlpha(15)=dAlpha; 
+thermal.deltaAlpha(18)=-dAlpha; 
 
-thermal.deltaAlpha(17)=-250*10^(-6); 
-thermal.deltaAlpha(19)=-250*10^(-6);
-thermal.deltaAlpha(21)=-250*10^(-6); 
+thermal.deltaAlpha(17)=-dAlpha; 
+thermal.deltaAlpha(19)=-dAlpha;
+thermal.deltaAlpha(21)=-dAlpha; 
 
-thermal.deltaAlpha(9)=250*10^(-6);
-thermal.deltaAlpha(11)=-250*10^(-6);
+thermal.deltaAlpha(9)=dAlpha;
+thermal.deltaAlpha(11)=-dAlpha;
 
 
 thermal.Emat1=50*10^9; 

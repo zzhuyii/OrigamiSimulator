@@ -191,6 +191,16 @@ classdef OrigamiSolver < handle
         % configuration
         faceAlphaAnimation = 1;
         
+        % Alpha of the edge for deformed configuration
+        deformEdgeShow = 1;
+        
+        % image size and location
+        x0=10;
+        y0=10;
+        width=500;
+        height=500;      
+      
+        
         %% Origami Loading Controller
         loadingController={}
         

@@ -16,6 +16,8 @@ function Plot_MeshedOrigami(obj)
     H=plot3(obj.newNode(:,1)',obj.newNode(:,2)',obj.newNode(:,3)','.');
     hold on;
     view(obj.viewAngle1,obj.viewAngle2); 
+    set(gcf, 'color', 'white');
+    set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
     set(gca,'DataAspectRatio',[1 1 1]);
     axis([-obj.displayRangeRatio*obj.displayRange ... 
         obj.displayRange -obj.displayRangeRatio*obj.displayRange ... 

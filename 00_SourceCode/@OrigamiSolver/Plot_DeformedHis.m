@@ -38,7 +38,7 @@ n1=B(2);
 n2=B(3);
 
 set(gcf, 'color', 'white');
-set(gcf,'Position',[0,-300,1000,1000])
+set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
     
 
 for i=1:Incre

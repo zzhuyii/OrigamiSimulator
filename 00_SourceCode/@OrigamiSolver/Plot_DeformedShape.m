@@ -21,6 +21,8 @@ Vratio=obj.displayRangeRatio;
 figure
 view(View1,View2); 
 set(gca,'DataAspectRatio',[1 1 1])
+set(gcf, 'color', 'white');
+set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
 axis([-Vsize*Vratio Vsize -Vsize*Vratio Vsize -Vsize*Vratio Vsize])
 
 B=size(obj.newPanel);
@@ -36,5 +38,5 @@ end
 for i=1:FaceNum
     tempPanel=cell2mat(obj.newPanel(i));
     patch('Vertices',undeformedNode,'Faces',tempPanel,...
-        'EdgeColor',[0.5 0.5 0.5],'FaceAlpha',0);
+        'EdgeColor',[0.5 0.5 0.5],'FaceAlpha',0,'EdgeAlpha',obj.deformEdgeShow);
 end

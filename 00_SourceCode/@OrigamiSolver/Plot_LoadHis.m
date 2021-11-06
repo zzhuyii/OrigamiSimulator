@@ -22,6 +22,8 @@ for i=1:IncreStep
 end
 % Plot Dots
 figure
+set(gcf, 'color', 'white');
+set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
 plot(UhisLoadingContract,loadHis,'--o');xlabel('Displacement History');ylabel('Load History');
 
 

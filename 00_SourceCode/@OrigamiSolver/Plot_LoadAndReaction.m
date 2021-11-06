@@ -25,7 +25,9 @@ function Plot_LoadAndReaction(obj,undeformedNode,deformNode,...
     % Plot Dots
     figure
     view(View1,View2); 
+    set(gcf, 'color', 'white');
     set(gca,'DataAspectRatio',[1 1 1])
+    set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
     axis([-Vsize*Vratio Vsize -Vsize*Vratio Vsize -Vsize*Vratio Vsize])
 
     B=size(obj.newPanel);

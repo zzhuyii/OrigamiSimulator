@@ -22,7 +22,10 @@ function Plot_ContactForce(obj,undeformedNode,deformNode,contactForce)
     figure
     view(View1,View2); 
     set(gca,'DataAspectRatio',[1 1 1])
+    set(gcf, 'color', 'white');
     axis([-Vsize*Vratio Vsize -Vsize*Vratio Vsize -Vsize*Vratio Vsize])
+    
+    set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
 
     B=size(obj.newPanel);
     FaceNum=B(2);

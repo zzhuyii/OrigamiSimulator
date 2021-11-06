@@ -16,7 +16,9 @@ function Plot_UnmeshedOrigami(obj)
     H=plot3(obj.node0(:,1)',obj.node0(:,2)',obj.node0(:,3)','.');
     hold on;
     view(obj.viewAngle1,obj.viewAngle2); 
+    set(gcf, 'color', 'white');
     set(gca,'DataAspectRatio',[1 1 1]);
+    set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
     axis([-obj.displayRange*obj.displayRangeRatio ...
         obj.displayRange -obj.displayRange*obj.displayRangeRatio ...
         obj.displayRange -obj.displayRange*obj.displayRangeRatio ...

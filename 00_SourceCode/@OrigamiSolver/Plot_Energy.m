@@ -26,6 +26,10 @@ function Plot_Energy(obj,UhisLoading,strainEnergyLoading)
     StrainEnergy=strainEnergyLoading;
     
     figure
+    
+    set(gcf, 'color', 'white');
+    set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
+    
     Strain1=StrainEnergy(:,1);
     Strain4=StrainEnergy(:,1)+StrainEnergy(:,4);
     Strain2=StrainEnergy(:,1)+StrainEnergy(:,2)+StrainEnergy(:,4);
