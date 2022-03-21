@@ -73,7 +73,7 @@ of this package.
 
 
 1. Y. Zhu, E. T. Filipov (**2021**) SEQUENTIALLY WORKING ORIGAMI MULTI-PHYSICS SIMULATOR 
-    (SWOMPS): AVERSATILE IMPLEMENTATION (Accepted to IDETC 2021)
+    (SWOMPS): AVERSATILE IMPLEMENTATION, IDETC-CIE 2021, DETC2021-68042.
 
 1. Y. Zhu, E. T. Filipov (**2021**) Rapid Multi-Physics Simulation for Electro-Thermal 
     Origami Systems.  *International Journal of Mechanical Sciences*, 202-203, 106537.     
