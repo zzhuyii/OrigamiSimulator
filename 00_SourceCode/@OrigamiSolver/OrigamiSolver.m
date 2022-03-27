@@ -168,6 +168,9 @@ classdef OrigamiSolver < handle
         viewAngle1=15;
         viewAngle2=30;
         
+        % holdtime for video rendering
+        holdTime=0.01;
+        
         % the range of the axis
         displayRange=1;
         

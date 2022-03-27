@@ -19,7 +19,7 @@ View2=obj.viewAngle2;
 Vsize=obj.displayRange;
 Vratio=obj.displayRangeRatio;
 
-pauseTime=0.02;
+pauseTime=obj.holdTime;
 filename='OriAnimation.gif';
 
 h=figure;

@@ -25,7 +25,7 @@ function Plot_DeformedHisTemp(obj,beforeLoadingNode,UhisThermal,temperatureHisto
     maxT = max(temperatureHistory(:));
     minT = min(temperatureHistory(:));
     
-    pauseTime=0.01;
+    pauseTime=obj.holdTime;
     filename='OriThermalAnimation.gif';
     
     MyFig=figure;
