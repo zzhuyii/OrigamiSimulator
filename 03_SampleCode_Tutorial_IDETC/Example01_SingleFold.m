@@ -204,7 +204,7 @@ nr.videoOpen=0;
 
   
 % applying the thermal loading
-thermal=ControllerThermalLoading;
+thermal=ControllerElectroThermalFolding;
 
 thermal.thermalStep=250;
 thermal.tol=2*10^-6; 

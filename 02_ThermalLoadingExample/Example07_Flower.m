@@ -303,7 +303,7 @@ ori.t2RT=15*10^(-3);
 %% Setup the loading controller
 
 % applying the thermal loading
-thermal=ControllerThermalLoading;
+thermal=ControllerElectroThermalFolding;
 
 thermal.thermalStep=40;
 thermal.tol=8*10^-4; 

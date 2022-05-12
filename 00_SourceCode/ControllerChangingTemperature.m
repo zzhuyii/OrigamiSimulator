@@ -1,7 +1,7 @@
 % This class stores the properties used to control the thermally/ electro
 % thermally acivated loading of an origami
 
-classdef ControllerThermalLoading < handle
+classdef ControllerElectroThermalFolding < handle
     properties
         %% Input Proerperties
         % storing the support information

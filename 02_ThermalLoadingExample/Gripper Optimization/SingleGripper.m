@@ -113,7 +113,7 @@ ori.Mesh_Mesh()
 % Plot the results for inspection
 ori.viewAngle1=45;
 ori.viewAngle2=45;
-ori.displayRange=5*10^(-3); % plotting range
+ori.displayRange=3*10^(-3); % plotting range
 ori.displayRangeRatio=0.2; % plotting range in the negative axis
 
 ori.newNode(14,:)=ori.newNode(14,:)+[-w/2,0,0];
@@ -218,7 +218,7 @@ nr.load=[1,0,0,-loadMagBase;
       20,0,0,-loadMagAct;
       41,0,0,-2*loadMagAct;];
 nr.videoOpen=0;
-nr.plotOpen=0;
+nr.plotOpen=1;
 
 ori.loadingController{1}={"NR",nr};
 
@@ -244,7 +244,7 @@ ori.width=1200;
 ori.height=800;
 
 % Set up loading for assembly
-thermal=ControllerThermalLoading;
+thermal=ControllerElectroThermalFolding;
 thermal.thermalStep=50;
 thermal.tol=5*10^-7; 
 
@@ -280,7 +280,7 @@ thermal.targetCreaseHeating=[3,Qassemble;6,Qassemble];
 
 
 % Set up folding for closing gripper
-thermal2=ControllerThermalLoading;
+thermal2=ControllerElectroThermalFolding;
 thermal2.thermalStep=40;
 thermal2.tol=5*10^-7; 
 

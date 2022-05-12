@@ -138,7 +138,7 @@ ori.RT=0;
 %% Thermal Loading
 
 % applying the thermal loading
-thermal=ControllerThermalLoading;
+thermal=ControllerElectroThermalFolding;
 
 thermal.thermalStep=1;
 thermal.tol=5*10^-7; 

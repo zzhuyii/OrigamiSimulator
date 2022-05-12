@@ -252,7 +252,7 @@ finalStepBase=0;
 %% first we load the base creases to assemble
 
 for i=1:maxLoadingStep
-    thermal=ControllerThermalLoading;
+    thermal=ControllerElectroThermalFolding;
     thermal.thermalStep=1;
     thermal.tol=5*10^-7; 
 
@@ -335,7 +335,7 @@ finalStepFunc=0;
 
 %% Next we load the two gripper panel to close the gripping arms
 for i=1:maxLoadingStep
-    thermal=ControllerThermalLoading;
+    thermal=ControllerElectroThermalFolding;
     thermal.thermalStep=1;
     thermal.tol=5*10^-7; 
 

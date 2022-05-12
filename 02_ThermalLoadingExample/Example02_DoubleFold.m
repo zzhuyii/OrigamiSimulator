@@ -224,7 +224,7 @@ ori.continuingLoading=1;
 gravityShape=ori.newNode+ori.currentU;
 
 % applying the thermal loading
-thermal=ControllerThermalLoading;
+thermal=ControllerElectroThermalFolding;
 
 thermal.thermalStep=250;
 thermal.tol=1*10^-6; 
