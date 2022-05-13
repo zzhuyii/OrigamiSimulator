@@ -17,9 +17,9 @@ https://sites.google.com/view/yi-zhu/research/origami-simulator/
 ## Main Features of the package:
 
 * Provides six different loading simulation methods: 
-    (1) Newton-Raphson method, (2) Displacement controlled method, and (3) Generalized displacement controlled method for applying external forces. 
-    (4) Self folding method for self-folding with assumed changes in stress-free folding angle
-    (5) Changing environmetnal temperature and (6) applying electro-thermal actuation for thermally active self-folding. 
+    * (1) Newton-Raphson method, (2) Displacement controlled method, and (3) Generalized displacement controlled method for applying external forces. 
+    * (4) Self folding method for self-folding with assumed changes in stress-free folding angle
+    * (5) Changing environmetnal temperature and (6) applying electro-thermal actuation for thermally active self-folding. 
     
 * Allows users to create customizable loading schemes with arbitrary number and 
     sequence of the provided five loading methods. 
