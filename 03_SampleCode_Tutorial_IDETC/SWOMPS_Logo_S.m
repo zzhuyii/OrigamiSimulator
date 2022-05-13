@@ -246,7 +246,7 @@ thermal.targetCreaseHeating=[
     21,qload;
     25,qload;];
 
-ori.loadingController{1}={"ThermalLoading",thermal};
+ori.loadingController{1}={"ElectroThermal",thermal};
 ori.Solver_Solve();
 
 toc

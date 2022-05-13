@@ -228,7 +228,7 @@ thermal.Emat1=2*10^9;
 thermal.Emat2=2*10^9;
 thermal.tmat1=t1;
 thermal.tmat2=t2;
-thermal.videoOpen=1;
+thermal.videoOpen=0;
 
 % the target loading of crease heating
 thermal.targetCreaseHeating=[
@@ -246,7 +246,7 @@ thermal.targetCreaseHeating=[
     21,qload;
     25,qload;];
 
-ori.loadingController{1}={"ThermalLoading",thermal};
+ori.loadingController{1}={"ElectroThermal",thermal};
 ori.Solver_Solve();
 
 toc

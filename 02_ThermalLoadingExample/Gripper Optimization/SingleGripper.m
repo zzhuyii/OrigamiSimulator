@@ -314,8 +314,8 @@ thermal2.plotOpen=1; % close the plot
 % the target loading of crease heating
 thermal2.targetCreaseHeating=[4,Qarm;10,Qarm];
 
-ori.loadingController{1}={"ThermalLoading",thermal};
-ori.loadingController{2}={"ThermalLoading",thermal2};
+ori.loadingController{1}={"ElectroThermal",thermal};
+ori.loadingController{2}={"ElectroThermal",thermal2};
 ori.Solver_Solve();
 
 

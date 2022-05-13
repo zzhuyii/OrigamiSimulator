@@ -285,7 +285,7 @@ for i=1:maxLoadingStep
 
     % the target loading of crease heating
     thermal.targetCreaseHeating=[3,Qstep;6,Qstep];
-    ori.loadingController{1}={"ThermalLoading",thermal};
+    ori.loadingController{1}={"ElectroThermal",thermal};
     ori.Solver_Solve();
     % we perform the countinuing loading step by step and check the
     % rotation angle, the loading stops after reaching 90 degree;
@@ -368,7 +368,7 @@ for i=1:maxLoadingStep
 
     % the target loading of crease heating
     thermal.targetCreaseHeating=[4,Qstep;10,Qstep];
-    ori.loadingController{1}={"ThermalLoading",thermal};
+    ori.loadingController{1}={"ElectroThermal",thermal};
     ori.Solver_Solve();
     % we perform the countinuing loading step by step and check the
     % rotation angle, the loading stops after reaching 90 degree;

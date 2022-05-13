@@ -137,7 +137,7 @@ classdef OrigamiSolver < handle
         
         % temperature of the submerged environment
         RT=21;
-                
+        
         
         %% Panel Contact Properties        
         % contact open
@@ -404,10 +404,15 @@ classdef OrigamiSolver < handle
         
         
         %% solver for loding               
-        % solver for thermal loading
+        % solver for electro-thermal loading
         [U,UhisThermal,energyHisThermal,temperatureHistory,...
             rotTargetZeroStrain,sprTargetZeroStrain]...
-            =Solver_LoadingThermal(obj,thermal);     
+            =Solver_LoadingElectroThermal(obj,thermal);     
+        
+        % solver for changing ambient temperature
+        [U,UhisThermal,energyHisThermal,temperatureHistory,...
+            rotTargetZeroStrain,sprTargetZeroStrain]...
+            =Solver_LoadingChangingTemperature(obj,thermal);     
         
         % Solver for NR loading
         [U,UhisLoading,loadHis,strainEnergyLoading,...

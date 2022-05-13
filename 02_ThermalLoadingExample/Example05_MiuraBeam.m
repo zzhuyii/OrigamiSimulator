@@ -233,7 +233,7 @@ thermal.targetCreaseHeating=[3,qload/1000;
                              25,qload/1000;
                              15,qload/1000;];
 
-ori.loadingController{1}={"ThermalLoading",thermal};
+ori.loadingController{1}={"ElectroThermal",thermal};
 
 
 %% Solving the model

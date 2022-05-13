@@ -307,7 +307,7 @@ thermal.targetCreaseHeating=[
     34,qload;
     36,qload];
 
-ori.loadingController{1}={"ThermalLoading",thermal};
+ori.loadingController{1}={"ElectroThermal",thermal};
 ori.Solver_Solve();
 
 Uhis_thermal1=thermal.Uhis;
@@ -382,7 +382,7 @@ thermal.targetCreaseHeating=[
     34,qload;
     36,qload];
 
-ori.loadingController{1}={"ThermalLoading",thermal};
+ori.loadingController{1}={"ElectroThermal",thermal};
 ori.Solver_Solve();
 
 Uhis_thermal2=thermal.Uhis;

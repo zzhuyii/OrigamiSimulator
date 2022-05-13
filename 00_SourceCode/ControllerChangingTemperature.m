@@ -1,7 +1,7 @@
-% This class stores the properties used to control the thermally/ electro
-% thermally acivated loading of an origami
+% This class stores the properties used to control the thermal loading
+% We change the ambient temperature to load the origami structure
 
-classdef ControllerElectroThermalFolding < handle
+classdef ControllerChangingTemperature < handle
     properties
         %% Input Proerperties
         % storing the support information
@@ -22,10 +22,8 @@ classdef ControllerElectroThermalFolding < handle
         % thermal loading step
         thermalStep=200
         
-        % matrix to store the target heating. This is the incremental term 
-        % of this step. First index stores the crease number the second
-        % index stores the applied heating power;
-        targetCreaseHeating      
+        % target tempearture of the surrounding environment
+        targetAmbientTemperature  
         
         % the tolerance for each iteration
         tol=1*10^-5

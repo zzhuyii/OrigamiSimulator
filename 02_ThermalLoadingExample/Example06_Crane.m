@@ -222,7 +222,7 @@ thermal.supp=[13,1,1,1;
 thermal.thermalBoundaryPanelVec=[];
 thermal.roomTempNode=[];
 
-dAlpha=0*10^(-6);
+dAlpha=200*10^(-6);
 thermal.deltaAlpha=zeros(ori.oldCreaseNum,1);
 thermal.deltaAlpha(1)=dAlpha; 
 thermal.deltaAlpha(3)=dAlpha; 
@@ -254,33 +254,6 @@ thermal.tmat2=ts;
 thermal.videoOpen=0; % close the animation
 
 % the target loading of crease heating
-% thermal.targetCreaseHeating=[
-%                              6,qload/1000;
-%                              13,qload/1000;
-%                              
-%                              1,4*qload/1000;
-%                              18,4*qload/1000;
-%                              
-%                              3,qload/1000*1.5;
-%                              5,qload/1000*1.5;
-%                              14,qload/1000*1.5;
-%                              15,qload/1000*1.5;
-%                              
-%                              7,qload/1000*2;
-%                              8,qload/1000*2;
-%                              10,qload/1000*2;
-%                              12,qload/1000*2;
-%                                                           
-%                              17,qload/1000/2;
-%                              19,qload/1000/2;
-%                              
-%                              21,qload/1000;
-%                              
-%                              9,qload/1000;
-%                              11,qload/1000;];
-                         
-
-% When deactivate certain creses
 thermal.targetCreaseHeating=[
                              6,qload/1000;
                              13,qload/1000;
@@ -294,19 +267,46 @@ thermal.targetCreaseHeating=[
                              15,qload/1000*1.5;
                              
                              7,qload/1000*2;
-                             %8,qload/1000*2;
+                             8,qload/1000*2;
                              10,qload/1000*2;
                              12,qload/1000*2;
                                                           
-                             %17,qload/1000/2;
+                             17,qload/1000/2;
                              19,qload/1000/2;
                              
                              21,qload/1000;
                              
-                             9,qload/1000/2;
-                             11,qload/1000/2;];
+                             9,qload/1000;
+                             11,qload/1000;];
+                         
 
-ori.loadingController{1}={"ThermalLoading",thermal};
+% When deactivate certain creses
+% thermal.targetCreaseHeating=[
+%                              6,qload/1000;
+%                              13,qload/1000;
+%                              
+%                              1,4*qload/1000;
+%                              18,4*qload/1000;
+%                              
+%                              3,qload/1000*1.5;
+%                              5,qload/1000*1.5;
+%                              14,qload/1000*1.5;
+%                              15,qload/1000*1.5;
+%                              
+%                              7,qload/1000*2;
+%                              %8,qload/1000*2;
+%                              10,qload/1000*2;
+%                              12,qload/1000*2;
+%                                                           
+%                              %17,qload/1000/2;
+%                              19,qload/1000/2;
+%                              
+%                              21,qload/1000;
+%                              
+%                              9,qload/1000/2;
+%                              11,qload/1000/2;];
+
+ori.loadingController{1}={"ElectroThermal",thermal};
 
 
 %% Solving the model

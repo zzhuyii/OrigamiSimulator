@@ -1,24 +1,24 @@
-%% Nonlinear solver for folding (Assembling)
+%% Solver for folding with changing ambient temperature
 %
-% This code folds the structure by atering the stress free angle of the
-% springs incrementally and trace the equilibrium with a Newton-Raphson 
-% method. This code cannot capture snapthrough during the folding. 
+% This solver solves the folding motion of the origami structure under the
+% changing ambient temperature. It directly changes the ambient temperature
+% to simulate the folding motion.
 %
 
 function [U,UhisThermal,energyHisThermal,temperatureHistory,...
             rotTargetZeroStrain,sprTargetZeroStrain]=...
-            Solver_LoadingThermal(obj,thermal)    
+            Solver_LoadingChangingTemperature(obj,thermal)    
         
     % load the crrent information of the system
     U=obj.currentU;
     q=obj.currentQ;
-    T=obj.currentT;   
+    Tinitial=obj.RT;   
     
     nodeNum=size(U);
     nodeNum=nodeNum(1);  
     
     [thermalMat]=obj.Thermal_AssembleConductMat(thermal,U);
-    qLoad=obj.Thermal_ConvertCreaseHeat2NodeHeat(thermal.targetCreaseHeating);
+%    qLoad=obj.Thermal_ConvertCreaseHeat2NodeHeat(thermal.targetCreaseHeating);
         
     % set up storage matrix
     temperatureHistory=zeros(nodeNum,thermal.thermalStep);
@@ -29,21 +29,22 @@ function [U,UhisThermal,energyHisThermal,temperatureHistory,...
     thermal.FnodalHis=zeros(thermal.thermalStep,3);
     
     for i=1:thermal.thermalStep
-            
-        % linearly increment of input energy
-        qtemp=i/thermal.thermalStep*qLoad+q;
         
+
         A=size(thermal.roomTempNode);
         Nrt=A(1);
 
+        % Assign temperature profile
+        obj.RT=(thermal.targetAmbientTemperature-Tinitial)*i/(thermal.thermalStep)+Tinitial;
+        
         % Solve for the temperature profile
         [T,indexArray]=obj.Thermal_SolveTemperature(...
-            qtemp,thermalMat,nodeNum,thermal);
+            q,thermalMat,nodeNum,thermal);
         
         temperatureHistory(indexArray,i)=T(1:(nodeNum-Nrt));
         temperatureHistory(thermal.roomTempNode,i)=obj.RT*ones(Nrt,1);
         T=temperatureHistory(:,i);
-                
+                  
         targetRot = obj.Thermal_UpdateRotZeroStrain(T,thermal);
         
         % set up the self folding process
@@ -69,9 +70,9 @@ function [U,UhisThermal,energyHisThermal,temperatureHistory,...
         UhisThermal(i,:,:)=U;
 
         % update the thermal matrix for next step
-        [thermalMat]=obj.Thermal_AssembleConductMat(thermal,U);
+        %[thermalMat]=obj.Thermal_AssembleConductMat(thermal,U);
 
     end    
-    obj.currentQ=qLoad+q;
+    obj.RT=thermal.targetAmbientTemperature;
 end
 

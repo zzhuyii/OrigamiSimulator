@@ -170,7 +170,7 @@ thermal.videoOpen=0;
 % the target loading of crease heating
 thermal.targetCreaseHeating=[3,10*W*L*tc];
 
-ori.loadingController{1}={"ThermalLoading",thermal};
+ori.loadingController{1}={"ElectroThermal",thermal};
 
 
 %% Solving the model
