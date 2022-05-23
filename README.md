@@ -4,7 +4,7 @@
 
 Realistic simulation of active origami structures with multi-physics behaviors. 
 The package can capture compliant creases, inter-panel contact, heat transfer, large
-folding deformation, and electro-thermally actuated creases. The package provides five
+folding deformation, and electro-thermally actuated creases. The package provides six
 different loading methods adn allows users to created customizable loading schemes with 
 arbitrary number and sequence of the provided loading methods. 
 
@@ -55,24 +55,23 @@ frictionless contact model and can give the correponding forcese between the con
 the heat transfer of active origami and can calculate the active crease folding due to changing temperature. 
 
 
-## Comments on Stiffness Prediction Accuracy:
+## Comments on Accuracy in Stiffness Prediction:
 
-This code is based on a bar and hinge model for origami structures. The bar and hinge model is a reduced order simulation method
-to capture the kinematic and mechanical behaviors of origami structures. 
-There are different ways to derive the stiffness parameters of a bar and hinge model, and these methods produce different results. 
-In this model, the stiffness parameters are mostly derived analytically by matching the stiffness with theoretical plate 
-for shear and tension and by matching the pseudo-rigid-body model (see Howell's textbook Compliant Mechanisms) for large folding. 
-This method does not capture large panel deformations with high fidelity, especially when studying non-rigid foldable origami patterns. 
+This code is based on bar and hinge models for origami structures. The bar and hinge model is a reduced order simulation method
+for capturing the kinematic and mechanical behaviors of origami structures. 
+There are different ways for deriving the stiffness parameters of a bar and hinge model, and these methods produce different results. 
+In this simulation package, the stiffness parameters are derived analytically through matching the stiffness from the bar and hinge model
+to that from the the theoretical plate (for shear and tension) and the pseudo-rigid-body model (for large folding). 
+This derivation method does not capture large panel deformations with high fidelity, especially when studying non-rigid foldable origami patterns. 
 Most paper-based non-rigid foldable origami prototypes can have panels with initial curvature and bending. 
 Therefore, the bar and hinge model can over-estimate the stiffness of these prototypes because it cannot capture the softening due to 
-the initial curving and bending (which effectively requires capturing the softened post-buckling stiffness).
-In physics, many researchers will use curve-fitting to find the stiffness parameters of bars and rotational springs. 
-Curve-fitting is like using the secant stiffness while analytically derivation is like using the initial tangent stiffness. 
-Therefore, the curve-fitting method can approximate the softening behaviors due to panel buckling and bending better 
-for studying many non-rigid foldable origami structures. 
-Users of the code are suggested to try curve-fit the stiffness parameters if high accuracy is needed for simulating non-rigid foldable systems
-and matching the behaviors in origami prototypes. 
-However, the analytical derivation still provides a fast alternative for finding the trends and understanding the behaviors. 
+the initial curving and bending (which requires capturing the softened post-buckling stiffness).
+To resolve this, many researchers will use curve-fitting to find out the stiffness parameters of bars and rotational springs (say fitting the Young's modulus). 
+In this case, curve-fitting is like using the secant stiffness (while analytically derivation is like using the initial tangent stiffness), 
+so the curve-fitting method can better approximate the softened stiffness of many non-rigid foldable origami prototypes. 
+Users of the code are suggested to try curve-fit the stiffness parameters (such as Young's modulus) if high accuracy is needed 
+for simulating non-rigid foldable systems and matching the behaviors in origami prototypes. 
+However, the results from analytical derivation still provides a fast alternative for finding the trends and understanding the behaviors of origami systems. 
 
 
 ## Using the Code:
