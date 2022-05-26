@@ -224,7 +224,7 @@ thermal.roomTempNode=[];
 
 dAlpha=200*10^(-6);
 thermal.deltaAlpha=zeros(ori.oldCreaseNum,1);
-thermal.deltaAlpha(1)=dAlpha; 
+thermal.deltaAlpha(1)=-dAlpha; 
 thermal.deltaAlpha(3)=dAlpha; 
 thermal.deltaAlpha(5)=dAlpha; 
 thermal.deltaAlpha(6)=dAlpha; 
@@ -241,10 +241,10 @@ thermal.deltaAlpha(18)=-dAlpha;
 
 thermal.deltaAlpha(17)=-dAlpha; 
 thermal.deltaAlpha(19)=-dAlpha;
-thermal.deltaAlpha(21)=-dAlpha; 
+thermal.deltaAlpha(21)=dAlpha; 
 
 thermal.deltaAlpha(9)=dAlpha;
-thermal.deltaAlpha(11)=-dAlpha;
+thermal.deltaAlpha(11)=dAlpha;
 
 
 thermal.Emat1=50*10^9; 

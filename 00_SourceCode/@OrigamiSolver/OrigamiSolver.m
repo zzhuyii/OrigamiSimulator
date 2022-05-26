@@ -61,12 +61,12 @@ classdef OrigamiSolver < handle
         % panel connectivity of the orignal origami
         panel0;
         
-        % flag2D3D is used to determine how the additional crease structure
+        % mesh2D3D is used to determine how the additional crease structure
         % is generated,2D means center bars are genertaed through using an 
         % averaged vector, 3D means the center bars are located at the 
         % original positoin.
         % 3 3D, 2 2D
-        flag2D3D=2;
+        mesh2D3D=2;
         
         % compliantCreaseOpen is used to determine if compliant crease
         % model should be used or not
@@ -82,6 +82,12 @@ classdef OrigamiSolver < handle
         % sometime user is expected to directly edit it to correct the
         % minor imperfection from the automated meshing
         newNode
+        
+        % initialize folding sign
+        % when modeling structures with initial 3D shapes, the folding
+        % directions can be wrong. This vector can be used to regulate that
+        % behavior manually.
+        initialFoldSign=1;
         
         
         %% Origami Mechanical Properties

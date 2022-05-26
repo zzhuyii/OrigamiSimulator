@@ -19,7 +19,7 @@ function Solver_Solve(obj)
         % We first calcualte the folding angle, assume that the current
         % state is stress free. 
         
-        if obj.flag2D3D==2
+        if obj.mesh2D3D==2
             obj.currentRotZeroStrain=pi*ones(obj.oldCreaseNum,1);
             obj.currentSprZeroStrain=obj.Spr_Theta(...
                 obj.currentU,obj.sprIJKL,obj.newNode);
@@ -35,12 +35,14 @@ function Solver_Solve(obj)
 
                 for i = 1:obj.oldCreaseNum
                     if obj.currentSprZeroStrain(i,1) ~=0
-                        obj.currentRotZeroStrain(i)=pi-(obj.currentSprZeroStrain(i,1)-pi);
+                        obj.currentRotZeroStrain(i)=obj.currentSprZeroStrain(i,1);    
                     end
                 end
+                
             % Here we mesh the system with no compliant crease, calculate the
             % rotaiton angle for spring elements and then record the numbers as
             % the rotation angle for Rot.
+            
                 obj.compliantCreaseOpen=1;
                 obj.Mesh_Mesh();    
 
@@ -69,10 +71,11 @@ function Solver_Solve(obj)
         
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Just a note here. The current initialization code is not so
-    % perfect. The RotVector and the SprVector sometime is not
-    % correctly assocated with each other in some situations. 
-    % This needs to be fixed in the future.         
+    % perfect. The stress free RotVector can have a small divergence from 
+    % what we get from the real folding from the meshing code. This needs 
+    % to be fixed in the future.         
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
     end
     
     % We sequentially reads the items in the loading controller and

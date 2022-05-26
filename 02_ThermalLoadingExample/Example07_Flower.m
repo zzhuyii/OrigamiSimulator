@@ -329,13 +329,13 @@ thermal.deltaAlpha(15)=deltaAlpha;
 thermal.deltaAlpha(16)=deltaAlpha;
 
 thermal.deltaAlpha(41)=-deltaAlpha;
-thermal.deltaAlpha(43)=deltaAlpha;
-thermal.deltaAlpha(46)=deltaAlpha;
-thermal.deltaAlpha(49)=deltaAlpha;
-thermal.deltaAlpha(52)=deltaAlpha;
-thermal.deltaAlpha(55)=deltaAlpha;
-thermal.deltaAlpha(58)=deltaAlpha;
-thermal.deltaAlpha(61)=deltaAlpha;
+thermal.deltaAlpha(43)=-deltaAlpha;
+thermal.deltaAlpha(46)=-deltaAlpha;
+thermal.deltaAlpha(49)=-deltaAlpha;
+thermal.deltaAlpha(52)=-deltaAlpha;
+thermal.deltaAlpha(55)=-deltaAlpha;
+thermal.deltaAlpha(58)=-deltaAlpha;
+thermal.deltaAlpha(61)=-deltaAlpha;
 
 thermal.deltaAlpha(40)=deltaAlpha;
 thermal.deltaAlpha(17)=deltaAlpha;

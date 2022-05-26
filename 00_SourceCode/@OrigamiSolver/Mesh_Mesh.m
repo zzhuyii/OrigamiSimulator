@@ -376,18 +376,28 @@ function Mesh_CompliantCreaseGeometry(obj)
 %                 obj.currentRotZeroStrain(i)=
 
                 % Generate Three new node and their location for the analysis
-                if obj.flag2D3D==3
-                    obj.newNode(count,:)=(Node11-RefVector1)/2+((Node11+Node21)/2)/2;
+                if obj.mesh2D3D==3
+                    p1=(Node11-RefVector1)...
+                        *((sin(theta1/2)-sin(theta1/4))/sin(theta1/2))...
+                        +((Node11+Node21)/2)...
+                        *(sin(theta1/4)/sin(theta1/2));
+                    obj.newNode2OldNode(count)=0;
+                    obj.newNode(count,:)=p1;
+                    count=count+1;
+                    
+                    p2=(Node12-RefVector2)...
+                        *((sin(theta2/2)-sin(theta2/4))/sin(theta2/2))...
+                        +((Node12+Node22)/2)...
+                        *(sin(theta2/4)/sin(theta2/2));
+                    obj.newNode2OldNode(count)=0;
+                    obj.newNode(count,:)=p2;
+                    count=count+1;
+                    
+                    obj.newNode(count,:)=(p1+p2)/2;
                     obj.newNode2OldNode(count)=0;
                     count=count+1;
-                    obj.newNode(count,:)=(Node12-RefVector2)/2+((Node12+Node22)/2)/2;
-                    obj.newNode2OldNode(count)=0;
-                    count=count+1;
-                    obj.newNode(count,:)=((Node11-RefVector1)/2+((Node11+Node21)/2)/2)/2 ...
-                     +((Node12-RefVector2)/2+((Node12+Node22)/2)/2)/2;
-                    obj.newNode2OldNode(count)=0;
-                    count=count+1;
-                elseif obj.flag2D3D==2
+                    
+                elseif obj.mesh2D3D==2
                     obj.newNode(count,:)=(Node11+Node21)/2;
                     obj.newNode2OldNode(count)=0;
                     count=count+1;
@@ -425,8 +435,8 @@ function Mesh_CompliantCreaseGeometry(obj)
                 BarNum=BarNum+1;
 
                 obj.barType(BarNum)=3;
-                obj.barConnect(BarNum,:)=[NodeIndex11,count-1];
-                obj.sprIJKL(BarNum,:)=[NodeIndex12,count-1,NodeIndex11,count-3];
+                obj.barConnect(BarNum,:)=[NodeIndex11,count-1];                
+                obj.sprIJKL(BarNum,:)=[NodeIndex12,count-1,NodeIndex11,count-3];                
                 obj.newCrease2OldCrease(BarNum)=i;
                 BarNum=BarNum+1;
 
@@ -733,6 +743,28 @@ function Mesh_CompliantCreaseGeometry(obj)
     
     A=size(obj.barConnect);
     barNum=A(1);
+    
+    %% check the IJKL matrix to make sure the right polarity
+    for t=1:barNum
+       if obj.sprIJKL(t,1)~=0
+           ni=obj.newNode(obj.sprIJKL(t,1),:);
+           nj=obj.newNode(obj.sprIJKL(t,2),:);
+           nk=obj.newNode(obj.sprIJKL(t,3),:);
+           
+           rij=nj-ni;
+           rkj=nk-nj;
+           
+           vec=cross(rij,rkj);
+           if vec(3)>0
+               tempIndex=obj.sprIJKL(t,1);
+               obj.sprIJKL(t,1)=obj.sprIJKL(t,4);
+               obj.sprIJKL(t,4)=tempIndex;
+           end
+       end
+    end
+    
+    
+    %% finalize result
     obj.newCrease2OldCrease(obj.panelInnerBarStart:barNum)=zeros(size(obj.panelInnerBarStart:barNum));
     
     obj.Mesh_NumberingForContact()
