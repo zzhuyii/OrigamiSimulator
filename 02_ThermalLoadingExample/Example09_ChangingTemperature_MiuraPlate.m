@@ -53,6 +53,7 @@
 %%%%% Sequentially Working Origami Multi-Physics Simulator (SWOMPS)  %%%%%%
 
 %% Initialize the solver
+tic
 clear;clc;close all;
 ori=OrigamiSolver;
 
@@ -284,3 +285,4 @@ ori.loadingController{2}={"ChangingTemperature",temperature};
 %% Solving the model
 ori.Solver_Solve();
 ori.Plot_DeformedShape(ori.newNode,ori.newNode+ori.currentU)
+toc

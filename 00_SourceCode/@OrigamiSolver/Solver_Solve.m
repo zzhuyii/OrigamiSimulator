@@ -206,6 +206,7 @@ function Solver_Solve(obj)
             tempController.strainEnergyHis=strainEnergyAssemble;
             
         elseif analyzeType=="ElectroThermal"
+            beforeLoadingU=obj.currentU;
             % perform the electro-thermal loading analysis
             [U,UhisThermal,energyHisThermal,temperatureHistory,...
                 rotTargetZeroStrain,sprTargetZeroStrain]=...
@@ -217,8 +218,12 @@ function Solver_Solve(obj)
                     obj.currentU+obj.newNode, U+obj.newNode, ...
                     squeeze(temperatureHistory(:,tempController.thermalStep)));
             end
+            loadingHis=UhisThermal;
+            for p=1:tempController.thermalStep
+               loadingHis(p,:,:)= squeeze(loadingHis(p,:,:))- beforeLoadingU;
+            end
             if tempController.videoOpen==1
-                obj.Plot_DeformedHisTemp(obj.newNode,UhisThermal,temperatureHistory); 
+                obj.Plot_DeformedHisTemp(obj.newNode+beforeLoadingU,loadingHis,temperatureHistory); 
             end
             if tempController.detailFigOpen==1                
                 obj.Plot_Energy(UhisAssemble,energyHisThermal);
@@ -234,6 +239,7 @@ function Solver_Solve(obj)
             tempController.temperatureHis=temperatureHistory;
             
         elseif analyzeType=="ChangingTemperature"
+            beforeLoadingU=obj.currentU;
             % loading analysis with changing ambient temperature
             [U,UhisThermal,energyHisThermal,temperatureHistory,...
                 rotTargetZeroStrain,sprTargetZeroStrain]=...
@@ -245,8 +251,12 @@ function Solver_Solve(obj)
                     obj.currentU+obj.newNode, U+obj.newNode, ...
                     squeeze(temperatureHistory(:,tempController.thermalStep)));
             end
+            loadingHis=UhisThermal;
+            for p=1:tempController.thermalStep
+               loadingHis(p,:,:)= squeeze(loadingHis(p,:,:))- beforeLoadingU;
+            end
             if tempController.videoOpen==1
-                obj.Plot_DeformedHisTemp(obj.newNode,UhisThermal,temperatureHistory); 
+                obj.Plot_DeformedHisTemp(obj.newNode+beforeLoadingU,loadingHis,temperatureHistory); 
             end
             if tempController.detailFigOpen==1                
                 obj.Plot_Energy(UhisAssemble,energyHisThermal);

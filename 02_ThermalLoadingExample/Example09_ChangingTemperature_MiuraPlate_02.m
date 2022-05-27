@@ -53,6 +53,7 @@
 %%%%% Sequentially Working Origami Multi-Physics Simulator (SWOMPS)  %%%%%%
 
 %% Initialize the solver
+tic
 clear;clc;close all;
 ori=OrigamiSolver;
 
@@ -116,8 +117,8 @@ ori.height=1200;
 ori.displayRange=8*10^(-3); % plotting range
 ori.displayRangeRatio=0.2; % plotting range in the negative axis
 
-ori.Plot_UnmeshedOrigami(); % Plot the unmeshed origami for inspection;
-ori.Plot_MeshedOrigami(); % Plot the meshed origami for inspection;
+%ori.Plot_UnmeshedOrigami(); % Plot the unmeshed origami for inspection;
+%ori.Plot_MeshedOrigami(); % Plot the meshed origami for inspection;
 
 
 
@@ -207,16 +208,11 @@ temperatureIni.deltaAlpha(49)=-dAlpha;
 temperatureIni.deltaAlpha(60)=-dAlpha; 
 
 
-
-
-
-
-
-
 temperatureIni.Emat1=50*10^9; 
 temperatureIni.Emat2=2*10^9;
 temperatureIni.tmat1=tg;
 temperatureIni.tmat2=ts;
+temperatureIni.plotOpen=0;
 temperatureIni.videoOpen=0; % close the animation
 
 % the target loading of crease heating
@@ -276,6 +272,7 @@ temperature.Emat1=50*10^9;
 temperature.Emat2=2*10^9;
 temperature.tmat1=tg;
 temperature.tmat2=ts;
+temperature.plotOpen=0;
 temperature.videoOpen=0; % close the animation
 
 % the target loading of crease heating
@@ -292,3 +289,4 @@ ori.continuingLoading=1;
 ori.loadingController{1}={"ChangingTemperature",temperature};
 ori.Solver_Solve();
 ori.Plot_DeformedShape(ori.newNode+UpreLoad,ori.newNode+ori.currentU)
+toc
