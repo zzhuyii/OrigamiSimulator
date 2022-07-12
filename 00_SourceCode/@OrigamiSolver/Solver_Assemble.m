@@ -98,6 +98,8 @@ function [U,UhisAssemble,strainEnergyAssemble,...
         theta=zeros(barNum,1); 
         
         while and(step<selfFold.iterMax,R>selfFold.tol)
+            
+            
             [Ex]=obj.Bar_Strain(U,obj.newNode,obj.barArea,...
                 obj.barConnect,obj.barLength);
             [theta]=obj.Spr_Theta(U,obj.sprIJKL,obj.newNode);

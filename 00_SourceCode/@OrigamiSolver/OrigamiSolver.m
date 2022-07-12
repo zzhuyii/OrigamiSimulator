@@ -245,8 +245,8 @@ classdef OrigamiSolver < handle
         barConnect
         
         % conentivity information of the rotaional springs;
-        sprIJKL        
-        
+        sprIJKL                
+       
         % type1BarNum: total number of panel bars;
         type1BarNum
         
