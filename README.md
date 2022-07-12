@@ -76,7 +76,7 @@ However, the results from analytical derivation still provides a fast alternativ
 ## Efficiency Update (2022-07-11)
 
 <p align="center">
-<img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/04_Documents_Figures/Efficiency Update.jpg" width="80%" >
+<img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/04_Documents_Figures/Efficiency Update.jpg" width="100%" >
 </p>
     
 **Figure 4.** Part of the code is vectorized now. I cannot believe I did not do it previously.
