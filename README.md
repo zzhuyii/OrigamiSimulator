@@ -79,8 +79,8 @@ However, the results from analytical derivation still provides a fast alternativ
 <img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/04_Documents_Figures/Efficiency Update.jpg" width="100%" >
 </p>
     
-**Figure 4.** Part of the code is vectorized now. I cannot believe I did not do it previously.
-That is the beauty of bar and hinge models; you can follow bad coding habbit and still get reasonalbly fast results. 
+**Figure 4.** Part of the code is vectorized now. I cannot believe that I did not do it previously.
+This probably shows the beauty of bar and hinge models; you can follow bad coding habbit and still get reasonalbly fast results. 
 Thankfully, one of my wafer is stuck in the machine and the lab staff is crazily busy recently so he cannot remove it for me. 
 This prevents me from doing micro-fab so I have an entire weekend plus a couple week days to sit down and vectorize my previous codes. 
 For the "Example06_FlowerSelfFold.m" the new version is roughly five times faster than the previous code. 
