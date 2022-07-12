@@ -73,6 +73,17 @@ Users of the code are suggested to try curve-fit the stiffness parameters (such 
 for simulating non-rigid foldable systems and matching the behaviors in origami prototypes. 
 However, the results from analytical derivation still provides a fast alternative for finding the trends and understanding the behaviors of origami systems. 
 
+## Efficiency Update (2022-07-11)
+
+<p align="center">
+<img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/04_Documents_Figures/Efficiency Update.jpg" width="80%" >
+</p>
+    
+**Figure 4.** Part of the code is vectorized now. I cannot believe I did not do it previously.
+That is the beauty of bar and hinge models; you can follow bad coding habbit and still get reasonalbly fast results. 
+Thankfully, one of my wafer is stuck in the machine and the lab staff is crazily busy recently to help me remove it so I have an entire weekend plus a couple week days to sit down and vectorize my previous codes. 
+For the "Example06_FlowerSelfFold.m" the new version is roughly five times faster than the previous code. 
+
 
 ## Using the Code:
 
