@@ -84,6 +84,7 @@ This probably shows the beauty of bar and hinge models; you can follow bad codin
 Thankfully, one of my wafer is stuck in the machine and the lab staff is crazily busy recently so he cannot remove it for me. 
 This prevents me from doing micro-fab so I have an entire weekend plus a couple week days to sit down and vectorize my previous codes. 
 For the "Example06_FlowerSelfFold.m" the new version is roughly five times faster than the previous code. 
+In addition to vectorizing the code for mechanical simulation, part of the code for thermal simulaiton is streamlined to reduce redundant calculation. 
 For the simulation of the SWOMPS logo, the new code is about three times faster than the previous code. 
 
 
