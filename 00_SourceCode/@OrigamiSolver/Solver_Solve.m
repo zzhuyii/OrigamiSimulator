@@ -207,6 +207,7 @@ function Solver_Solve(obj)
             
         elseif analyzeType=="ElectroThermal"
             beforeLoadingU=obj.currentU;
+            obj.Thermal_NewPanel2NewBar();
             % perform the electro-thermal loading analysis
             [U,UhisThermal,energyHisThermal,temperatureHistory,...
                 rotTargetZeroStrain,sprTargetZeroStrain]=...
@@ -240,6 +241,7 @@ function Solver_Solve(obj)
             
         elseif analyzeType=="ChangingTemperature"
             beforeLoadingU=obj.currentU;
+            obj.Thermal_NewPanel2NewBar();
             % loading analysis with changing ambient temperature
             [U,UhisThermal,energyHisThermal,temperatureHistory,...
                 rotTargetZeroStrain,sprTargetZeroStrain]=...

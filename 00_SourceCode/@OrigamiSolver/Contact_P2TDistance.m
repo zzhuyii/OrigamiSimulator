@@ -40,7 +40,7 @@ function [d,zone,N1,N2]=Contact_P2TDistance(obj,Point,T1,T2,T3)
     K=[E0 E1 E2];
     Decomp=linsolve(K,V);  
 
-   s0=Decomp(1);
+    s0=Decomp(1);
     t0=Decomp(2);
 
     V1=cross(E2,E1);

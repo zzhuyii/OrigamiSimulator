@@ -262,6 +262,10 @@ classdef OrigamiSolver < handle
         % [newCrease2OldCrease]: mapping between the new crease and the 
         % old crease;
         newCrease2OldCrease
+        
+        % [newPanel2NewBar]: mapping the New Panel Number to the new Node 
+        % Number for speeding the assembly of thermal matrix;
+        newPanel2NewBar
    
         % [newPanel2OldPanel]: mapping between the new panel and the 
         % old panel;

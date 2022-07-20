@@ -32,12 +32,10 @@ function [T,indexArray]=Thermal_SolveTemperature(...
 
         qf=qin(indexArray);
 
-        Kff=thermalMat(indexArray,indexArray);
         Ksf=thermalMat([roomTempNode',(airLayer*thermalNodeNum)+1:end],indexArray);
 
         % Convert to sparse matrix to speed up linear equation solver
-        Kff=sparse(Kff);
-        
+        Kff=sparse(thermalMat(indexArray,indexArray));        
         T=Kff\(qf-Ksf'*Ts); 
 
         % the output index array has no air nodes
