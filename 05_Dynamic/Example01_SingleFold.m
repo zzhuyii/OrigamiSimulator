@@ -134,7 +134,7 @@ ori.creaseThickVec(3)=(tg+ts);
 
 %% setup panel contact information
 
-ori.contactOpen=1;
+ori.contactOpen=0;
 ori.ke=0.0001;
 ori.d0edge=40*(10^(-6));
 ori.d0center=40*(10^(-6));
@@ -155,7 +155,8 @@ ori.densityCrease=rhoSU8;
 ori.densityPanel=rhoSU8;
 
 ori.Solver_Solve()
-ori.Dynamic_Solver()
+Uhis=ori.Dynamic_Solver();
+dispHis1=squeeze(Uhis(:,6,3));
 
 
 %% Setup the loading controller
@@ -184,8 +185,6 @@ selfFold.tol=4*10^-6;
 selfFold.iterMax=25;
 selfFold.videoOpen=0;
 
-
-
 % applying the gravity loading
 nr=ControllerNRLoading;
 
@@ -209,7 +208,6 @@ nr.load=[5,0,0,-loadMag;
       8,0,0,-loadMag;
       17,0,0,-2*loadMag;];
 nr.videoOpen=0;
-
   
 % applying the thermal loading
 thermal=ControllerElectroThermalFolding;
@@ -241,7 +239,6 @@ thermal.videoOpen=0;
 % the target loading of crease heating
 thermal.targetCreaseHeating=[3,qload/1000];
 
-
 ori.loadingController{1}={"SelfFold",selfFold};
 ori.loadingController{2}={"NR",nr};
 ori.loadingController{3}={"ElectroThermal",thermal};
@@ -249,7 +246,6 @@ ori.loadingController{3}={"ElectroThermal",thermal};
 
 %% Solving the model
 ori.Solver_Solve();
-
 
 x1=ori.newNode(5,:)+ori.currentU(5,:);
 x2=ori.newNode(6,:)+ori.currentU(6,:);
@@ -259,7 +255,7 @@ x4=ori.newNode(1,:)+ori.currentU(1,:);
 vec1=x4-x3;
 vec2=x2-x1;
 
-theta=acos(dot(vec1,vec2)/norm(vec1)/norm(vec2))
+theta=acos(dot(vec1,vec2)/norm(vec1)/norm(vec2));
 
 
 
