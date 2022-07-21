@@ -21,7 +21,7 @@ function [UHis]=Dynamic_Solver(obj,Fext,supp,V0,dt,Tfinal)
     
     
     dt=10^-5;
-    step=100000;
+    step=10000;
     TimeVec=(1:step)*dt;
     Fext=zeros(step,newNodeNum,3);
     % Apply a sin wave loading in z direction at the tips
@@ -134,6 +134,10 @@ function [UHis]=Dynamic_Solver(obj,Fext,supp,V0,dt,Tfinal)
         VHis(i+1,:,:)=reshape(Vhisi1,[3,newNodeNum])';
         
         a=1;
+        
+        if rem(i,1000)==0
+            fprintf('finish solving %d step \n',i);
+        end
         
     end
 
