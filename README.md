@@ -1,6 +1,6 @@
 # OrigamiSimulator
 
-![alt text](https://github.com/zzhuyii/OrigamiSimulator/blob/master/04_Documents_Figures/SWOMPS.gif)
+![alt text](https://github.com/zzhuyii/OrigamiSimulator/blob/master/05_Documents_Figures/SWOMPS.gif)
 
 Realistic simulation of active origami structures with multi-physics behaviors. 
 The package can capture compliant creases, inter-panel contact, heat transfer, large
@@ -33,7 +33,7 @@ https://sites.google.com/view/yi-zhu/research/origami-simulator/
     thermo-mechanically coupled actuation of active origami creases. (**Figure 3**)
     
 <p align="center">
-<img src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/04_Documents_Figures/RealisticCrease.png" width="45%" >
+<img src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/05_Documents_Figures/RealisticCrease.png" width="45%" >
 </p>
 
 **Figure 1.** The package allows users to simulate origami systems with compliant creases, which are creases with non-negligible width. 
@@ -41,14 +41,14 @@ Using the compliant crease meshing provides more realistic geometry and allows t
  and multi-physics actuation. 
 
 <p align="center">
-<img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/04_Documents_Figures/InterLockingDevice.PNG" width="60%" >
+<img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/05_Documents_Figures/InterLockingDevice.PNG" width="60%" >
 </p>
 
 **Figure 2.** The package allows users to simulate global inter-panel contact within the origami. This panel contact model is a physics-based 
 frictionless contact model and can give the correponding forcese between the contacting panels. 
  
 <p align="center">
-<img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/04_Documents_Figures/GraphAbstract_webpage.png" width="50%" >
+<img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/05_Documents_Figures/GraphAbstract_webpage.png" width="50%" >
 </p>
     
 **Figure 3.** The package allows users to simulate multi-physics based electro-thermal actuation in the origami creases. The package can capture 
@@ -82,7 +82,7 @@ This prevents me from doing micro-fab so I have an entire weekend plus a couple 
 In addition to vectorizing the code for mechanical simulation, part of the code for thermal simulaiton is streamlined to reduce redundant calculation. 
 
 <p align="center">
-<img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/04_Documents_Figures/Efficiency Update.jpg" width="100%" >
+<img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/05_Documents_Figures/Efficiency Update.jpg" width="100%" >
 </p>
     
 **Figure 4.** 
