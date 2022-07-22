@@ -39,6 +39,10 @@ classdef ControllerDynamics  < handle
         % plot details
         detailFigOpen=0
         
+        % Rayleigh damping
+        alpha=0.0001
+        beta=0.0001
+        
         %% Output properties
         % the history of displacement field
         Uhis

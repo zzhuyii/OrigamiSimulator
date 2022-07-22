@@ -53,7 +53,7 @@
 %%%%% Sequentially Working Origami Multi-Physics Simulator (SWOMPS)  %%%%%%
 
 %% Initialize the solver
-clear;clc;close all;
+clear all;clc;close all;
 ori=OrigamiSolver;
 tic
 
@@ -61,118 +61,103 @@ tic
 % This section of code is used to generate the geometry of the origami
 % pattern before meshing; 
 
-% thickness of gold and su-8
-tg=0.2*10^-6;
-ts=0.80*10^-6;
-% thickness of panel
-tpanel=21*10^-6;
-% density of SU-8
-rhoSU8=1200;
-% width of crease
-W=400*10^-6;
-% length of panel
-Lpanel=1*10^(-3);
-% undercut of XeF2 etching
-underCut=100*10^-6;
+a=50*10^(-3);
+b=50*10^(-3);
+gama=80*pi/180;
+m=4;
+n=2;
+Ext=0.6;
+[node0,panel0]=GenerateMiuraSheet(a,b,gama,m,n,Ext);
 
+ori.node0=node0;
+ori.panel0=panel0;
 
-ori.node0=[0 0 0;
-      Lpanel+W/2 0 0;
-      2*Lpanel+W 0 0;
-      0 Lpanel 0;
-      Lpanel+W/2 Lpanel 0;
-      2*Lpanel+W Lpanel 0;
-      0*Lpanel,-0.7*Lpanel,-underCut;
-      0*Lpanel,1.8*Lpanel,-underCut;
-      2.5*Lpanel,-0.6*Lpanel,-underCut;
-      2.5*Lpanel,1.6*Lpanel,-underCut;];
-  
-ori.panel0{1}=[1 2 5 4];
-ori.panel0{2}=[2 3 6 5];
-ori.panel0{3}=[7 8 10 9];
+% Ploting option
+ori.viewAngle1=15;
+ori.viewAngle2=30;
+ori.displayRange=220*10^(-3); % plotting range
+ori.displayRangeRatio=0.2; % plotting range in the negative axis
 
 % Analyze the original pattern before proceeding to the next step
 ori.Mesh_AnalyzeOriginalPattern();
-
+ori.Plot_UnmeshedOrigami(); % Plot the unmeshed origami for inspection;
 
 %% Meshing of the origami model
-
-% Define the crease width 
+% Define the crease width
 ori.creaseWidthVec=zeros(ori.oldCreaseNum,1);
-ori.creaseWidthVec(3)=W;
+ori.creaseWidthVec(3)=6*10^(-3);
+ori.creaseWidthVec(4)=6*10^(-3);
+ori.creaseWidthVec(6)=6*10^(-3);
+
+ori.creaseWidthVec(9)=6*10^(-3);
+ori.creaseWidthVec(10)=6*10^(-3);
+ori.creaseWidthVec(11)=6*10^(-3);
+
+ori.creaseWidthVec(15)=6*10^(-3);
+ori.creaseWidthVec(14)=6*10^(-3);
+ori.creaseWidthVec(16)=6*10^(-3);
+ori.creaseWidthVec(20)=6*10^(-3);
+
+% Define other parameters for meshing
+ori.mesh2D3D=3; % load a 3D meshing method
+ori.compliantCreaseOpen=0;
 
 % Compute the meshed geometry
 ori.Mesh_Mesh()
-
-% Plot the results for inspection
-ori.viewAngle1=45;
-ori.viewAngle2=45;
-ori.displayRange=3*10^(-3); % plotting range
-ori.displayRangeRatio=0.3; % plotting range in the negative axis
-
-ori.Plot_UnmeshedOrigami(); % Plot the unmeshed origami for inspection;
 ori.Plot_MeshedOrigami(); % Plot the meshed origami for inspection;
-
 
 %% Assign Mechanical Properties
 
-ori.panelE=2*10^9; 
-ori.creaseE=2*10^9; 
+ori.panelE=1000*10^6; 
+ori.creaseE=2000*10^6; 
 ori.panelPoisson=0.3;
-ori.creasePoisson=0.3; 
-ori.panelThickVec=[500*10^(-6);tpanel;500*10^(-6)]; 
-ori.panelW=W;
-
-% set up the diagonal rate to be large to suppress crease torsion
-ori.diagonalRate=1000;
+ori.creasePoisson=0.3;
+ori.panelThickVec=[1;1;1;1;...
+                   1;1;1;1;]*1000*10^(-6); 
+               
+ori.panelW=6*10^-3;
 
 ori.creaseThickVec=zeros(ori.oldCreaseNum,1);
-ori.creaseThickVec(3)=(tg+ts);
+ori.creaseThickVec(3)=100*10^(-6);
+ori.creaseThickVec(4)=100*10^(-6);
+ori.creaseThickVec(6)=100*10^(-6);
 
+ori.creaseThickVec(9)=100*10^(-6);
+ori.creaseThickVec(10)=100*10^(-6);
+ori.creaseThickVec(11)=100*10^(-6);
 
-%% setup panel contact information
+ori.creaseThickVec(15)=100*10^(-6);
+ori.creaseThickVec(14)=100*10^(-6);
+ori.creaseThickVec(16)=100*10^(-6);
+ori.creaseThickVec(20)=100*10^(-6);
 
-ori.contactOpen=0;
-ori.ke=0.0001;
-ori.d0edge=40*(10^(-6));
-ori.d0center=40*(10^(-6));
-
-
-%% Assign Thermal Properties
-
-ori.panelThermalConductVec = [1.3;0.3;1.3]; 
-ori.creaseThermalConduct=0.3;
-ori.envThermalConduct=0.026;
-
-% thickness of the submerged environment at RT
-ori.t2RT=1500*10^(-6); 
-
-
-%% Apply sine wave loading
+%% Setup the loading controller
+rhoSU8=1200;
 ori.densityCrease=rhoSU8;
 ori.densityPanel=rhoSU8;
 
 dynamics=ControllerDynamics();
+
 dynamics.supp=[1,1,1,1;
-          4,1,1,1;
-          16,1,1,1;
-          9,1,1,1;
-          10,1,1,1;
-          11,1,1,1;
-          12,1,1,1;];   
-      
+      3,0,0,1;
+      4,0,0,1;]; 
 dynamics.dt=10^-5;
-
-step=10000;
+  
+step=40000;
 TimeVec=(1:step)*10^-5;
-dynamics.Fext=zeros(step,18,3);
-dynamics.rotTargetAngle=pi*ones(step,11);
-% Apply a step force
-dynamics.Fext(:,6,3)=0.0000001;
-dynamics.Fext(:,7,3)=0.0000001;
-% Apply a step change in stress free folding angle
-dynamics.rotTargetAngle(:,3)=pi+pi/4;
+dynamics.Fext=zeros(step,23,3);
+dynamics.rotTargetAngle=pi*ones(step,22);
+% This will force the system to spring back to flat
 
+% Apply a step force
+% dynamics.Fext(:,6,3)=0.0000001;
+% dynamics.Fext(:,7,3)=0.0000001;
+% Apply a step change in stress free folding angle
+% dynamics.rotTargetAngle(:,3)=pi+pi/4;
+
+% set up the damping coefficient
+dynamics.alpha=0.003;
+dynamics.beta=0.003;
 
 % ploting option
 dynamics.plotOpen=0;
@@ -182,14 +167,4 @@ dynamics.videoCropRate=100;
 % Solve the solution
 ori.loadingController{1}={"Dynamics",dynamics};
 ori.Solver_Solve()
-
-
-% tip displacement curve
-Uhis=dynamics.Uhis;
-dispHis1=squeeze(Uhis(:,6,3));
-figure
-plot(dispHis1)
-
-
 toc
-

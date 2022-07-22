@@ -125,8 +125,8 @@ function [U,UHis]=Solver_Dynamics(obj,dynamics)
 
             
         % Set up the damping matrix
-        alpha=0.00001;
-        beta=0.00001;
+        alpha=dynamics.alpha;
+        beta=dynamics.beta;
         DampMat=alpha*Mass+beta*K;
         
         

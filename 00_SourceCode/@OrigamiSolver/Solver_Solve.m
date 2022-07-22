@@ -287,8 +287,9 @@ function Solver_Solve(obj)
                 videoCropRate=tempController.videoCropRate;
                 A=size(Uhis);
                 step=A(1);
+                nodeNum=A(2);
                 totalStep=int64(step/videoCropRate);
-                UhisCorp=zeros(totalStep,18,3);
+                UhisCorp=zeros(totalStep,nodeNum,3);
                 for i=1:totalStep
                     UhisCorp(i,:,:)=Uhis(100*i,:,:);
                 end
