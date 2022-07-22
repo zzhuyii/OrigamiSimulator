@@ -4,7 +4,7 @@
 
 Realistic simulation of active origami structures with multi-physics behaviors. 
 The package can capture compliant creases, inter-panel contact, heat transfer, large
-folding deformation, and electro-thermally actuated creases. The package provides six
+folding deformation, and electro-thermally actuated creases. The package provides seven
 different loading methods adn allows users to created customizable loading schemes with 
 arbitrary number and sequence of the provided loading methods. 
 
@@ -20,6 +20,7 @@ https://sites.google.com/view/yi-zhu/research/origami-simulator/
     * (1) Newton-Raphson method, (2) Displacement controlled method, and (3) Generalized displacement controlled method for applying external forces. 
     * (4) Changing stress-free folding angle for self-folding.
     * (5) Changing environmetnal temperature and (6) applying electro-thermal actuation for thermally active self-folding. 
+    * (7) Constant Average Acceleration Method for dynamic loading.
     
 * Allows users to create customizable loading schemes with arbitrary number and 
     sequence of the provided five loading methods. 
