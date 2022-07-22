@@ -10,9 +10,8 @@ function NodalMass=Dynamic_MassVector(obj)
     gammaPanel=obj.densityPanel;
     
     NumPanelEnd=size(obj.newPanel,2);
-    NumPanelStart=size(obj.panel0,2);
    
-    for i=NumPanelStart+1:NumPanelEnd
+    for i=1:NumPanelEnd
        nodeVec=obj.newPanel{i};
        
        vec1=obj.newNode(nodeVec(2),:)-obj.newNode(nodeVec(1),:);

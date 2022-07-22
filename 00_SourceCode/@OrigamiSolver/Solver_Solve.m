@@ -273,6 +273,36 @@ function Solver_Solve(obj)
             tempController.strainEnergyHis=energyHisThermal;
             tempController.temperatureHis=temperatureHistory;
             
+        elseif analyzeType=="Dynamics"
+            beforeLoadingU=obj.currentU;
+            obj.Thermal_NewPanel2NewBar();
+            % loading analysis with changing ambient temperature
+            [U,Uhis]=obj.Solver_Dynamics(tempController);
+            
+            % plot the reults when ploting option is open
+            if tempController.plotOpen==1
+                obj.Plot_DeformedShape(obj.currentU+obj.newNode, U+obj.newNode);
+            end
+            if tempController.videoOpen==1
+                videoCropRate=tempController.videoCropRate;
+                A=size(Uhis);
+                step=A(1);
+                totalStep=int64(step/videoCropRate);
+                UhisCorp=zeros(totalStep,18,3);
+                for i=1:totalStep
+                    UhisCorp(i,:,:)=Uhis(100*i,:,:);
+                end
+                obj.Plot_DeformedHis(obj.newNode+beforeLoadingU,UhisCorp) 
+            end
+            if tempController.detailFigOpen==1                
+                obj.Plot_Energy(UhisAssemble,energyHisThermal);
+            end
+            % update the current status or origami after loading
+            obj.currentU=U;
+
+            %obj.currentRotZeroStrain=rotTargetZeroStrain;
+            %obj.currentSprZeroStrain=sprTargetZeroStrain;
+            
         end
     end
 end

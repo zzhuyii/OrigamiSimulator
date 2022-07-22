@@ -1,9 +1,8 @@
-% This class stores the properties used to control the modified
-% geenralized displacement controlled loading of an origami
+% This class stores the properties used to control the Newton-Raphson
+% loading of an origami
 
-classdef ControllerMGDCMLoading  < handle
+classdef ControllerDynamics  < handle
     properties
-        %% Input properties
         % storing the support information
         supp
         
@@ -19,45 +18,33 @@ classdef ControllerMGDCMLoading  < handle
         % a sample input here
         % suppElastic=[1,3,10000;4,3,10000];
         
-        % the applied load
-        load
-        % a sampel code is the following
-        % loadForce=3;
-        % load=[29,0,0,loadForce;
-        %       30,0,0,loadForce;
-        %       31,0,0,loadForce;
-        %       32,0,0,loadForce;];
+        % the applied load in time history
+        Fext
         
-        % the total number of incremental steps
-        increStep=50
+        % self folding spring time history
+        rotTargetAngle
         
-        % the tolerance for each iteration
-        tol=1*10^-5
-        
-        % the lambdaBar used to control the loading
-        lambdaBar=1
-        
-        % the maximum allowed iteration number
-        iterMax=30        
+        % time increment of each step
+        dt
         
         % show the figure of a final deformed shape
-        plotOpen=1
+        plotOpen=0
         
         % plot animation
         videoOpen=1
         
+        % crop frames for video
+        videoCropRate=100
+        
         % plot details
         detailFigOpen=0
-
-        %% Output Properties
+        
+        %% Output properties
         % the history of displacement field
         Uhis
         
         % the history of strain energy
-        strainEnergyHis
-        
-        % the history of loading
-        loadHis
+        strainEnergyHis        
         
         % The history of nodal forces
         FnodalHis
