@@ -76,8 +76,7 @@ W=400*10^-6;
 Lpanel=1*10^(-3);
 % undercut of XeF2 etching
 underCut=100*10^-6;
-% power input (mW)
-qload=25;
+
 
 ori.node0=[0 0 0;
       Lpanel+W/2 0 0;
@@ -155,16 +154,43 @@ ori.t2RT=1500*10^(-6);
 ori.densityCrease=rhoSU8;
 ori.densityPanel=rhoSU8;
 
+dynamics=ControllerDynamics();
+dynamics.supp=[1,1,1,1;
+          4,1,1,1;
+          16,1,1,1;
+          9,1,1,1;
+          10,1,1,1;
+          11,1,1,1;
+          12,1,1,1;];   
+      
+dynamics.dt=10^-5;
+
+step=10000;
+TimeVec=(1:step)*10^-5;
+dynamics.Fext=zeros(step,18,3);
+dynamics.rotTargetAngle=pi*ones(step,11);
+% Apply a step force
+dynamics.Fext(:,6,3)=0.0000001;
+dynamics.Fext(:,7,3)=0.0000001;
+% Apply a step change in stress free folding angle
+dynamics.rotTargetAngle(:,3)=pi+pi/4;
+
+
+% ploting option
+dynamics.plotOpen=0;
+dynamics.videoOpen=1;
+dynamics.videoCropRate=100;
+
+% Solve the solution
+ori.loadingController{1}={"Dynamics",dynamics};
 ori.Solver_Solve()
-Uhis=ori.Dynamic_Solver();
+
+
+% tip displacement curve
+Uhis=dynamics.Uhis;
 dispHis1=squeeze(Uhis(:,6,3));
-
-UhisCorp=zeros(100,18,3);
-for i=1:100
-    UhisCorp(i,:,:)=Uhis(100*i,:,:);
-end
-
-ori.Plot_DeformedHis(ori.newNode,UhisCorp)
+figure
+plot(dispHis1)
 
 
 toc

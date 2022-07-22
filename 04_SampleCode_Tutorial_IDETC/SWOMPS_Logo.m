@@ -486,7 +486,9 @@ ori.t2RT=0.02;
 % applying the thermal loading
 thermal=ControllerElectroThermalFolding;
 
-thermal.thermalStep=250;
+thermal.thermalStep=50;
+% I am using 250 when comparing the efficiency
+
 thermal.tol=5*10^-5; 
 
 thermal.supp=[1,1,1,1;
