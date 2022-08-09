@@ -118,8 +118,7 @@ classdef OrigamiSolver < handle
         
         % distributing target zero-stress folding between three 
         % rotational srping lines
-        zeroStrianDistributionFactor=0.5       
-
+        zeroStrianDistributionFactor=0.5   
         
         
         %% Origami Thermal Properties       

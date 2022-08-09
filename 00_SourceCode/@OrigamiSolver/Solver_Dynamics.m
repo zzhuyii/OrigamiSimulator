@@ -14,6 +14,10 @@ function [U,UHis]=Solver_Dynamics(obj,dynamics)
     % total number of time steps
     A=size(Fext);
     step=A(1);
+    nodeNum=A(2);
+    % adjust the size of Fext
+    Fext0=zeros(1,nodeNum,3);
+    Fext=cat(1,Fext0,Fext);
     % vector of every time step
     TimeVec=(1:step)*dt;
 
@@ -32,7 +36,7 @@ function [U,UHis]=Solver_Dynamics(obj,dynamics)
     dynamics.sprRotHis=zeros(step,barNum);
     strainEnergy=zeros(step,4);
         
-    UHis=zeros(step,newNodeNum,3);
+    UHis=zeros(step+1,newNodeNum,3);
     VHis=UHis;
     
     V0=zeros(size(obj.currentU));
@@ -59,7 +63,7 @@ function [U,UHis]=Solver_Dynamics(obj,dynamics)
 
     
     % Implement the explicit solver
-    for i=1:step-1
+    for i=1:step
         
         targetSprZeroStrain=obj.Mesh_CalculateZeroStrainFolding(...
         squeeze(dynamics.rotTargetAngle(i,:)));
@@ -177,7 +181,7 @@ function [U,UHis]=Solver_Dynamics(obj,dynamics)
     
     dynamics.strainEnergyHis=strainEnergy;
     U=squeeze(UHis(step,:,:));
-    dynamics.Uhis=UHis;
+    dynamics.Uhis=UHis(1:step,:,:);
 
     obj.currentRotZeroStrain=dynamics.rotTargetAngle(step,:);
     obj.currentSprZeroStrain=targetSprZeroStrain;

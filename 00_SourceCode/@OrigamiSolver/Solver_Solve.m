@@ -274,7 +274,6 @@ function Solver_Solve(obj)
             tempController.temperatureHis=temperatureHistory;
             
         elseif analyzeType=="Dynamics"
-            beforeLoadingU=obj.currentU;
             obj.Thermal_NewPanel2NewBar();
             % loading analysis with changing ambient temperature
             [U,Uhis]=obj.Solver_Dynamics(tempController);
@@ -293,7 +292,7 @@ function Solver_Solve(obj)
                 for i=1:totalStep
                     UhisCorp(i,:,:)=Uhis(100*i,:,:);
                 end
-                obj.Plot_DeformedHis(obj.newNode+beforeLoadingU,UhisCorp) 
+                obj.Plot_DeformedHis(obj.newNode,UhisCorp) 
             end
             if tempController.detailFigOpen==1                
                 obj.Plot_Energy(UhisAssemble,energyHisThermal);

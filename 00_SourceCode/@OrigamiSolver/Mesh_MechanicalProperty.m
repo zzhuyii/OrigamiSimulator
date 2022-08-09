@@ -53,19 +53,19 @@ function Mesh_MechanicalProperty(obj)
         % calculate the properties for bar/spr in the crease region
         for i=1:obj.oldCreaseNum
            if obj.oldCreaseType(i)>1
+
                creaseW=obj.creaseWidthVec(i);
                creaseThick=obj.creaseThickVec(i);
                l=obj.barLength(obj.creaseRef(i,1));
-               theta0=obj.currentRotZeroStrain(i);               
+               theta0=obj.currentRotZeroStrain(i);            
 
-                              
                a1=CalculateA1(l,creaseThick,obj.creasePoisson);
                a2=CalculateA2(l,creaseW,creaseThick,obj.creasePoisson);
                a3=CalculateA3(l,creaseW,creaseThick,obj.creasePoisson);
                
                kSpr1=CalculateKspr1(obj.creaseE,creaseThick,creaseW);
                kSpr2=CalculateKspr2(obj.creaseE,creaseThick,creaseW,obj.diagonalRate);
-               
+           
                % spring stiffness
                sprK(obj.creaseRef(i,1))=obj.barLength(obj.creaseRef(i,1))*kSpr1;
                sprK(obj.creaseRef(i,2))=obj.barLength(obj.creaseRef(i,2))*kSpr1;               
