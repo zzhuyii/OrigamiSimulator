@@ -121,6 +121,18 @@ classdef OrigamiSolver < handle
         zeroStrianDistributionFactor=0.5   
         
         
+        %% Connector Elements
+        % Connector Open
+        connectorOpen=0
+        
+        % Connector Stiffness
+        connectorK
+        
+        % Connector Node
+        connectorNode
+        
+        
+        
         %% Origami Thermal Properties       
         % Thermal conductivity vector for panel
         panelThermalConductVec
@@ -207,6 +219,12 @@ classdef OrigamiSolver < handle
         y0=10;
         width=500;
         height=500;      
+        
+        % Plot the Bars
+        plotBars=0;
+        
+        % Plot the Bars
+        plotUndeformedShape=1;
       
         
         %% Origami Loading Controller
@@ -338,6 +356,8 @@ classdef OrigamiSolver < handle
         Plot_DeformedHis(obj,undeformedNode,UhisLoading)
         Plot_DeformedHisTemp(obj,beforeLoadingNode,UhisThermal,temperatureHistory)
         
+        Plot_BarStrain(obj,loadController)
+        
         % Plot the detail loading information
         Plot_LoadHis(obj,loadHis,UhisLoading)
         Plot_Energy(obj,UhisLoading,strainEnergyLoading)
@@ -383,6 +403,13 @@ classdef OrigamiSolver < handle
         [Tspr]=Spr_GlobalForce(obj,U,M,sprIJKL,sprKadj,newNode);
         [Kspr]=Spr_GlobalStiffAssemble(obj,U,M,sprIJKL,sprKadj,newNode);
         [theta]=Spr_Theta(obj,U,sprIJKL,newNode);
+        
+        %% Connector elements
+        connectorF=Connector_GlobalForce(obj, currentU, newNode, connectorK, connectorNode);
+        connectorKmat = Connector_Stiffness(obj,currentU,newNode,connectorK,connectorNode);
+        
+        % This is for generating hinge structure for thick panels
+        AddHingeForThickPanel(obj,n1,n2,n3,n4,n5,n6,n7,n8,BarArea,BarAreaLong,L,Gap,t,hingeStiff);
         
         
         %% Contact potential
@@ -442,6 +469,9 @@ classdef OrigamiSolver < handle
 
         % modify the stiffness matrix for support
         [Kwsupp,T]=Solver_ModKforSupp(obj,K,supp,Tinput,elasticSupportOpen,suppElastic,U);
+        
+        % modify the stiffness matrix for support
+        K=Solver_CalcK(obj);
         
     end    
 end

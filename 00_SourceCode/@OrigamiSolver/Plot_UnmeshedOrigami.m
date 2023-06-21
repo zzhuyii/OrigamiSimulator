@@ -19,10 +19,17 @@ function Plot_UnmeshedOrigami(obj)
     set(gcf, 'color', 'white');
     set(gca,'DataAspectRatio',[1 1 1]);
     set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
-    axis([-obj.displayRange*obj.displayRangeRatio ...
-        obj.displayRange -obj.displayRange*obj.displayRangeRatio ...
-        obj.displayRange -obj.displayRange*obj.displayRangeRatio ...
+    
+    A=size(obj.displayRange);
+    if A(1)==1    
+        axis([-obj.displayRangeRatio*obj.displayRange ... 
+        obj.displayRange -obj.displayRangeRatio*obj.displayRange ... 
+        obj.displayRange -obj.displayRangeRatio*obj.displayRange ...
         obj.displayRange]);
+    else
+        axis(obj.displayRange);
+    end
+    
     % Number Dots
     A=size(obj.node0);
     N=A(1);

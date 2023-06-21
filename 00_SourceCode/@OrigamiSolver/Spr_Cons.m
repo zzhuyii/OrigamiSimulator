@@ -23,6 +23,10 @@ function  [M,sprKadj]= Spr_Cons(obj,sprTargeZeroStrain,theta,...
     sprK,creaseRef,oldCreaseNum,panelInnerBarStart,sprIJKL,...
     newNode,U,compliantCreaseOpen)
 
+    % Specify the threshold if it is necessary to open local panel
+    % penertration prevention. the theta1 and theta2 are terms for
+    % initiating the penertration prevention. Please check the Liu and
+    % Paulino RSPA paper for details on how this works
     theta1=0*pi;
     theta2=2*pi-0*pi;
 
@@ -31,14 +35,25 @@ function  [M,sprKadj]= Spr_Cons(obj,sprTargeZeroStrain,theta,...
     A=size(theta);
     N=A(1);
 
+    %% Springs within the panel region
+    % These rotational springs are just treated as linear elastic springs 
+    % so their constitutive relationships are simple  
     for i=panelInnerBarStart:N
         M(i)=sprK(i)*(theta(i)-sprTargeZeroStrain(i)); 
         sprKadj(i)=sprK(i);     
     end
     
-    if compliantCreaseOpen==0
-        
-        
+    
+    %% Springs within the crease region
+    % These rotational springs may need locking behaviors to prevent them
+    % from folding more than 180 degrees. A penalty function is included
+    % once the folding angle is smaller than the specificed theta1 and
+    % theta2 thresholds. 
+    
+    % if we are not using the compliant crease
+    % In this case this is the standard bar and hinge model used in the Liu
+    % and Paulino PRSA paper
+    if compliantCreaseOpen==0        
         for i=1:oldCreaseNum
             if sprIJKL(i,1)==0
             else
@@ -81,6 +96,10 @@ function  [M,sprKadj]= Spr_Cons(obj,sprTargeZeroStrain,theta,...
                 end
             end
         end
+        
+    % If we are using the compliant crease    
+    % In this case additional bars and springs are used to represent the
+    % crease region. We will only lock selected springs in this case. 
     else
         for i=1:oldCreaseNum
             if creaseRef(i,3)~=0
@@ -130,7 +149,6 @@ function  [M,sprKadj]= Spr_Cons(obj,sprTargeZeroStrain,theta,...
                 creaseRot=mod(yita*real(acos(dot(m,n)/norm(m)/norm(n))),2*pi); 
                 HorizontalCrease=[1 2 5 6];
                 DiagonalCrease=[3 4 7 8];
-
                 
                 % This part of code will only lock the horizontal rotational
                 % springs of the crease

@@ -30,7 +30,13 @@ function Plot_DeformedShapeTemp(obj,thermal,newNode,deformNode,T)
     set(gca,'DataAspectRatio',[1 1 1])
     set(gcf, 'color', 'white');
     set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
-    axis([-Vsize*Vratio Vsize -Vsize*Vratio Vsize -Vsize*Vratio Vsize])
+    
+    A=size(Vsize);
+    if A(1)==1    
+        axis([-Vratio*Vsize Vsize -Vratio*Vsize Vsize -Vratio*Vsize Vsize])
+    else
+        axis([Vsize(1) Vsize(2) Vsize(3) Vsize(4) Vsize(5) Vsize(6)])
+    end
 
     B=size(obj.newPanel);
     FaceNum=B(2);

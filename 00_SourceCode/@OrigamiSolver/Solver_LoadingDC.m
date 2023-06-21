@@ -271,6 +271,8 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
             end          
         end    
     end
+    
+    Tforce=[];
     if obj.contactOpen==1
         Tforce=Tcontact+Tbar+Tspr;
     else

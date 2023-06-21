@@ -19,10 +19,18 @@ function Plot_MeshedOrigami(obj)
     set(gcf, 'color', 'white');
     set(gcf,'position',[obj.x0,obj.y0,obj.width,obj.height])
     set(gca,'DataAspectRatio',[1 1 1]);
-    axis([-obj.displayRangeRatio*obj.displayRange ... 
+    
+    A=size(obj.displayRange);
+    if A(1)==1    
+        axis([-obj.displayRangeRatio*obj.displayRange ... 
         obj.displayRange -obj.displayRangeRatio*obj.displayRange ... 
         obj.displayRange -obj.displayRangeRatio*obj.displayRange ...
         obj.displayRange]);
+    else
+        axis(obj.displayRange);
+    end
+    
+
     % Number Dots
     A=size(obj.newNode);
     N=A(1);
@@ -52,5 +60,17 @@ function Plot_MeshedOrigami(obj)
             'EdgeColor',[0.5 0.5 0.5],...
             'FaceColor',obj.faceColorNumbering, ...
             'FaceAlpha',obj.faceAlphaNumbering);
+    end
+    % Plot bars
+    if obj.plotBars==1
+        barNum=size(obj.barConnect);
+        barNum=barNum(1);
+        for j=1:barNum
+            node1=obj.newNode(obj.barConnect(j,1),:);
+            node2=obj.newNode(obj.barConnect(j,2),:);
+            line([node1(1),node2(1)],...
+                 [node1(2),node2(2)],...
+                 [node1(3),node2(3)],'Color',[0.5 0.5 0.5]);
+        end
     end
 end

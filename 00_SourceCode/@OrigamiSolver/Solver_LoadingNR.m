@@ -56,7 +56,7 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
     fprintf('Loading Analysis Start');
     
     % Set up storage matrix for stress, strain, nodal force
-    A=size(obj.sprK);
+    A=size(obj.barArea);
     barNum=A(1);
     nr.FnodalHis=zeros(nr.increStep,Num,Num2);
     nr.barSxHis=zeros(nr.increStep,barNum);
@@ -131,9 +131,18 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
                 unLoad=currentAppliedForce+lambda*LoadVec-Tbar-Tspr; 
             end
             
+            if obj.connectorOpen==1
+                Tconnector=obj.Connector_GlobalForce(U, obj.newNode, obj.connectorK, obj.connectorNode);
+                Kconnector=obj.Connector_Stiffness(U, obj.newNode, obj.connectorK, obj.connectorNode);           
+                
+                K=K+Kconnector;
+                Tload=Tload-Tconnector;
+                unLoad=unLoad-Tconnector;
+            end
+            
             [K,unLoad]=obj.Solver_ModKforSupp(K,supp,unLoad,nonRigidSupport,suppElastic,U);
             K=sparse(K);
-            
+                        
             dUtemp=(K\unLoad);
             for j=1:Num
                 U((j),:)=U((j),:)+dUtemp(3*j-2:3*j)';
@@ -149,6 +158,7 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
         
         % Store the loading history
         Tload=reshape(Tload,Num2,Num)';
+        % Tload=reshape(Tspr,Num2,Num)'; % Only track the rotational spring forces
         nr.FnodalHis(i,:,:)=Tload;
         nr.barSxHis(i,:)=Sx;
         nr.barExHis(i,:)=Ex;

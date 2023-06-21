@@ -41,7 +41,13 @@ function Plot_DeformedHisTemp(obj,beforeLoadingNode,UhisThermal,temperatureHisto
         hold on
         view(View1,View2); 
 
-        axis([-Vsize*Vratio Vsize -Vsize*Vratio Vsize -Vsize*Vratio Vsize])
+        A=size(Vsize);
+        if A(1)==1    
+            axis([-Vratio*Vsize Vsize -Vratio*Vsize Vsize -Vratio*Vsize Vsize])
+        else
+            axis([Vsize(1) Vsize(2) Vsize(3) Vsize(4) Vsize(5) Vsize(6)])
+        end
+    
         set(gca,'DataAspectRatio',[1 1 1])
         deformNode=beforeLoadingNode+squeeze(UhisThermal(step,:,:));
         for i=1:FaceNum

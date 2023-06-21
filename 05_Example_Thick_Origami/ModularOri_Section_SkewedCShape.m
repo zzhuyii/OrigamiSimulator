@@ -53,110 +53,88 @@
 %%%%% Sequentially Working Origami Multi-Physics Simulator (SWOMPS)  %%%%%%
 
 %% Initialize the solver
-clear all;clc;close all;
-ori=OrigamiSolver;
+clear;clc;close all;
+tic
 
 %% Define the Geometry of origami
-% This section of code is used to generate the geometry of the origami
-% pattern before meshing; 
+L=0.25;
+N=2;
+t=0.025;
+f=100000; 
+gap=0.01;
+% Stiffening factor for locking selected creases
 
-% Define the nodal coordinate before meshing
-a=20*10^(-3);
-ori.node0=[0 0 0;
-      0 a 0;
-      0 a*2.6 0;
-      0 a*3.4 0;
-      a 0 0;
-      a a 0;
-      a a*2.6 0;
-      a a*3.4 0;];
-  
-% Define the panel connectivity before meshing
-ori.panel0{1}=[5 6 2 1];
-ori.panel0{2}=[6 7 3 2];
-ori.panel0{3}=[7 8 4 3];
+% Directly Generate the structure using the following function
+ori=GenerateModularOrigami(L,N,t,f,gap);
+ori.plotBars=1;
+ori.showNumber=0;
+ori.plotUndeformedShape=0;
 
-% Analyze the original pattern before proceeding to the next step
-ori.Mesh_AnalyzeOriginalPattern();
-
-
-%% Meshing of the origami model
-% Define the crease width 
-ori.creaseWidthVec=zeros(ori.oldCreaseNum,1);
-ori.creaseWidthVec(3)=1.5*10^(-3);
-ori.creaseWidthVec(6)=1.5*10^(-3);
-
-% Compute the meshed geometry
-ori.Mesh_Mesh()
 
 % Plot the results for inspection
-ori.viewAngle1=45;
+ori.viewAngle1=145;
 ori.viewAngle2=45;
-ori.displayRange=60*10^(-3); % plotting range
-ori.displayRangeRatio=0.3; % plotting range in the negative axis
+ori.displayRange=[-0.5,1.5,-0.5,1,-0.5,1]'; % plotting range
 
-ori.Plot_UnmeshedOrigami(); % Plot the unmeshed origami for inspection;
+% plot for inspection
 ori.Plot_MeshedOrigami(); % Plot the meshed origami for inspection;
 
-
 %% Assign Mechanical Properties
-
+% Set up Young's Moduli
 ori.panelE=2*10^9; 
 ori.creaseE=2*10^9; 
 ori.panelPoisson=0.3;
 ori.creasePoisson=0.3; 
-ori.panelThickVec=[1;1;1]*500*10^(-6);
-ori.panelW=1.5*10^-3;
 
-ori.creaseThickVec=zeros(ori.oldCreaseNum,1);
-ori.creaseThickVec(3)=90*10^(-6);
-ori.creaseThickVec(6)=90*10^(-6);
-
-%% setup panel contact information
-ori.contactOpen=1;
-ori.ke=0.002;
-ori.d0edge=1.5*10^-3;
-ori.d0center=0.7*1.5*10^-3;
-
-%% Setup the loading controller
-% define the self folding step
-selfFold=ControllerSelfFolding;
-
-% Assign zero strain position for creases during self-folding
-% 0-2pi, This matrix can be used to manually set the zero energy rotation
-% angle of the crease hinge
-selfFold.targetRotZeroStrain=pi*ones(ori.oldCreaseNum,1);
-
-ratio=0.9;
-selfFold.targetRotZeroStrain(3)=pi+ratio*pi;
-selfFold.targetRotZeroStrain(6)=pi-ratio*pi;
-
-selfFold.supp=[1,1,1,1;
-               2,1,0,1;
-               3,0,0,1;
-               4,0,0,1;];
-selfFold.increStep=20;
-selfFold.tol=10^-6;
-selfFold.iterMax=50;
-
-% define a NR loading step
+%% Self fold to the configuration
+% Skip the auto initialization step
+ori.continuingLoading=1;
 nr=ControllerNRLoading;
+     
+nr.supp=[10,1,1,1;
+         90,0,0,1;
+         58,1,0,0;];      
 
-nr.supp=[1,1,1,1;
-         2,1,0,1;
-         3,0,0,1;
-         4,0,0,1;];
-loadForce=0.5*10^(-3);
-nr.load=[10,0,0,-loadForce;
-         11,0,0,-loadForce;];
-nr.increStep=50;
-nr.tol=10^-6;
+loadForce=0.000000001;
+
+index=[1:96]';
+nr.load=cat(2,index,zeros(96,2),-loadForce*ones(96,1));
+
+nr.increStep=200;
+nr.tol=5*10^-6;
 nr.iterMax=50;
-nr.detailFigOpen=1;
+nr.videoOpen=0;
 
-ori.loadingController{1}={"SelfFold",selfFold};
-ori.loadingController{2}={"NR",nr};
 
-%% Solving the model
-ori.Solver_Solve();
+ori.loadingController{1}={"NR",nr};
+ori.Solver_Solve()
 
+for i=1:nr.increStep
+    dispHis(i)=mean(nr.Uhis(i,1:48*2,3)-nr.Uhis(i,10,3));
+    % Change the second index between 2 and 10 for different support
+    % configuration of the system
+end
+dispHis=dispHis';
+% This vector stores the motion of the center of the gravity relative to
+% supporting nodes
+
+Fhis=(1:nr.increStep)*(48*2*loadForce);
+Fhis=Fhis';
+% This vector stores the total gravity applied
+
+
+% Calculate the internal strain energy from the rotational springs
+rotK=ori.sprK';
+rotK(rotK == 0)=[];
+
+% lockIndex=[2,4,6,9,11,13]; % Index of locked Creases
+% rotK(lockIndex)=rotK(lockIndex)*f;
+
+rotHis=nr.sprRotHis;
+rotHis(:,all(rotHis == 0))=[]; % removes column if the entire column is zero
+rotE=zeros(nr.increStep,1);
+
+for i=1:nr.increStep
+    rotE(i)=sum(rotK.*(rotHis(i,:)-pi).*(rotHis(i,:)-pi))/2;
+end
+toc

@@ -45,7 +45,14 @@ for i=1:Incre
     clf
     view(View1,View2); 
     set(gca,'DataAspectRatio',[1 1 1])
-    axis([-Vratio*Vsize Vsize -Vratio*Vsize Vsize -Vratio*Vsize Vsize])
+    
+    A=size(Vsize);
+    if A(1)==1    
+        axis([-Vratio*Vsize Vsize -Vratio*Vsize Vsize -Vratio*Vsize Vsize])
+    else
+        axis([Vsize(1) Vsize(2) Vsize(3) Vsize(4) Vsize(5) Vsize(6)])
+    end
+    
     tempU=zeros(n1,n2);
     for j=1:n1
         for k=1:n2
@@ -59,6 +66,19 @@ for i=1:Incre
             'FaceColor',obj.faceColorAnimation, ...
             'FaceAlpha', obj.faceAlphaAnimation);     
     end
+    
+    if obj.plotBars==1
+        barNum=size(obj.barConnect);
+        barNum=barNum(1);
+        for j=1:barNum
+            node1=deformNode(obj.barConnect(j,1),:);
+            node2=deformNode(obj.barConnect(j,2),:);
+            line([node1(1),node2(1)],...
+                 [node1(2),node2(2)],...
+                 [node1(3),node2(3)],'Color','k');
+        end
+    end
+    
     pause(pauseTime);  
     
     frame = getframe(h); 
