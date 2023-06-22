@@ -1,6 +1,6 @@
 # OrigamiSimulator
 
-![alt text](https://github.com/zzhuyii/OrigamiSimulator/blob/master/05_Documents_Figures/SWOMPS.gif)
+![alt text](https://github.com/zzhuyii/OrigamiSimulator/blob/master/10_Documents_Figures/SWOMPS.gif)
 
 Realistic simulation of active origami structures with multi-physics behaviors. 
 The package can capture compliant creases, inter-panel contact, heat transfer, large
