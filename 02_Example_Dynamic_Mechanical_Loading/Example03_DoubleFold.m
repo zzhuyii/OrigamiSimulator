@@ -1,37 +1,20 @@
-%%%%% Sequentially Working Origami Multi-Physics Simulator (SWOMPS)  %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%  Active Origami Simulator  %%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Authors: Yi Zhu, and Evgueni T. Filipov
-%
-% Discription: This code package implement a bar and hinge model based 
-% simulator for active origami structures with multi-physics based 
-% actuation mechanisms. The code package can capture both the mechanical 
-% behavior and the heat transfer aspect. The implementation is versatile
-% and has the following features:
-%
-% (1) Provides 5 different loading solvers of active origami. They are: 
-%     Newton-Raphson method, displacement controlled method, modified 
-%     generazlied displacement controlled method, self-stress folding, and
-%     thermal folding method.
-% (2) Allows users to create arbitrary number and sequence of the five
-%     loading methods. Users can stop the solver at specified increments
-%     and switch between different solvers or edit origami systems during 
-%     within the increment easily.
-% (3) Simulate electro-thermo-mechanically coupled actuation of origami.
-% (4) Simulate inter-panel contact of origami systems.
-% (5) Simulate the compliant creases explicitly with novel bar and hinge
-%     model meshing schemes.
+% Developer: Yi Zhu
+% Advisor: Evgueni T. Filipov
 %
 % Acknowledgement: We would like to acknowledge the prior works from
 % Ke Liu and Glaucio H. Paulino for establishing shared versions of
 % nonrigid origami simulators. Their works paved the way for the new
-% origami simulator, the origami contact, compliant crease, electro-thermal
-% model presented in this package. 
+% origami simulator presented in this package. 
 %
 % Reference:
-% [1] Y. Zhu, E. T. Filipov (2021). 'Sequentially Working Origami Multi-
-%     Physics Simulator (SWOMPS): A Versatile Implementation' (submitted)
+% [1] Yi Zhu, Evgueni T. Filipov (2021). 'Sequentially Working Origami 
+%     Multi-Physics Simulator (SWOMPS): A Versatile Implementation',
+%     ASME IDETC-CIE Conference. DETC2021-68042. 
 % [2] Y. Zhu, E. T. Filipov (2021). 'Rapid Multi-Physic Simulation for 
-%     Electro-Thermal Origami Robotic Systems' (submitted)
+%     Electro-Thermal Origami Robotic Systems'  International Journal of 
+%     Mechanical Sciences, 202-203, 106537.
 % [3] Y. Zhu, E. T. Filipov (2020). 'A Bar and Hinge Model for Simulating 
 %     Bistability in Origami Structures with Compliant Creases' Journal of 
 %     Mechanisms and Robotics, 021110-1. 
@@ -50,7 +33,7 @@
 %     capture highly nonlinear behavior of non-rigid origami.'           
 %     Proceedings of IASS Annual Symposium 2016. 
 %
-%%%%% Sequentially Working Origami Multi-Physics Simulator (SWOMPS)  %%%%%%
+%%%%%%%%%%%%%%%%%%%%%%  Active Origami Simulator  %%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Initialize the solver
 clear;clc;close all;
@@ -221,7 +204,7 @@ dynamics.rotTargetAngle(:,6)=1.4*pi;
 % ploting option
 dynamics.plotOpen=0;
 dynamics.videoOpen=1;
-dynamics.videoCropRate=1000;
+dynamics.videoCropRate=200;
 
 % Solve the solution
 selfFold=ControllerSelfFolding;

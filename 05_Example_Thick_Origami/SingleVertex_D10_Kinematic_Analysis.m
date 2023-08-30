@@ -4,56 +4,22 @@ close all
 clc
 
 % This is the value we used to generate the Yoshimura vertex
-sectorAngle=[0.125*pi,0.5*pi,0.125*pi,0.125*pi,0.125*pi,0.125*pi,...
-             0.5*pi,0.125*pi,0.125*pi,0.125*pi];
-foldAngle=[-0.2*pi,0.2*pi,0.2*pi,0.2*pi,0.2*pi,-0.2*pi,0.2*pi,0.2*pi,0.2*pi,0.2*pi];
+fold1=0.2;
+fold2=0.245;
+
+fold1=0.9;
+fold2=0.92;
+
+fold1=0;
+fold2=0;
+
+sectorAngle=[0.125*pi,0.5*pi,0.125*pi,0.125*pi,0.125*pi,0.125*pi,0.5*pi,0.125*pi,0.125*pi,0.125*pi];
+foldAngle=[-fold1*pi,fold2*pi,fold2*pi,-fold1*pi,fold1*pi,-fold1*pi,fold2*pi,fold2*pi,-fold1*pi,fold1*pi];
 t=[0.2,0,-0.2,0.2,-0.2,0.2,0,-0.2,0.2,-0.2];
 
+draw(sectorAngle,foldAngle,t)
 
-%% Compute the folding angle using analytical solution
-totalPoint=500;
-phi=zeros(totalPoint,1);
-rho=zeros(totalPoint,1);
 
-for i=1:totalPoint
-    phi(i)=(i-1)*pi/totalPoint;
-    rho(i)=2*atan(cos(0.125*pi)*tan(phi(i)/2));
-end
-
-foldAngleAnalytical=zeros(totalPoint,6);
-foldAngleAnalytical(:,1)=-rho;
-foldAngleAnalytical(:,2)=phi;
-foldAngleAnalytical(:,3)=phi;
-foldAngleAnalytical(:,4)=-phi;
-foldAngleAnalytical(:,5)=phi;
-foldAngleAnalytical(:,6)=-rho;
-foldAngleAnalytical(:,7)=phi;
-foldAngleAnalytical(:,8)=phi;
-foldAngleAnalytical(:,9)=-phi;
-foldAngleAnalytical(:,10)=phi;
-
-%% Bifurcation analysis 1 (analytical folding)
-S=zeros(totalPoint,6);
-for i=1:totalPoint
-
-    T=ConstraintFunc(sectorAngle,foldAngleAnalytical(i,:)',t);    
-    D=DiffConstraintFunc(sectorAngle,foldAngleAnalytical(i,:)',t,1*10^-6);    
-    S(i,:)=svd(D)';
-
-    if i==480
-        draw(sectorAngle,foldAngleAnalytical(i,:)',t)
-    end
-
-    % [L,V,R]=svd(D);
-    % t=1;
-    
-end
-
-figure
-hold on
-for i=1:6
-    plot(phi,S(:,i));
-end
 
 
 %% This function computee the derivative of constraint function
@@ -63,11 +29,11 @@ function D=DiffConstraintFunc(sectorAngle,foldAngle,a,h)
 
     T=ConstraintFunc(sectorAngle,foldAngle,a);
     
-    D=zeros(12,6); 
-    % Numerical derivation of the constraint matrix this is a 12 by 6 
-    % matrix, as we have 12 constraint equation and 6 variable
+    D=zeros(12,10); 
+    % Numerical derivation of the constraint matrix this is a 12 by 10 
+    % matrix, as we have 12 constraint equation and 10 variable
 
-    for j=1:6
+    for j=1:10
         tempFoldAngle1=foldAngle;
         tempFoldAngle2=foldAngle;
 
@@ -96,7 +62,7 @@ function T=ConstraintFunc(sectorAngle,foldAngle,a)
            0 0 1 0;
            0 0 0 1];
     
-    for i=1:6
+    for i=1:10
         tempT=tempT*Tmat(sectorAngle(i),foldAngle(i),a(i),0); 
         % This is the main crease vector 
     end

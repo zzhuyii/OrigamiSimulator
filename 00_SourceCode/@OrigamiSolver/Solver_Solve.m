@@ -290,7 +290,7 @@ function Solver_Solve(obj)
                 totalStep=int64(step/videoCropRate);
                 UhisCorp=zeros(totalStep,nodeNum,3);
                 for i=1:totalStep
-                    UhisCorp(i,:,:)=Uhis(100*i,:,:);
+                    UhisCorp(i,:,:)=Uhis(videoCropRate*i,:,:);
                 end
                 obj.Plot_DeformedHis(obj.newNode,UhisCorp) 
             end
@@ -302,6 +302,43 @@ function Solver_Solve(obj)
 
             %obj.currentRotZeroStrain=rotTargetZeroStrain;
             %obj.currentSprZeroStrain=sprTargetZeroStrain;
+
+        elseif analyzeType=="DynamicsThermal"
+            obj.Thermal_NewPanel2NewBar();
+            % loading analysis with changing ambient temperature
+            [U,Uhis,energyHisThermal,temperatureHistory]=...
+                obj.Solver_DynamicsThermal(tempController);
+            
+            % plot the reults when ploting option is open
+            if tempController.plotOpen==1
+                obj.Plot_DeformedShapeTemp(tempController,...
+                    obj.currentU+obj.newNode, U+obj.newNode, ...
+                    squeeze(temperatureHistory(:,tempController.step)));
+            end
+            if tempController.videoOpen==1
+                videoCropRate=tempController.videoCropRate;
+                A=size(Uhis);
+                step=A(1);
+                nodeNum=A(2);
+                totalStep=int64(step/videoCropRate);
+                UhisCorp=zeros(totalStep,nodeNum,3);
+                tempHisCorp=zeros(nodeNum,totalStep);
+                for i=1:totalStep
+                    UhisCorp(i,:,:)=Uhis(videoCropRate*i,:,:);
+                    tempHisCorp(:,i)=temperatureHistory(:,videoCropRate*i);
+                end
+                obj.Plot_DeformedHisTemp(obj.newNode, ...
+                    UhisCorp,tempHisCorp);
+            end
+            if tempController.detailFigOpen==1                
+                obj.Plot_Energy(UhisAssemble,energyHisThermal);
+            end
+            % update the current status or origami after loading
+            obj.currentU=U;
+
+            %obj.currentRotZeroStrain=rotTargetZeroStrain;
+            %obj.currentSprZeroStrain=sprTargetZeroStrain;
+            
             
         end
     end
