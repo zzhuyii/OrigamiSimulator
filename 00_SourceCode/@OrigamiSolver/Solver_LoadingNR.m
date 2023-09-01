@@ -139,6 +139,16 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
                 Tload=Tload-Tconnector;
                 unLoad=unLoad-Tconnector;
             end
+
+            if obj.threeNodeRotSpringOpen==1
+                [Ttpspr,Ktpspr]=obj.ThreePointSpring_GlobalForceAndStiff(U, obj.newNode, ...
+                    obj.threeNodeRotSpringK, obj.threeNodeRotSpringNode, ...
+                    obj.threeNodeRotSpringTheta0);
+                
+                K=K+Ktpspr;
+                Tload=Tload-Ttpspr;
+                unLoad=unLoad-Ttpspr;
+            end
             
             [K,unLoad]=obj.Solver_ModKforSupp(K,supp,unLoad,nonRigidSupport,suppElastic,U);
             K=sparse(K);

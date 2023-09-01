@@ -47,6 +47,15 @@ function K=Solver_CalcK(obj)
         K=K+Kconnector;
         Tload=Tload-Tconnector;
     end
+
+    if obj.threeNodeRotSpringOpen==1
+        [Ttpspr,Ktpspr]=obj.ThreePointSpring_GlobalForceAndStiff(U, obj.newNode, ...
+            obj.threeNodeRotSpringK, obj.threeNodeRotSpringNode, ...
+            obj.threeNodeRotSpringTheta0);
+        
+        K=K+Ktpspr;
+        Tload=Tload-Ttpspr;
+    end
     
 end
             

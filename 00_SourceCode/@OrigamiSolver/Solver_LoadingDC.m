@@ -137,6 +137,16 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
             K=Kbar+Kspr;                
         end
 
+        if obj.threeNodeRotSpringOpen==1
+            [Ttpspr,Ktpspr]=obj.ThreePointSpring_GlobalForceAndStiff(U, obj.newNode, ...
+                obj.threeNodeRotSpringK, obj.threeNodeRotSpringNode, ...
+                obj.threeNodeRotSpringTheta0);
+            
+            K=K+Ktpspr;
+            Tload=Tload-Ttpspr;
+            unLoad=unLoad-Ttpspr;
+        end
+
         [K,loadVec]=obj.Solver_ModKforSupp(K,supp,loadVec,nonRigidSupport,suppElastic,U);
         up1(:,i)=K\loadVec;  
         
@@ -202,6 +212,16 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
                 Tload=-(Tbar+Tspr);
                 K=Kbar+Kspr;   
                 unLoad=currentAppliedForce+pload-Tbar-Tspr; 
+           end
+
+           if obj.threeNodeRotSpringOpen==1
+                [Ttpspr,Ktpspr]=obj.ThreePointSpring_GlobalForceAndStiff(U, obj.newNode, ...
+                    obj.threeNodeRotSpringK, obj.threeNodeRotSpringNode, ...
+                    obj.threeNodeRotSpringTheta0);
+                
+                K=K+Ktpspr;
+                Tload=Tload-Ttpspr;
+                unLoad=unLoad-Ttpspr;
             end
             
             

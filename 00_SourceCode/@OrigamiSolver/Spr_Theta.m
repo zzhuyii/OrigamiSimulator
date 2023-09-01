@@ -62,8 +62,8 @@ function [theta]=Spr_Theta(obj,U,sprIJKL,newNode)
     rkj=nodek-nodej;
     rkl=nodek-nodel;
     
-    m=cross(rij,rkj);
-    n=cross(rkj,rkl);
+    m=cross(rij,rkj,2);
+    n=cross(rkj,rkl,2);
     
     d_m_kl=dot(m,rkl,2);
     zero_index=find(d_m_kl==0);

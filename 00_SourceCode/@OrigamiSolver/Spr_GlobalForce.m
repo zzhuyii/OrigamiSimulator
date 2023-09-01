@@ -88,8 +88,8 @@ function [Tspr]=Spr_GlobalForce(obj,U,M,sprIJKL,sprKadj,newNode)
     rkj=(nodek-nodej);
     rkl=(nodek-nodel);
 
-    m=cross(rij,rkj);
-    n=cross(rkj,rkl);  
+    m=cross(rij,rkj,2);
+    n=cross(rkj,rkl,2);  
 
     m_square=dot(m',m')';
     n_square=dot(n',n')';

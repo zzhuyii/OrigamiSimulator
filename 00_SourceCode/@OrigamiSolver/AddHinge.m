@@ -6,7 +6,7 @@ function AddHinge(obj,ni,nj,nk,nl,BarArea,L,SprStiff,RotZero)
     currentBarNum=max(currentBarNum);
 
     obj.barType(currentBarNum+1,:)=1;
-    obj.barConnect(currentBarNum+1,:)=[ni,nj];
+    obj.barConnect(currentBarNum+1,:)=[nj,nk];
     obj.barArea(currentBarNum+1,:)=BarArea;
     obj.barLength(currentBarNum+1,:)=L;
 

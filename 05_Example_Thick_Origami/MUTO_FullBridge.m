@@ -233,8 +233,8 @@ nr_un.supp=[2,1,1,1;
 
 nr_un.load=cat(2,index,-ori.currentAppliedForce/50);
 nr_un.increStep=50;
-nr_un.tol=1*10^-6;
-nr_un.iterMax=50;
+nr_un.tol=1*10^-5;
+nr_un.iterMax=100;
 nr_un.videoOpen=0;
 
 ori.loadingController{1}={"NR",nr_un};

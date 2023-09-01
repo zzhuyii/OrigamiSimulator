@@ -23,7 +23,7 @@ Lpanel=1*10^(-3);
 % undercut of XeF2 etching
 underCut=100*10^-6;
 % power input (mW)
-qload=25;
+qload=20;
 
 % density of crease and panel
 ori.densityCrease=rhoSU8;
@@ -111,7 +111,7 @@ dynamicThermal.supp=[1,1,1,1;
       12,1,1,1;];
 
 
-dynamicThermal.step=50000;
+dynamicThermal.step=80000;
 dynamicThermal.dt=2*10^-6;
 
 dynamicThermal.thermalBoundaryPanelVec=[3];
@@ -141,4 +141,8 @@ ori.Solver_Solve();
 
 
 Uhis=dynamicThermal.Uhis;
+UhisSelect=Uhis(:,6,3);
+time=dynamicThermal.dt*(1:80001);
+time=time';
+
 totalTime=dynamicThermal.step*dynamicThermal.dt

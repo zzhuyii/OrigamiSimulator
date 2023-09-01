@@ -333,11 +333,11 @@ function Solver_Solve(obj)
             if tempController.detailFigOpen==1                
                 obj.Plot_Energy(UhisAssemble,energyHisThermal);
             end
+
             % update the current status or origami after loading
             obj.currentU=U;
-
-            %obj.currentRotZeroStrain=rotTargetZeroStrain;
-            %obj.currentSprZeroStrain=sprTargetZeroStrain;
+            % obj.currentRotZeroStrain=rotTargetZeroStrain;
+            % obj.currentSprZeroStrain=sprTargetZeroStrain;
             
             
         end

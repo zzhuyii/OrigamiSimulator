@@ -235,13 +235,13 @@ function [U,UhisThermal,energyHisThermal,temperatureHistory,...
             end         
         end
         
-
- 
-
     end    
     obj.currentQ=qtemp;
     dynamicThermal.strainEnergyHis=energyHisThermal;
     dynamicThermal.Uhis=UhisThermal;
+
+    obj.currentRotZeroStrain=targetRot;
+    obj.currentSprZeroStrain=targetSprZeroStrain;
     
 end
 

@@ -124,6 +124,20 @@ classdef OrigamiSolver < handle
         % Connector Node
         connectorNode
         
+        %% Three Node Rot Spring Elements
+        % if we are using the spring Open
+        threeNodeRotSpringOpen=0
+        
+        % Stiffness of the spring
+        threeNodeRotSpringK=[]
+        
+        % three nodes of the spring
+        threeNodeRotSpringNode=[]
+
+        % rest angle of the spring
+        threeNodeRotSpringTheta0=[]
+
+        
         
         
         %% Origami Thermal Properties       
@@ -413,7 +427,12 @@ classdef OrigamiSolver < handle
         % This is for generating hinge structure for thick panels
         AddHingeForThickPanel(obj,n1,n2,n3,n4,n5,n6,n7,n8,BarArea,BarAreaLong,L,Gap,t,hingeStiff);
         
-        
+
+        %% Three point spring elements
+        [TPsprForce,TPsprKmat]= ThreePointSpring_GlobalForceAndStiff(obj,currentU,newNode,sprK,sprNode,sprTheta0);
+      
+
+
         %% Contact potential
         [Tcontact,Kcontact]=Contact_AssembleForceStiffness(obj,...
             panel0,newNode2OldNode,newNode,U,ke,d0edge,d0center,...

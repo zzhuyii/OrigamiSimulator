@@ -71,8 +71,8 @@ function  [M,sprKadj]= Spr_Cons(obj,sprTargeZeroStrain,theta,...
                 rkj=nodek-nodej;
                 rkl=nodek-nodel;
 
-                m=cross(rij,rkj);
-                n=cross(rkj,rkl);
+                m=cross(rij,rkj,2);
+                n=cross(rkj,rkl,2);
 
                 if dot(m,rkl)==0
                     yita=1;
@@ -137,8 +137,8 @@ function  [M,sprKadj]= Spr_Cons(obj,sprTargeZeroStrain,theta,...
                 rkj=nodek-nodej;
                 rkl=nodek-nodel;
 
-                m=cross(rij,rkj);
-                n=cross(rkj,rkl);
+                m=cross(rij,rkj,2);
+                n=cross(rkj,rkl,2);
 
                 if dot(m,rkl)==0
                     yita=1;

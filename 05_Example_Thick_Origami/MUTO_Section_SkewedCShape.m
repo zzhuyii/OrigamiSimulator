@@ -67,7 +67,7 @@ gap=0.01;
 % Directly Generate the structure using the following function
 ori=GenerateModularOrigami(L,N,t,f,gap);
 ori.plotBars=1;
-ori.showNumber=0;
+ori.showNumber=1;
 ori.plotUndeformedShape=0;
 
 
@@ -91,9 +91,9 @@ ori.creasePoisson=0.3;
 ori.continuingLoading=1;
 nr=ControllerNRLoading;
      
-nr.supp=[10,1,1,1;
-         90,0,0,1;
-         58,1,0,0;];      
+nr.supp=[97,1,1,1;
+         124,0,0,1;
+         79,1,0,0;];      
 
 loadForce=0.000000001;
 
