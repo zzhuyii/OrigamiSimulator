@@ -4,26 +4,22 @@
 
 Realistic simulation of active origami structures with multi-physics behaviors. 
 The package can capture compliant creases, inter-panel contact, heat transfer, large
-folding deformation, and electro-thermally actuated creases. The package provides seven
-different loading methods adn allows users to created customizable loading schemes with 
-arbitrary number and sequence of the provided loading methods. 
-
-Please check the package on our group website or my personal website:
-
-https://drsl.engin.umich.edu/software/swomps-package/
-
-https://sites.google.com/view/yi-zhu/research/origami-simulator/
+folding deformation, and electro-thermally actuated creases. The package provides a wide variety of
+loading and simulation methods and allows users to created customizable loading schemes with 
+arbitrary number of loading sequences. I am actively adding new capabilities to the package over time. 
 
 ## Main Features of the package:
 
-* Provides six different loading simulation methods: 
+* Loading & simulation methods: 
     * (1) Newton-Raphson method, (2) Displacement controlled method, and (3) Generalized displacement controlled method for applying external forces. 
     * (4) Changing stress-free folding angle for self-folding.
-    * (5) Changing environmetnal temperature and (6) applying electro-thermal actuation for thermally active self-folding. 
+    * (5) Changing environmetnal temperature
+    * (6) Applying electro-thermal actuation for active self-folding. 
     * (7) Constant Average Acceleration Method for dynamic loading.
+    * (8) Linear Multistep Method for transient heat transfer coupled with origami folding. 
     
 * Allows users to create customizable loading schemes with arbitrary number and 
-    sequence of the provided five loading methods. 
+    sequence of the provided loading methods. 
     
 * Simulates compliant creases in active origami and provides automated Meshing 
     code for compliant creases. (**Figure 1**)
@@ -32,6 +28,8 @@ https://sites.google.com/view/yi-zhu/research/origami-simulator/
 
 * Simulates heat transfer in origami systems and captures the electro-
     thermo-mechanically coupled actuation of active origami creases. (**Figure 3**)
+
+* Simulates the kinematic folding and mechanical load-carrying behaviors of thick origami structures. 
     
 <p align="center">
 <img src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/10_Documents_Figures/RealisticCrease.png" width="45%" >
@@ -59,20 +57,17 @@ the heat transfer of active origami and can calculate the active crease folding 
 ## Comments on Accuracy in Stiffness Prediction:
 
 This code is based on bar and hinge models for origami structures. The bar and hinge model is a reduced order simulation method
-for capturing the kinematic and mechanical behaviors of origami structures. 
-There are different ways for deriving the stiffness parameters of a bar and hinge model, and these methods produce different results. 
-In this simulation package, the stiffness parameters are derived analytically through matching the stiffness from the bar and hinge model
-to that from the the theoretical plate (for shear and tension) and the pseudo-rigid-body model (for large folding). 
-This derivation method does not capture large panel deformations with high fidelity, especially when studying non-rigid foldable origami patterns. 
-Most paper-based non-rigid foldable origami prototypes can have panels with initial curvature and bending. 
-Therefore, the bar and hinge model can over-estimate the stiffness of these prototypes because it cannot capture the softening due to 
-the initial curving and bending (which requires capturing the softened post-buckling stiffness).
-To resolve this, many researchers will use curve-fitting to find out the stiffness parameters of bars and rotational springs (say fitting the Young's modulus). 
-In this case, curve-fitting is like using the secant stiffness (while analytically derivation is like using the initial tangent stiffness), 
-so the curve-fitting method can better approximate the softened stiffness of many non-rigid foldable origami prototypes. 
-Users of the code are suggested to try curve-fit the stiffness parameters (such as Young's modulus) if high accuracy is needed 
-for simulating non-rigid foldable systems and matching the behaviors in origami prototypes. 
-However, the results from analytical derivation still provides a fast alternative for finding the trends and understanding the behaviors of origami systems. 
+for origami structures. There are different methods to derive the stiffness parameters of a bar and hinge model, and they produce different results. 
+In this simulation package, the stiffness parameters are derived analytically through matching the stiffness of bar and hinge models
+to theoretical plates (for shear and tension) and pseudo-rigid-body models (for large folding). 
+This analytical method does not capture large panel deformations, especially when studying non-rigid-foldable origami patterns. 
+For example, most paper-based non-rigid-foldable origami prototypes can have panels with initial curvature and bending, which cannot be captured using bar and hinge models. 
+Therefore, this simulation package can potentially over-estimate the stiffness of non-rigid foldable origami systems.
+To resolve this, many research use curve-fitting to find the stiffness parameters of bars and rotational springs (bar areas and rotational spring stiffness). 
+In this case, curve-fitting is like using softened secant stiffness (while analytically derivation is like using the initial tangent stiffness), 
+so that the model can better approximate the behaviors of non-rigid-foldable origami prototypes. 
+Users are suggested to try curve-fit the stiffness parameters for better accuracy when studying non-rigid-foldable origami systems. 
+However, the simulation results from analytical derivation still provides a fast alternative for finding the trends and understanding the behaviors of origami systems. 
 
 ## Efficiency Update (2022-07-11 & 2022-07-19)
 
@@ -93,16 +88,12 @@ For the simulation of the SWOMPS logo, the new code is about three times faster 
 
 ## Using the Code:
 
-PLEASE ADD THE "00_SourceCode" IN TO THE PATH. For standard mechanical simulation 
-of origami, please check the selected simulaiton example from the JMR paper and
-PRSA paper in "01_MechanicalLoadingExample". For simulation of the folding electro-thermally 
-active origami, please check the example codes in "02_ThermalLoadingExample" associated with the IJMS paper. Additional 
-tutuorial examples are presented in the "03_SampleCode_Tutorial_IDETC".
+PLEASE ADD THE "00_SourceCode" IN TO THE PATH. 
 
 
 ## Acknowledgement: 
 
-We would like to acknowledge the prior works from Ke Liu and Glaucio H. Paulino 
+I would like to acknowledge the prior works from Ke Liu and Glaucio H. Paulino 
 for non-rigid origami simulators.  Their works pave the ground for the development
 of this package.
 
