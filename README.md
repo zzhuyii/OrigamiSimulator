@@ -11,14 +11,14 @@ arbitrary number of loading sequences. I am actively adding new capabilities to 
 ## Main Features of the package:
 
 * Loading & simulation methods: 
-    * (1) Newton-Raphson method
-    * (2) Displacement controlled method
-    * (3) Generalized displacement controlled method for applying external forces
-    * (4) Changing stress-free folding angle for self-folding
-    * (5) Changing environmetnal temperature
-    * (6) Applying electro-thermal actuation for active self-folding
-    * (7) Constant Average Acceleration Method for dynamic loading
-    * (8) Linear Multistep Method for transient heat transfer coupled with origami folding
+    * Newton-Raphson method
+    * Displacement controlled method
+    * Generalized displacement controlled method for applying external forces
+    * Changing stress-free folding angle for self-folding
+    * Changing environmetnal temperature
+    * Applying electro-thermal actuation for active self-folding
+    * Constant Average Acceleration Method for dynamic loading
+    * Linear Multistep Method for transient heat transfer coupled with origami folding
     
 * Allows users to create customizable loading schemes with arbitrary number and 
     sequence of the provided loading methods. 
