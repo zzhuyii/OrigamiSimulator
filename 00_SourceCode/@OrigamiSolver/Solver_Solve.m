@@ -1,4 +1,4 @@
-% This function runs the analyses.
+% This function runs the analyses. 
 % for some of the analyses, future updates are needed so that code can run.
 
 function Solver_Solve(obj)
@@ -7,23 +7,23 @@ function Solver_Solve(obj)
     % automatically initialize the status;
     if obj.continuingLoading==0
         % Initialze the origami structure first
-
+        
         % We assume that the initial deformation field is zero and that the
         % origami has no load applied.
         newNodeNum = size(obj.newNode);
         newNodeNum = newNodeNum(1);
-        obj.currentU = zeros(newNodeNum,3);
+        obj.currentU = zeros(newNodeNum,3);    
         obj.currentAppliedForce = zeros(newNodeNum,3);
-
+        
         % Then calculate the origami mechanical proeprties
         % We first calcualte the folding angle, assume that the current
-        % state is stress free.
-
+        % state is stress free. 
+        
         if obj.mesh2D3D==2
             obj.currentRotZeroStrain=pi*ones(obj.oldCreaseNum,1);
             obj.currentSprZeroStrain=obj.Spr_Theta(...
                 obj.currentU,obj.sprIJKL,obj.newNode);
-        else
+        else  
             if obj.compliantCreaseOpen==1
 
                 obj.compliantCreaseOpen=0;
@@ -35,16 +35,16 @@ function Solver_Solve(obj)
 
                 for i = 1:obj.oldCreaseNum
                     if obj.currentSprZeroStrain(i,1) ~=0
-                        obj.currentRotZeroStrain(i)=obj.currentSprZeroStrain(i,1);
+                        obj.currentRotZeroStrain(i)=obj.currentSprZeroStrain(i,1);    
                     end
                 end
-
+                
             % Here we mesh the system with no compliant crease, calculate the
             % rotaiton angle for spring elements and then record the numbers as
             % the rotation angle for Rot.
-
+            
                 obj.compliantCreaseOpen=1;
-                obj.Mesh_Mesh();
+                obj.Mesh_Mesh();    
 
             else
                 obj.currentRotZeroStrain=pi*ones(obj.oldCreaseNum,1);
@@ -57,9 +57,9 @@ function Solver_Solve(obj)
                     end
                 end
             end
-
+        
         end
-
+        
         obj.Mesh_MechanicalProperty()
         obj.currentSprZeroStrain=obj.Spr_Theta(...
                 obj.currentU,obj.sprIJKL,obj.newNode);
@@ -68,121 +68,121 @@ function Solver_Solve(obj)
         % system has zero heating input and every node at RT
         obj.currentT=obj.RT*ones(newNodeNum,1);
         obj.currentQ=zeros(obj.envLayer*newNodeNum,1);
-
+        
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Just a note here. The current initialization code is not so
-    % perfect. The stress free RotVector can have a small divergence from
-    % what we get from the real folding from the meshing code. This needs
-    % to be fixed in the future.
+    % perfect. The stress free RotVector can have a small divergence from 
+    % what we get from the real folding from the meshing code. This needs 
+    % to be fixed in the future.         
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+    
     end
-
+    
     % We sequentially reads the items in the loading controller and
-    % perform the analysis. The loading history is recorded.
+    % perform the analysis. The loading history is recorded. 
     totalLoadSsequance = size(obj.loadingController);
     totalLoadSsequance = totalLoadSsequance(1,2);
-
+    
     for loadSequeceNum=1:totalLoadSsequance
-
-        % get the temp loading Controller
+        
+        % get the temp loading Controller 
         tempController=obj.loadingController{loadSequeceNum};
         analyzeType=tempController{1};
-        tempController=tempController{2};
-
-        if strcmp(analyzeType,"DC")
+        tempController=tempController{2};  
+        
+        if analyzeType=="DC"            
             % perform the displacement controlled loading
             [U,UhisLoading,loadHis,strainEnergyLoading,...
                 nodeForce,loadForce,contactForce]=...
-                obj.Solver_LoadingDC(tempController);
+                obj.Solver_LoadingDC(tempController); 
             % plot the reults when ploting option is open
             if tempController.plotOpen==1
-                obj.Plot_DeformedShape(obj.currentU+obj.newNode, U+obj.newNode);
+                obj.Plot_DeformedShape(obj.currentU+obj.newNode, U+obj.newNode);                
             end
             if tempController.videoOpen==1
-                obj.Plot_DeformedHis(obj.newNode,UhisLoading);
+                obj.Plot_DeformedHis(obj.newNode,UhisLoading); 
             end
-            if tempController.detailFigOpen==1
+            if tempController.detailFigOpen==1                
                 obj.Plot_LoadHis(loadHis,UhisLoading)
                 obj.Plot_Energy(UhisLoading,strainEnergyLoading);
                 obj.Plot_LoadAndReaction(obj.currentU+obj.newNode, ...
                     U+obj.newNode, tempController.load, ...
-                    tempController.supp, nodeForce, loadForce);
+                    tempController.supp, nodeForce, loadForce);                
                 if obj.contactOpen==1
                     obj.Plot_ContactForce(obj.currentU+obj.newNode,...
                     U+obj.newNode,contactForce);
                 end
-            end
+            end             
             % update the current status or origami after loading
-            obj.currentAppliedForce=loadForce+obj.currentAppliedForce;
+            obj.currentAppliedForce=loadForce+obj.currentAppliedForce;  
             obj.currentU=U;
-
+            
             tempController.Uhis=UhisLoading;
             tempController.loadHis=loadHis;
             tempController.strainEnergyHis=strainEnergyLoading;
-
-        elseif strcmp(analyzeType,"NR")
+            
+        elseif analyzeType=="NR"
             %perform the displacement controlled loading
             [U,UhisLoading,loadHis,strainEnergyLoading,...
                 nodeForce,loadForce,contactForce]=...
                 obj.Solver_LoadingNR(tempController);
                         % plot the reults when ploting option is open
             if tempController.plotOpen==1
-                obj.Plot_DeformedShape(obj.currentU+obj.newNode, U+obj.newNode);
+                obj.Plot_DeformedShape(obj.currentU+obj.newNode, U+obj.newNode);                
             end
             if tempController.videoOpen==1
-                obj.Plot_DeformedHis(obj.newNode,UhisLoading);
+                obj.Plot_DeformedHis(obj.newNode,UhisLoading); 
             end
-            if tempController.detailFigOpen==1
+            if tempController.detailFigOpen==1                
                 obj.Plot_LoadHis(loadHis,UhisLoading)
                 obj.Plot_Energy(UhisLoading,strainEnergyLoading);
                 obj.Plot_LoadAndReaction(obj.currentU+obj.newNode, ...
                     U+obj.newNode, tempController.load, ...
-                    tempController.supp, nodeForce, loadForce);
+                    tempController.supp, nodeForce, loadForce);                
                 if obj.contactOpen==1
                     obj.Plot_ContactForce(obj.currentU+obj.newNode,...
                     U+obj.newNode,contactForce);
                 end
-            end
+            end             
             % update the current status or origami after loading
-            obj.currentAppliedForce=loadForce+obj.currentAppliedForce;
+            obj.currentAppliedForce=loadForce+obj.currentAppliedForce;  
             obj.currentU=U;
-
+            
             tempController.Uhis=UhisLoading;
             tempController.loadHis=loadHis;
             tempController.strainEnergyHis=strainEnergyLoading;
-
-        elseif strcmp(analyzeType,"MGDCM")
+            
+        elseif analyzeType=="MGDCM"
             % perform the MGDCM controlled loading
             [U,UhisLoading,loadHis,strainEnergyLoading,...
                 nodeForce,loadForce,contactForce]...
                 =Solver_LoadingMGDCM(obj,tempController);
             if tempController.plotOpen==1
-                obj.Plot_DeformedShape(obj.currentU+obj.newNode, U+obj.newNode);
+                obj.Plot_DeformedShape(obj.currentU+obj.newNode, U+obj.newNode);                
             end
             if tempController.videoOpen==1
-                obj.Plot_DeformedHis(obj.newNode,UhisLoading);
+                obj.Plot_DeformedHis(obj.newNode,UhisLoading); 
             end
-            if tempController.detailFigOpen==1
+            if tempController.detailFigOpen==1                
                 obj.Plot_LoadHis(loadHis,UhisLoading)
                 obj.Plot_Energy(UhisLoading,strainEnergyLoading);
                 obj.Plot_LoadAndReaction(obj.currentU+obj.newNode, ...
                     U+obj.newNode, tempController.load, ...
-                    tempController.supp, nodeForce, loadForce);
+                    tempController.supp, nodeForce, loadForce);                
                 if obj.contactOpen==1
                     obj.Plot_ContactForce(obj.currentU+obj.newNode,...
                     U+obj.newNode,contactForce);
                 end
-            end
+            end            
             % update the current status or origami after loading
-            obj.currentAppliedForce=loadForce+obj.currentAppliedForce;
+            obj.currentAppliedForce=loadForce+obj.currentAppliedForce;  
             obj.currentU=U;
-
+            
             tempController.Uhis=UhisLoading;
             tempController.loadHis=loadHis;
             tempController.strainEnergyHis=strainEnergyLoading;
-
-        elseif strcmp(analyzeType,"SelfFold")
+            
+        elseif analyzeType=="SelfFold"             
             % perform the self folding analysis
             [U,UhisAssemble,strainEnergyAssemble,...
                 sprTargetZeroStrain,rotTargetZeroStrain]=...
@@ -192,27 +192,27 @@ function Solver_Solve(obj)
                 obj.Plot_DeformedShape(obj.currentU+obj.newNode, U+obj.newNode);
             end
             if tempController.videoOpen==1
-                obj.Plot_DeformedHis(obj.newNode,UhisAssemble);
+                obj.Plot_DeformedHis(obj.newNode,UhisAssemble); 
             end
-            if tempController.detailFigOpen==1
+            if tempController.detailFigOpen==1                
                 obj.Plot_Energy(UhisAssemble,strainEnergyAssemble);
             end
             % update the current status or origami after loading
             obj.currentU=U;
             obj.currentRotZeroStrain=rotTargetZeroStrain;
             obj.currentSprZeroStrain=sprTargetZeroStrain;
-
+            
             tempController.Uhis=UhisAssemble;
             tempController.strainEnergyHis=strainEnergyAssemble;
-
-        elseif strcmp(analyzeType,"ElectroThermal")
+            
+        elseif analyzeType=="ElectroThermal"
             beforeLoadingU=obj.currentU;
             obj.Thermal_NewPanel2NewBar();
             % perform the electro-thermal loading analysis
             [U,UhisThermal,energyHisThermal,temperatureHistory,...
                 rotTargetZeroStrain,sprTargetZeroStrain]=...
                 obj.Solver_LoadingElectroThermal(tempController);
-
+            
             % plot the reults when ploting option is open
             if tempController.plotOpen==1
                 obj.Plot_DeformedShapeTemp(tempController,...
@@ -224,9 +224,9 @@ function Solver_Solve(obj)
                loadingHis(p,:,:)= squeeze(loadingHis(p,:,:))- beforeLoadingU;
             end
             if tempController.videoOpen==1
-                obj.Plot_DeformedHisTemp(obj.newNode+beforeLoadingU,loadingHis,temperatureHistory);
+                obj.Plot_DeformedHisTemp(obj.newNode+beforeLoadingU,loadingHis,temperatureHistory); 
             end
-            if tempController.detailFigOpen==1
+            if tempController.detailFigOpen==1                
                 obj.Plot_Energy(UhisAssemble,energyHisThermal);
             end
             % update the current status or origami after loading
@@ -234,19 +234,19 @@ function Solver_Solve(obj)
             obj.currentT=temperatureHistory(:,tempController.thermalStep);
             obj.currentRotZeroStrain=rotTargetZeroStrain;
             obj.currentSprZeroStrain=sprTargetZeroStrain;
-
+            
             tempController.Uhis=UhisThermal;
             tempController.strainEnergyHis=energyHisThermal;
             tempController.temperatureHis=temperatureHistory;
-
-        elseif strcmp(analyzeType,"ChangingTemperature")
+            
+        elseif analyzeType=="ChangingTemperature"
             beforeLoadingU=obj.currentU;
             obj.Thermal_NewPanel2NewBar();
             % loading analysis with changing ambient temperature
             [U,UhisThermal,energyHisThermal,temperatureHistory,...
                 rotTargetZeroStrain,sprTargetZeroStrain]=...
                 obj.Solver_LoadingChangingTemperature(tempController);
-
+            
             % plot the reults when ploting option is open
             if tempController.plotOpen==1
                 obj.Plot_DeformedShapeTemp(tempController,...
@@ -258,9 +258,9 @@ function Solver_Solve(obj)
                loadingHis(p,:,:)= squeeze(loadingHis(p,:,:))- beforeLoadingU;
             end
             if tempController.videoOpen==1
-                obj.Plot_DeformedHisTemp(obj.newNode+beforeLoadingU,loadingHis,temperatureHistory);
+                obj.Plot_DeformedHisTemp(obj.newNode+beforeLoadingU,loadingHis,temperatureHistory); 
             end
-            if tempController.detailFigOpen==1
+            if tempController.detailFigOpen==1                
                 obj.Plot_Energy(UhisAssemble,energyHisThermal);
             end
             % update the current status or origami after loading
@@ -268,16 +268,16 @@ function Solver_Solve(obj)
             obj.currentT=temperatureHistory(:,tempController.thermalStep);
             obj.currentRotZeroStrain=rotTargetZeroStrain;
             obj.currentSprZeroStrain=sprTargetZeroStrain;
-
+            
             tempController.Uhis=UhisThermal;
             tempController.strainEnergyHis=energyHisThermal;
             tempController.temperatureHis=temperatureHistory;
-
-        elseif strcmp(analyzeType,"Dynamics")
+            
+        elseif analyzeType=="Dynamics"
             obj.Thermal_NewPanel2NewBar();
             % loading analysis with changing ambient temperature
             [U,Uhis]=obj.Solver_Dynamics(tempController);
-
+            
             % plot the reults when ploting option is open
             if tempController.plotOpen==1
                 obj.Plot_DeformedShape(obj.currentU+obj.newNode, U+obj.newNode);
@@ -292,9 +292,9 @@ function Solver_Solve(obj)
                 for i=1:totalStep
                     UhisCorp(i,:,:)=Uhis(videoCropRate*i,:,:);
                 end
-                obj.Plot_DeformedHis(obj.newNode,UhisCorp)
+                obj.Plot_DeformedHis(obj.newNode,UhisCorp) 
             end
-            if tempController.detailFigOpen==1
+            if tempController.detailFigOpen==1                
                 obj.Plot_Energy(UhisAssemble,energyHisThermal);
             end
             % update the current status or origami after loading
@@ -303,12 +303,12 @@ function Solver_Solve(obj)
             %obj.currentRotZeroStrain=rotTargetZeroStrain;
             %obj.currentSprZeroStrain=sprTargetZeroStrain;
 
-        elseif strcmp(analyzeType,"DynamicsThermal")
+        elseif analyzeType=="DynamicsThermal"
             obj.Thermal_NewPanel2NewBar();
             % loading analysis with changing ambient temperature
             [U,Uhis,energyHisThermal,temperatureHistory]=...
                 obj.Solver_DynamicsThermal(tempController);
-
+            
             % plot the reults when ploting option is open
             if tempController.plotOpen==1
                 obj.Plot_DeformedShapeTemp(tempController,...
@@ -330,7 +330,7 @@ function Solver_Solve(obj)
                 obj.Plot_DeformedHisTemp(obj.newNode, ...
                     UhisCorp,tempHisCorp);
             end
-            if tempController.detailFigOpen==1
+            if tempController.detailFigOpen==1                
                 obj.Plot_Energy(UhisAssemble,energyHisThermal);
             end
 
@@ -338,8 +338,8 @@ function Solver_Solve(obj)
             obj.currentU=U;
             % obj.currentRotZeroStrain=rotTargetZeroStrain;
             % obj.currentSprZeroStrain=sprTargetZeroStrain;
-
-
+            
+            
         end
     end
 end

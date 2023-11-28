@@ -6,32 +6,32 @@
 % Acknowledgement: We would like to acknowledge the prior works from
 % Ke Liu and Glaucio H. Paulino for establishing shared versions of
 % nonrigid origami simulators. Their works paved the way for the new
-% origami simulator presented in this package.
+% origami simulator presented in this package. 
 %
 % Reference:
-% [1] Yi Zhu, Evgueni T. Filipov (2021). 'Sequentially Working Origami
+% [1] Yi Zhu, Evgueni T. Filipov (2021). 'Sequentially Working Origami 
 %     Multi-Physics Simulator (SWOMPS): A Versatile Implementation',
-%     ASME IDETC-CIE Conference. DETC2021-68042.
-% [2] Y. Zhu, E. T. Filipov (2021). 'Rapid Multi-Physic Simulation for
-%     Electro-Thermal Origami Robotic Systems'  International Journal of
+%     ASME IDETC-CIE Conference. DETC2021-68042. 
+% [2] Y. Zhu, E. T. Filipov (2021). 'Rapid Multi-Physic Simulation for 
+%     Electro-Thermal Origami Robotic Systems'  International Journal of 
 %     Mechanical Sciences, 202-203, 106537.
-% [3] Y. Zhu, E. T. Filipov (2020). 'A Bar and Hinge Model for Simulating
-%     Bistability in Origami Structures with Compliant Creases' Journal of
-%     Mechanisms and Robotics, 021110-1.
-% [4] Y. Zhu, E. T. Filipov (2019). 'An Efficient Numerical Approach for
-%     Simulating Contact in Origami Assemblages.' Proc. R. Soc. A, 475:
-%     20190366.
-% [5] Y. Zhu, E. T. Filipov (2019). 'Simulating compliant crease origami
-%     with a bar and hinge model.' IDETC/CIE 2019. 97119.
-% [6] K. Liu, G. H. Paulino (2018). 'Highly efficient nonlinear
-%     structural analysis of origami assemblages using the MERLIN2
-%     software.' Origami^7.
-% [7] K. Liu, G. H. Paulino (2017). 'Nonlinear mechanics of non-rigid
-%     origami - An efficient computational approach.' Proc. R. Soc. A 473:
-%     20170348.
-% [8] K. Liu, G. H. Paulino (2016). 'MERLIN: A MATLAB implementation to
-%     capture highly nonlinear behavior of non-rigid origami.'
-%     Proceedings of IASS Annual Symposium 2016.
+% [3] Y. Zhu, E. T. Filipov (2020). 'A Bar and Hinge Model for Simulating 
+%     Bistability in Origami Structures with Compliant Creases' Journal of 
+%     Mechanisms and Robotics, 021110-1. 
+% [4] Y. Zhu, E. T. Filipov (2019). 'An Efficient Numerical Approach for 
+%     Simulating Contact in Origami Assemblages.' Proc. R. Soc. A, 475: 
+%     20190366.       
+% [5] Y. Zhu, E. T. Filipov (2019). 'Simulating compliant crease origami 
+%     with a bar and hinge model.' IDETC/CIE 2019. 97119. 
+% [6] K. Liu, G. H. Paulino (2018). 'Highly efficient nonlinear        
+%     structural analysis of origami assemblages using the MERLIN2      
+%     software.' Origami^7. 
+% [7] K. Liu, G. H. Paulino (2017). 'Nonlinear mechanics of non-rigid   
+%     origami - An efficient computational approach.' Proc. R. Soc. A 473: 
+%     20170348. 
+% [8] K. Liu, G. H. Paulino (2016). 'MERLIN: A MATLAB implementation to   
+%     capture highly nonlinear behavior of non-rigid origami.'           
+%     Proceedings of IASS Annual Symposium 2016. 
 %
 %%%%%%%%%%%%%%%%%%%%%%  Active Origami Simulator  %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -41,7 +41,7 @@ ori=OrigamiSolver;
 
 %% Define the Geometry of origami
 % This section of code is used to generate the geometry of the origami
-% pattern before meshing;
+% pattern before meshing; 
 
 a=20*10^(-3);
 b=4*10^(-3);
@@ -52,41 +52,44 @@ ori.node0=[b 0 0;
       a+b 0 0;
       2*a+b 0 0;
       3*a+b 0 0;
-      4*a+b 0 0;
+      4*a+b 0 0; 
       5*a+b 0 0; %6
+      
       0 c 0;
       a c 0;
       2*a c 0;
       3*a+2*b c 0;
-      4*a+2*b c 0;
+      4*a+2*b c 0; 
       5*a+2*b c 0; %12
-      b c*2 0;
+      
+      b 2*c 0;
       a+b 2*c 0;
       2*a+b 2*c 0;
       3*a+b 2*c 0;
-      4*a+b 2*c 0;
+      4*a+b 2*c 0; 
       5*a+b 2*c 0; %18
-      b,0,z;
+      
+      b 0 z;
       -z+1*a+b 0 z;
       -z+2*a+b 0 z;
       z+3*a+b 0 z;
-      z+4*a+b 0 z;
+      z+4*a+b 0 z; 
       z+5*a+b 0 z; %6
-
+      
       0 c z;
       -z+1*a c z;
       -z+2*a c z;
       z+3*a+2*b c z;
-      z+4*a+2*b c z;
+      z+4*a+2*b c z; 
       z+5*a+2*b c z; %12
-
-      b,2*c,z;
+      
+      b 2*c z;
       -z+1*a+b 2*c z;
       -z+2*a+b 2*c z;
       z+3*a+b 2*c z;
       z+4*a+b 2*c z;
       z+5*a+b 2*c z;];
-
+  
 ori.panel0{1}=[1 2 8 7];
 ori.panel0{2}=[2 3 9 8];
 ori.panel0{3}=[3 4 10 9];
@@ -115,7 +118,7 @@ ori.Mesh_AnalyzeOriginalPattern();
 
 %% Meshing of the origami model
 
-% Define the crease width
+% Define the crease width 
 ori.creaseWidthVec=zeros(ori.oldCreaseNum,1);
 
 ori.creaseWidthVec(4)=3*10^(-3);
@@ -166,10 +169,10 @@ ori.Plot_MeshedOrigami(); % Plot the meshed origami for inspection;
 
 %% Assign Mechanical Properties
 
-ori.panelE=2*10^9;
-ori.creaseE=2*10^9;
+ori.panelE=2*10^9; 
+ori.creaseE=2*10^9; 
 ori.panelPoisson=0.3;
-ori.creasePoisson=0.3;
+ori.creasePoisson=0.3; 
 ori.panelThickVec=ones(20,1)*500*10^(-6);
 ori.panelW=3*10^-3;
 
@@ -265,7 +268,7 @@ selfFold.supp=[1,1,1,1;
 
 selfFold.increStep=30;
 selfFold.tol=10^-6;
-selfFold.iterMax=50;
+selfFold.iterMax=50;      
 
 
 
@@ -280,7 +283,7 @@ nr.supp=[2,1,1,1;
       20,1,1,0;
       23,1,1,0;
       35,1,1,0;];
-
+      
 nr.nonRigidSupport=1;
 ksup=5;
 nr.suppElastic=[19,3,ksup;
@@ -291,13 +294,13 @@ nr.suppElastic=[19,3,ksup;
              24,3,ksup;
              35,3,ksup;
              36,3,ksup;];
-
+      
 loadForce=5*10^(-3);
 nr.load=[21,0,0,loadForce;
       22,0,0,loadForce;
       33,0,0,loadForce;
-      34,0,0,loadForce;];
-
+      34,0,0,loadForce;]; 
+     
 nr.increStep=30;
 nr.tol=10^-6;
 nr.iterMax=50;
