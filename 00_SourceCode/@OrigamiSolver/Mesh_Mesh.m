@@ -699,7 +699,7 @@ function Mesh_CompliantCreaseGeometry(obj)
             N=size(C,2);             
             
             for j=1:N  
-                obj.barConnect(barCount,:)=[obj.centerNodeStart+i,C(j)];               
+                obj.barConnect(barCount,:)=[C(j),obj.centerNodeStart+i];               
                 obj.barType(barCount)=5;
                 barApperenceNum(barCount)=1;       
                 if j==1

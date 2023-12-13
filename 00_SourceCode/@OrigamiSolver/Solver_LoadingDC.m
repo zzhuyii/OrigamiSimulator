@@ -105,13 +105,6 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
             lambdaBar=1*lambdaBar;
         end
         
-        % for the storage of input
-        Tload=zeros(Num,Num2);
-        Sx=zeros(barNum,1);
-        Ex=zeros(barNum,1);
-        M=zeros(barNum,1);
-        theta=zeros(barNum,1); 
-        
         step=1;     
         fprintf('Icrement = %d\n',i);
         [Ex]=obj.Bar_Strain(U,obj.newNode,obj.barArea,...
@@ -124,8 +117,13 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
             obj.newNode,U,obj.compliantCreaseOpen);
         [Kbar]=obj.Bar_GlobalStiffAssemble(U,Sx,C,obj.barArea,...
             obj.barLength,obj.barConnect,obj.newNode);
+        [Tbar]=obj.Bar_GlobalForce(U,Sx,C,obj.barArea,...
+            obj.barLength,obj.barConnect,obj.newNode);
         [Kspr]=obj.Spr_GlobalStiffAssemble(U,M,obj.sprIJKL,...
             sprKadj,obj.newNode);
+        [Tspr]=obj.Spr_GlobalForce(U,M,obj.sprIJKL,...
+            sprKadj,obj.newNode);            
+ 
      
         if obj.contactOpen==1
             [Tcontact,Kcontact]=obj.Contact_AssembleForceStiffness(...
@@ -133,8 +131,10 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
                 U,obj.ke,obj.d0edge,obj.d0center,...
                 obj.centerNodeStart,obj.compliantCreaseOpen);
             K=Kbar+Kspr+Kcontact;
+            Tload=-(Tbar+Tspr+Tcontact);
         else
-            K=Kbar+Kspr;                
+            K=Kbar+Kspr; 
+            Tload=-(Tbar+Tspr);
         end
 
         if obj.threeNodeRotSpringOpen==1
@@ -150,17 +150,23 @@ function [U,UhisLoading,loadHis,strainEnergyLoading,...
         [K,loadVec]=obj.Solver_ModKforSupp(K,supp,loadVec,nonRigidSupport,suppElastic,U);
         up1(:,i)=K\loadVec;  
         
-        if i==1
+        % If there is no deformation, we need GSP to be zero
+        if norm(up1)==0
             GSP=1;
             sig=1;
         else
-            GSP=(up1(:,1)'*up1(:,1))/(up1(:,i)'*up1(:,i));
-            sig=sign(up1(:,i-1)'*up1(:,i))*sig;        
+            if i==1
+                GSP=1;
+                sig=1;
+            else
+                GSP=(up1(:,1)'*up1(:,1))/(up1(:,i)'*up1(:,i));
+                sig=sign(up1(:,i-1)'*up1(:,i))*sig;        
+            end
         end
         
         % we can deactive the GSP scalling
-%         GSP=1;
-%         sig=1;
+        % GSP=1;
+        % sig=1;
         
         dLambda=sig*lambdaBar*sqrt(abs(GSP));
         lambda=lambda+dLambda;

@@ -174,10 +174,14 @@ function [thermalCapacityMat]=Thermal_AssembleCapacityMat(obj,thermal,U)
 
        
        Cmat=obj.creaseThermalCapacity;
+       density=obj.densityCrease;
        if obj.newPanel2OldPanel(i)~=0
            Cmat=obj.panelThermalConductVec(obj.newPanel2OldPanel(i));
+           density=obj.densityPanel;
        end
-       tempC=Cmat*thick/3*(At)*eye(3);
+       
+
+       tempC=Cmat*thick/3*(At)*eye(3)*density;
 
        indexarray=[nodei,nodej,nodek];
        thermalCapacityMat(indexarray,indexarray)=thermalCapacityMat(indexarray,indexarray)+tempC;  
@@ -213,7 +217,7 @@ function [thermalCapacityMat]=Thermal_AssembleCapacityMat(obj,thermal,U)
 
            Ac=2/3*At;
            Ac=Ac+Lsum*(q-0.5)/obj.envLayer*airThick*2/3*tan(obj.thermalDissipation);
-           Cic=obj.envThermalCapacity*Ac*airThick/obj.envLayer/2;           
+           Cic=obj.envThermalCapacity*obj.envDensity*Ac*airThick/obj.envLayer/2;           
            Cjc=Cic;
            Ckc=Cic;
 

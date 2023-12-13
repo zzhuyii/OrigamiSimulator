@@ -27,6 +27,7 @@ function NodalMass=Dynamic_MassVector(obj)
            end
        end
        barType1=obj.barType(NumBar1);
+
        
        node1bar2=min(nodeVec(2),nodeVec(3));
        node2bar2=max(nodeVec(2),nodeVec(3));
@@ -37,9 +38,10 @@ function NodalMass=Dynamic_MassVector(obj)
            end
        end
        barType2=obj.barType(NumBar2);
+
        
        node1bar3=min(nodeVec(1),nodeVec(3));
-       node2bar3=max(nodeVec(1),nodeVec(3));
+       node2bar3=max(nodeVec(1),nodeVec(3));       
        NumBar3=1;
        for j=1:NumBar
            if obj.barConnect(j,1)==node1bar3 && obj.barConnect(j,2)==node2bar3
@@ -60,12 +62,38 @@ function NodalMass=Dynamic_MassVector(obj)
            PanelThick=obj.panelThickVec(obj.newPanel2OldPanel(i));
            triangleMass=area*gammaPanel*PanelThick;
            
-           NodalMass(nodeVec(1))=...
-               1/3*triangleMass+NodalMass(nodeVec(1));
-           NodalMass(nodeVec(2))=...
-               1/3*triangleMass+NodalMass(nodeVec(2));
-           NodalMass(nodeVec(3))=...
-               1/3*triangleMass+NodalMass(nodeVec(3));
+           if NumBar1<obj.panelInnerBarStart
+           
+               NodalMass(nodeVec(1))=...
+                   1/6*triangleMass+NodalMass(nodeVec(1));
+               NodalMass(nodeVec(2))=...
+                   1/6*triangleMass+NodalMass(nodeVec(2));
+               NodalMass(nodeVec(3))=...
+                   4/6*triangleMass+NodalMass(nodeVec(3));
+
+           elseif NumBar2<obj.panelInnerBarStart
+               NodalMass(nodeVec(1))=...
+                   4/6*triangleMass+NodalMass(nodeVec(1));
+               NodalMass(nodeVec(2))=...
+                   1/6*triangleMass+NodalMass(nodeVec(2));
+               NodalMass(nodeVec(3))=...
+                   1/6*triangleMass+NodalMass(nodeVec(3));
+
+           else
+               NodalMass(nodeVec(1))=...
+                   1/6*triangleMass+NodalMass(nodeVec(1));
+               NodalMass(nodeVec(2))=...
+                   4/6*triangleMass+NodalMass(nodeVec(2));
+               NodalMass(nodeVec(3))=...
+                   1/6*triangleMass+NodalMass(nodeVec(3));
+           end
+
+           % NodalMass(nodeVec(1))=...
+           %     1/3*triangleMass+NodalMass(nodeVec(1));
+           % NodalMass(nodeVec(2))=...
+           %     1/3*triangleMass+NodalMass(nodeVec(2));
+           % NodalMass(nodeVec(3))=...
+           %     1/3*triangleMass+NodalMass(nodeVec(3));
            
        else % crease triangle
            if obj.compliantCreaseOpen==1

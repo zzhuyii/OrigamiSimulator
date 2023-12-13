@@ -147,6 +147,7 @@ dc.selectedRefDisp=[3,1];
 ori.loadingController{1}={"NR",dc};
 ori.Solver_Solve();
 
+
 Uselect=dc.Uhis(end,3,1);
 Stiffness=loadMag*dc.increStep/Uselect;
 

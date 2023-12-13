@@ -6,6 +6,7 @@ function K=Solver_CalcK(obj)
     U=obj.currentU;
     newNodeNum = size(obj.newNode);
     newNodeNum = newNodeNum(1);
+    
     currentAppliedForce=zeros(3*newNodeNum,1);    
     for i=1:newNodeNum
         currentAppliedForce(3*(i-1)+1:3*i) = obj.currentAppliedForce(i,:);

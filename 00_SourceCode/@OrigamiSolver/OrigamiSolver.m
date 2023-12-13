@@ -112,6 +112,9 @@ classdef OrigamiSolver < handle
         % distributing target zero-stress folding between three 
         % rotational srping lines
         zeroStrianDistributionFactor=0.5   
+
+        % nodal mass of origami
+        nodalMass=0;
         
         
         %% Connector Elements
@@ -123,6 +126,7 @@ classdef OrigamiSolver < handle
         
         % Connector Node
         connectorNode
+
         
         %% Three Node Rot Spring Elements
         % if we are using the spring Open
@@ -156,8 +160,11 @@ classdef OrigamiSolver < handle
         % Thermal conductivity of submerged environment
         envThermalConduct
 
-        % Thermal capacity of submerged enfironment
+        % Thermal capacity of submerged environment
         envThermalCapacity
+
+        % Density of submerged environment
+        envDensity
         
         % thickness of the submerged environment at RT
         t2RT

@@ -66,7 +66,12 @@ function [U,UhisThermal,energyHisThermal,temperatureHistory,...
             
         % First we are solving the heat conduction problem
         % input heating at this dynamic loading
-        qtemp=qLoadHis(:,i);
+        if i==dynamicThermal.step
+            qtemp=qLoadHis(:,i);
+        else
+            qtemp=1/3*qLoadHis(:,i)+2/3*qLoadHis(:,i+1);
+        end
+        
 
         % Assemble conductivity and capacity matrix
         [thermalMat]=obj.Thermal_AssembleConductMat(dynamicThermal,U);

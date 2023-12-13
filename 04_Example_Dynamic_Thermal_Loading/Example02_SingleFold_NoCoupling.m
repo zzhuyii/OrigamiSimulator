@@ -90,9 +90,11 @@ ori.panelThermalConductVec = [1.3;0.3;1.3];
 ori.creaseThermalConduct=0.3;
 ori.envThermalConduct=0.026;
 
-ori.creaseThermalCapacity = 2*10^6;
-ori.panelThermalCapacity = 2*10^6;
+% All in unit J/K/kg
+ori.creaseThermalCapacity = 2*10^6/1200;
+ori.panelThermalCapacity = 2*10^6/1200;
 ori.envThermalCapacity = 700;
+ori.envDensity = 1.293;
 
 % thickness of the submerged environment at RT
 ori.t2RT=100*10^(-6); 

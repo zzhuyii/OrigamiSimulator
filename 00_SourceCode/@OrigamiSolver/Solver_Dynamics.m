@@ -51,7 +51,11 @@ function [U,UHis]=Solver_Dynamics(obj,dynamics)
     end  
    
     % Set up the mass matrix of the system
-    NodalMass=obj.Dynamic_MassVector();    
+    if obj.nodalMass==0
+        obj.nodalMass=obj.Dynamic_MassVector();    
+    end
+
+    NodalMass=obj.nodalMass;    
     Mass=diag(3*newNodeNum);    
     for i=1:newNodeNum
        Mass(3*(i-1)+1,3*(i-1)+1)=NodalMass(i); 

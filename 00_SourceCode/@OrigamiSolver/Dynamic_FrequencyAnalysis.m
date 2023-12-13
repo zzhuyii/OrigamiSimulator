@@ -47,8 +47,11 @@ function [frequencySquared,Umode]=Dynamic_FrequencyAnalysis(...
     ElasticSupportOpen=frequencyController.nonRigidSupport;
     SuppElastic=frequencyController.suppElastic;
     
-    NodalMass=obj.Dynamic_MassVector();
-    
+    if obj.nodalMass==0
+        obj.nodalMass=obj.Dynamic_MassVector();
+    end
+    NodalMass=obj.nodalMass;
+
     [K,Tload]=obj.Solver_ModKforSupp(K,Supp,Tload,...
         ElasticSupportOpen,SuppElastic,obj.currentU);  
     
