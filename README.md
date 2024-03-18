@@ -102,6 +102,8 @@ of this package.
 
 ## Reference:
 
+1. Y. Zhu, E. T. Filipov (**2024**) Large-scale modular and uniformly thick origami-inspired
+    adaptable and load-carrying structures, Nature Communications, 15, 2353.
 
 1. Y. Zhu, E. T. Filipov (**2021**) Sequentially Working Origami Multi-Physics Simulator 
     (SWOMPS): A Versatile Implementation, IDETC-CIE 2021, DETC2021-68042.
