@@ -8,6 +8,10 @@ folding deformation, and electro-thermally actuated creases. The package provide
 loading and simulation methods and allows users to created customizable loading schemes with 
 arbitrary number of loading sequences. I am actively adding new capabilities to the package over time. 
 
+## Online YouTube Tutorial
+[![](https://img.youtube.com/vi/E-UK9l_POkk/0.jpg)](https://www.youtube.com/watch?v=E-UK9l_POkk)
+
+
 ## Main Features of the package:
 
 * Loading & simulation methods: 
@@ -33,7 +37,7 @@ arbitrary number of loading sequences. I am actively adding new capabilities to 
 
 * Simulates the kinematic folding and mechanical load-carrying behaviors of thick origami structures. 
     
-<p align="center">
+<p align="left">
 <img src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/10_Documents_Figures/RealisticCrease.png" width="45%" >
 </p>
 
@@ -41,14 +45,14 @@ arbitrary number of loading sequences. I am actively adding new capabilities to 
 Using the compliant crease meshing provides more realistic geometry and allows the simulator to capture advanced mechanical behaviors such as bistability
  and multi-physics actuation. 
 
-<p align="center">
+<p align="left">
 <img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/10_Documents_Figures/InterLockingDevice.PNG" width="60%" >
 </p>
 
 **Figure 2.** The package allows users to simulate global inter-panel contact within the origami. This panel contact model is a physics-based 
 frictionless contact model and can give the correponding forcese between the contacting panels. 
  
-<p align="center">
+<p align="left">
 <img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/10_Documents_Figures/GraphAbstract_webpage.png" width="50%" >
 </p>
     
@@ -79,7 +83,7 @@ Thankfully, one of my wafer is stuck in the machine and the lab staff is crazily
 This prevents me from doing micro-fab so I have an entire weekend plus a couple week days to sit down and vectorize my previous codes. 
 In addition to vectorizing the code for mechanical simulation, part of the code for thermal simulaiton is streamlined to reduce redundant calculation. 
 
-<p align="center">
+<p align="left">
 <img align="center" src="https://github.com/zzhuyii/OrigamiSimulator/blob/master/10_Documents_Figures/Efficiency Update.jpg" width="100%" >
 </p>
     
