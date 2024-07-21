@@ -104,8 +104,8 @@ nr.load=cat(2,index,zeros(96,2),-loadForce*ones(96,1));
 nr.increStep=40;
 nr.tol=5*10^-6;
 nr.iterMax=50;
-nr.videoOpen=0;
-
+nr.videoOpen=1;
+nr.plotOpen=0;
 
 ori.loadingController{1}={"NR",nr};
 ori.Solver_Solve()

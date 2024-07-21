@@ -6,7 +6,7 @@
 % Acknowledgement: We would like to acknowledge the prior works from
 % Ke Liu and Glaucio H. Paulino for establishing shared versions of
 % nonrigid origami simulators. Their works paved the way for the new
-% origami simulator presented in this package. 
+% origami simulator presented in this package. 0
 %
 % Reference:
 % [1] Yi Zhu, Evgueni T. Filipov (2021). 'Sequentially Working Origami 
