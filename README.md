@@ -6,7 +6,13 @@ Realistic simulation of active origami structures with multi-physics behaviors.
 The package can capture compliant creases, inter-panel contact, heat transfer, large
 folding deformation, and electro-thermally actuated creases. The package provides a wide variety of
 loading and simulation methods and allows users to created customizable loading schemes with 
-arbitrary number of loading sequences. I am actively adding new capabilities to the package over time. 
+arbitrary number of loading sequences. 
+
+As of 2025. 
+
+I think I will move on to another package for the next phase of my career. 
+Please find the newer developments in the new package [Sim-FAST](https://github.com/zzhuyii/Sim-FAST).
+This will be a research/education package that use lumped-parameter model to capture various active structures that are more than origami. 
 
 ## Online YouTube Tutorial
 [![](https://img.youtube.com/vi/E-UK9l_POkk/0.jpg)](https://www.youtube.com/watch?v=E-UK9l_POkk)
